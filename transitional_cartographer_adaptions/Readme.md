@@ -16,6 +16,6 @@ So, download the files from this Github folder into your Downloads folder and co
     cp ~/Downloads/demo_3d.rviz ~/catkin_ws/src/cartographer_ros/cartographer_ros/configuration_files/demo_3d.rviz
     cp ~/Downloads/testrig3D.launch ~/catkin_ws/src/cartographer_ros/cartographer_ros/launch/testrig3D.launch
 
-Afterwards, SLAM can be run using the following command (replacing `<PATH/TO/BAGFILE>` with the actual path to where the bagfile is stored in the container):
+Afterwards, SLAM can be run using the following command (replacing `<PATH/TO/BAGFILE>` with the actual path to where the bagfile is stored on your computer):
     
     roslaunch cartographer_ros testrig3D.launch bag_filenames:=<PATH/TO/BAGFILE>
