@@ -1,6 +1,28 @@
 ﻿# Migration to 3D Lidar
 
-Four files have been added to the Cartographer ROS in order to make 3D Lidar SLAM possible:
+## Preprocessing the data
+
+As the recorded bag files do not work with Cartographer out of the box, a modification is necessary. For this purpose, the *fixBag3D.py* script has been created. <br>
+After downloading it, copying it to the *roboy_ad* package
+
+    cp ~/Downloads/fixBag3D.py ~/catkin_ws/src/roboy_ad/src/fixBag3D.py
+
+and making the file executable
+
+    chmod +x ~/catkin_ws/src/roboy_ad/src/fixBag3D.py
+    
+it can be run simply using this command
+
+    rosrun roboy_ad fixBag3D.py <PATH/TO/BAGFILE> --ref_topic <TOPIC>
+
+where the reference topic can be any topic in the bag (e.g. */points2*). <br>
+The resulting bagfile is saved in the same directory as the original one and named `<oldname>_sort.bag`.
+
+Now, this resulting file should not show any warnings or issues when checked with `cartographer_rosbag_validate`.
+
+## SLAM
+
+The preprocessed data can then be used for SLAM. Four files have been added to the Cartographer ROS in order to make 3D Lidar SLAM possible:
 
  - robot description file (*.urdf)
  - cartographer configuration file (*.lua)

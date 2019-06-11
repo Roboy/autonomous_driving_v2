@@ -1,4 +1,6 @@
-﻿# Docker Adaptions for 3D Lidar
+﻿*Hint*: Bag files need to be preprocessed as described in [here](https://github.com/Roboy/autonomous_driving_v2/tree/julian/transitional_cartographer_adaptions#preprocessing-the-data).
+
+# Docker Adaptions for 3D Lidar
 
 Five files have been added to the Cartographer ROS in order to make 3D Lidar SLAM possible inside the docker container:
 
