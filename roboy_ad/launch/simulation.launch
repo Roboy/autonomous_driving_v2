@@ -1,0 +1,9 @@
+<launch>
+
+  <include file="$(find roboy_models)/launch/display.launch"/>
+  <include file="$(find roboy_navigation)/launch/nav_lidar.launch"/>
+
+  <node name="playbag" pkg="rosbag" type="play"
+      args="--clock $(arg bag_filename)" />
+
+</launch>

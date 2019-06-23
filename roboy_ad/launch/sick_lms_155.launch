@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="sick_lms_1xx" pkg="sick_scan" type="sick_generic_caller" respawn="false"  
+    args="-use_binary_protocol" output="screen">
+	<param name="min_ang" type="double" value="-2.0944" />
+	<param name="max_ang" type="double" value="2.0944" />
+	<param name="scanner_type" type="string" value="sick_lms_1xx"/>
+	<param name="range_max" type="double" value="35.0" />
+	<param name="hostname" type="string" value="192.168.0.42" />    
+	<param name="port" type="string" value="2112" />
+	<param name="timelimit" type="int" value="5" />
+  </node>
+</launch>
