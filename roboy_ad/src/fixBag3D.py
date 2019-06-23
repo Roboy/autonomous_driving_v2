@@ -28,10 +28,11 @@ def status(length, percent):
 
 class BagOrder:
 
-    def __init__(self, bagfile):
+    def __init__(self, bagfile, outpath):
         """
         Input:
         - bagfile (str): path to a ROS bag file (*.bag)
+        - outpath (str): path to directory where reordered bag should be saved (if None, save in root directory of bagfile)
         """
 
         if os.path.isfile(bagfile) and bagfile.lower().endswith('.bag'):  # check for correct type of file
@@ -46,10 +47,15 @@ class BagOrder:
             self._start_time = self.bag.get_start_time()  # store start time of messages
             self._duration = self.bag.get_end_time() - self._start_time  # store duration
             self._topic_timerange = {}
-
-            root, ext = os.path.splitext(self.file)  # make path and bag for sorted messages
-            self.sorted_file = root + '_sort' + ext
-            self.sorted_bag = rb.Bag(self.sorted_file, 'w')
+	    
+	    if os.path.isdir(outpath):
+		filename, ext = os.path.splitext(os.path.split(self.file)[1])
+                self.sorted_file = outpath + filename + '_sort' + ext
+                self.sorted_bag = rb.Bag(self.sorted_file, 'w')
+	    else:
+                root, ext = os.path.splitext(self.file)  # make path and bag for sorted messages
+                self.sorted_file = root + '_sort' + ext
+                self.sorted_bag = rb.Bag(self.sorted_file, 'w')
 
         else:
             print("IOError: Argument path does not point to a valid bag file.")
@@ -153,7 +159,12 @@ class BagOrder:
 
             # iterate over all messages
             for topic, msg, t in self.bag.read_messages(topics=['/imu', '/points2', '/imu_data', '/livox/lidar']):
-
+		
+		if topic == '/livox/lidar':
+		    newtopic = '/points2'
+		else:
+		    newtopic = topic
+		
                 # update status bar every 100 ms
                 if time.clock() - last_time > .1:
                     percent = (t.to_sec() - self._start_time) / self._duration
@@ -167,11 +178,11 @@ class BagOrder:
 
                     # update both, header and message time stamp
                     msg.header.stamp = new_time
-                    newbag.write(topic, msg, new_time)
+                    newbag.write(newtopic, msg, new_time)
                 else:
                     print('Reordering only works for messages with separate time stamp in message header.')
                     print('Message of topic {} and with time stamp {} could not be reordered'.format(topic, t))
-                    newbag.write(topic, msg, t)
+                    newbag.write(newtopic, msg, t)
 
         status(40, 1)
         print('\nfinished successfully')
@@ -184,9 +195,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('Reorder an existing bag file')
     parser.add_argument('bag_file', help='path to the bagfile whose messages should be reordered')
     parser.add_argument('--ref_topic', '-rf', help='topic name which acts as a reference for the time stamps')
+    parser.add_argument('--out_path', '-o', help='path to file with reordered bag file')
     args = parser.parse_args()
 
-    slam_bag = BagOrder(args.bag_file)
+    slam_bag = BagOrder(args.bag_file, args.out_path)
 
     if args.ref_topic is None:
         # if no reference topic is specified, take first topic that is contained in bagfile

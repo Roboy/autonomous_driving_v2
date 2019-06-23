@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find roboy_ad)/launch/imu_converter.launch"/>
+  <include file="$(find roboy_ad)/launch/sick_lms_155.launch"/>
+  <node name="fake_scan_publisher" pkg="roboy_ad"
+        type="fake_scan.py"/>
+</launch>
+
+

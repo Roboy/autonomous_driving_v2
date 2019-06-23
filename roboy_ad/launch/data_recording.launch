@@ -1,0 +1,12 @@
+<launch>
+
+  <!--<arg name="sick_protocol" default="use_binary_protocol"/>-->
+  <include file="$(find roboy_ad)/launch/imu_converter.launch"/>
+
+  <param name="sick_lms_1xx/use_binary_protocol" type="boolean" value="True" />
+  <include file="$(find roboy_ad)/launch/sick_lms_155.launch">
+    <!--<arg name="sick_protocol" value="$(arg sick_protocol)"/>-->
+  </include>
+
+
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find roboy_ad)/launch/roboy_sbg_ellipseA.launch"/>
+
+  <node name="imu_converter" pkg="roboy_ad"
+        type="imu_remapping.py"/>
+
+</launch>
