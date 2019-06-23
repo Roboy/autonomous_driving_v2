@@ -1,2 +1,4 @@
 [submodule "cartographer_ros"]
+	path = cartographer_ros
 	url = https://github.com/Roboy/cartographer_ros.git
+	branch = adv2
