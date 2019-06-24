@@ -1,0 +1,36 @@
+<launch>
+  <arg name="enable_rickshaw_motor" default="true"/>
+  <arg name="left_motor_id" default="13"/>
+  <arg name="right_motor_id" default="10"/>
+  <arg name="max_displacement" default="400"/>
+  <arg name="min_displacement" default="2"/>
+  <arg name="zero_angle_raw" default="2990"/>
+  <arg name="fpga_id" default="5"/>
+
+  <node name="steering_controller" pkg="roboy_navigation"
+        type="steering_controller.py"
+        args="
+          --fpga_id=$(arg fpga_id)
+          --left_motor_id=$(arg left_motor_id)
+          --right_motor_id=$(arg right_motor_id)
+          --min_disp=$(arg min_displacement)
+          --max_disp=$(arg max_displacement)
+          --Kd=0
+          --Kp=6000
+          --zero_angle_raw=$(arg zero_angle_raw)
+        "
+
+        output="screen"/>
+
+  <node name="rickshaw_controller" pkg="roboy_navigation"
+        if="$(arg enable_rickshaw_motor)"
+        type="rickshaw_controller.py" output="screen"/>
+
+  <node name="angle_publisher" pkg="roboy_navigation"
+        type="angle_publisher.py"
+        args="
+          --zero_angle_raw=$(arg zero_angle_raw)
+          "
+        output="screen"/>
+
+</launch>

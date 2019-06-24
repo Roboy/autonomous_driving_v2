@@ -1,0 +1,156 @@
+{
+  "keys": {},
+  "groups": {
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "type": "repr",
+          "repr": "{u'RoboyMotorStatus': [1], u'rqt_plot/Plot': [1], u'rqt_robot_steering/RobotSteering': [1]}"
+        }
+      },
+      "groups": {
+        "plugin__rqt_plot__Plot__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'MatPlot'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "autoscroll": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "plot_type": {
+                  "type": "repr",
+                  "repr": "1"
+                },
+                "topics": {
+                  "type": "repr",
+                  "repr": "[u'/target_angle/data', u'/actual_angle/data']"
+                },
+                "y_limits": {
+                  "type": "repr",
+                  "repr": "[0.0, 2.548828125]"
+                },
+                "x_limits": {
+                  "type": "repr",
+                  "repr": "[58.07807493209839, 59.07807493209839]"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_robot_steering__RobotSteering__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__RobotSteeringUi": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Robot Steering'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "topic": {
+                  "type": "repr",
+                  "repr": "u'/cmd_vel'"
+                },
+                "vx_min": {
+                  "type": "repr",
+                  "repr": "-1.0"
+                },
+                "vw_min": {
+                  "type": "repr",
+                  "repr": "-3.0"
+                },
+                "vw_max": {
+                  "type": "repr",
+                  "repr": "3.0"
+                },
+                "vx_max": {
+                  "type": "repr",
+                  "repr": "1.0"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__RoboyMotorStatus__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__RoboyMotorStatus": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Form'"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    },
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "type": "repr(QByteArray.hex)",
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb00020000000000410000001800000555000002ff000000410000001800000555000002ff00000000000000000556')",
+          "pretty-print": "     A   U   A   U      V"
+        },
+        "state": {
+          "type": "repr(QByteArray.hex)",
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd000000010000000300000515000002d2fc0100000004fb0000004e0052006f0062006f0079004d006f0074006f00720043006f006d006d0061006e0064005f005f0031005f005f0052006f0062006f0079004d006f0074006f00720043006f006d006d0061006e00640100000000000005150000000000000000fb0000004a0052006f0062006f0079004d006f0074006f0072005300740061007400750073005f005f0031005f005f0052006f0062006f0079004d006f0074006f00720053007400610074007500730100000000000001c50000009c00fffffffb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f007400570069006400670065007401000001cb0000025d0000017800fffffffb0000006a007200710074005f0072006f0062006f0074005f007300740065006500720069006e0067005f005f0052006f0062006f0074005300740065006500720069006e0067005f005f0031005f005f0052006f0062006f0074005300740065006500720069006e006700550069010000042e000000e7000000e700ffffff000005150000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "pretty-print": "                 NRoboyMotorCommand__1__RoboyMotorCommand          JRoboyMotorStatus__1__RoboyMotorStatus          Brqt_plot__Plot__1__DataPlotWidget          jrqt_robot_steering__RobotSteering__1__RobotSteeringUi                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "type": "repr",
+              "repr": "8"
+            }
+          },
+          "groups": {}
+        }
+      }
+    }
+  }
+}

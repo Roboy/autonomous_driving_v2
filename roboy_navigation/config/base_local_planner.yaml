@@ -1,0 +1,20 @@
+TrajectoryPlannerROS:
+  # Robot dynamics
+  max_vel_x: 1.0
+  min_vel_x: 1.0
+  max_vel_theta: 0.12
+  min_in_place_vel_theta: 0.0
+  acc_lim_theta: 20.0
+  acc_lim_x: 1.0
+  acc_lim_y: 1.0
+  holonomic_robot: false
+  meter_scoring: true
+
+  # Allowed deviation from the goal point
+  #yaw_goal_tolerance: 6.28 # 2*pi, ignore orientation
+  #xy_goal_tolerance: 0.5
+
+  # Debugging
+  publish_cost_grid_pc: true
+  global_frame_id: /map
+  prune_plan: false
