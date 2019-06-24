@@ -55,3 +55,6 @@ class AsyncPID:
 
     def set_limits(lower_limit, upper_limit):
         self.pid.ouput_limits = (lower_limit, upper_limit)
+
+    def set_target_value_provider(target_value_provider):
+        self.setpoint_provider = target_value_provider

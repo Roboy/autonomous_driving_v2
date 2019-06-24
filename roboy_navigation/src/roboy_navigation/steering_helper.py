@@ -58,6 +58,9 @@ def get_compensation():
 	                       abs(np.divide(np.linalg.norm(tendon_l), cross_l[2])))
     return compensation
 
+def testing_seq():
+    sequence = [(0, 30),(0, -30),(0, 0),(0, 15),(0, -15)]
+    return sequence
 
 def rad_to_deg(val):
     return val / pi * 180
