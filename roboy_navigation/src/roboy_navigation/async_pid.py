@@ -12,7 +12,8 @@ from roboy_navigation.srv import *
 class AsyncPID:
 
     def __init__(self, target_val_provider, actual_val_provider,
-                 control_callback, sample_rate, Kp=100, Ki=0.1, Kd=0.05):
+                 control_callback, sample_rate, Kp=100, Ki=0.1, Kd=0.05, 
+		 lower_limit=10, upper_limit=300):
         """
 
         :param target_val_provider: callable, returns the target value for the
@@ -21,12 +22,15 @@ class AsyncPID:
                 controller variable.
         :param control_callback: callable, accepts control signal.
         :param sample_rate: int, rate at which to run controller, in hertz.
+	:param lower_limit: int, anti-windup for the controller.
+	:param upper_limit: int, anti-windup for the controller.
         """
         self.setpoint_provider = target_val_provider
         self.input_provider = actual_val_provider
         self.control_callback = control_callback
         self.sample_rate = sample_rate
         self.pid = PID(Kp, Ki, Kd)
+        self.pid.output_limits = (lower_limit, upper_limit)
 
     def start(self):
         rospy.Service('pid_config', PIDConfig, self.update_pid_config)

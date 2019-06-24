@@ -68,17 +68,11 @@ class SteeringController:
 
     def set_spring_displacement_right(self, displacement):
         print(displacement)
-        disp_right = displacement
-        disp_right = max(disp_right, self.min_displacement)
-        disp_right = min(disp_right, self.max_displacement)
-        self.muscle_controller.send_command_right(disp_right)
+        self.muscle_controller.send_command_right(displacement)
 
     def set_spring_displacement_left(self, displacement):
         print(displacement)
-        disp_left = displacement
-        disp_left = max(disp_left, self.min_displacement)
-        disp_left = min(disp_left, self.max_displacement)
-        self.muscle_controller.send_command_left(disp_left)
+        self.muscle_controller.send_command_left(displacement)
 
     def clip_bounds(self, angle):
         if -self.max_steering_angle<= angle <= self.max_steering_angle:
