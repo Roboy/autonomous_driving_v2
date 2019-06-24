@@ -162,9 +162,16 @@ class MyoMuscleController:
         )
         config_motors_service(config)
 
-    def send_command(self, effort_left, effort_right):
+    def send_command_right(self, effort_right):
         command = MotorCommand()
         command.id = self.fpga_id
-        command.motors = [self.left_motor_id, self.right_motor_id]
-        command.set_points = [effort_left, effort_right]
+        command.motors = [self.right_motor_id]
+        command.set_points = [effort_right]
+        self.publisher.publish(command)
+
+    def send_command_left(self, effort_left):
+        command = MotorCommand()
+        command.id = self.fpga_id
+        command.motors = [self.left_motor_id]
+        command.set_points = [effort_left]
         self.publisher.publish(command)
