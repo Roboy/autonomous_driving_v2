@@ -14,6 +14,7 @@
 
 """
 import rospy
+import numpy as np
 from math import atan, pi
 
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
@@ -23,6 +24,39 @@ from geometry_msgs.msg import Twist
 MOTOR_CONTROL_POSITION = 0
 MOTOR_CONTROL_VELOCITY = 1
 MOTOR_CONTROL_DISPLACEMENT = 2
+
+RICKSHAW_MAX_ANGLE = 33
+MOTOR_POS_X = 60
+MOTOR_POS_Y = 25
+MOTOR_POS_Z = 10
+LIFTING_ARM_POS_X = 65
+LIFTING_ARM_POS_Y = 12
+LIFTING_ARM_POS_Z = 0
+
+def get_compensation():
+    compensation = {}
+
+    motor_r_static = np.array([MOTOR_POS_X, MOTOR_POS_Y, MOTOR_POS_Z])
+    motor_l_static = np.array([MOTOR_POS_X, -MOTOR_POS_Y, MOTOR_POS_Z])
+    liftingarm_r = np.array([LIFTING_ARM_POS_X, -LIFTING_ARM_POS_Y, LIFTING_ARM_POS_Z])
+    liftingarm_l = np.array([LIFTING_ARM_POS_X, LIFTING_ARM_POS_Y, LIFTING_ARM_POS_Z])
+
+    for angle in range(-max_angle, max_angle, 1):
+        angle_rad = (angle + 0.5) * np.pi /180
+        c, s = np.cos(angle_rad), np.sin(angle_rad)
+        R = np.array(((c,-s,0),(s,c,0),(0,0,1)))
+        # calc motor rotation postion
+        mot_r = np.matmul(R, motor_r_static)
+        mot_l = np.matmul(R, motor_l_static)
+
+        tendon_r = mot_r - liftingarm_r
+        tendon_l = mot_l - liftingarm_l
+        cross_r = np.cross(liftingarm_r, tendon_r)
+        cross_l = np.cross(liftingarm_l, tendon_l)
+
+        compensation[angle] = (abs(np.divide(np.linalg.norm(tendon_r), cross_r[2])),
+	                       abs(np.divide(np.linalg.norm(tendon_l), cross_l[2])))
+    return compensation
 
 
 def rad_to_deg(val):

@@ -1,13 +1,14 @@
 #!/usr/bin/python
 import argparse
 
-from math import pi
+from math import pi, floor
 
 import rospy
 
 from roboy_navigation.async_pid import AsyncPID
 from roboy_navigation.steering_helper import TargetAngleListener, \
-    AngleSensorListener, MyoMuscleController, rad_to_deg
+    AngleSensorListener, MyoMuscleController, rad_to_deg, \
+    get_compensation
 
 
 class SteeringController:
@@ -48,6 +49,9 @@ class SteeringController:
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
         self.max_steering_angle = float(max_steering_angle_deg) / 180 * pi
+        self.compensation = get_compensation()
+        self.right_comp = self.compensation[0][0]
+        self.left_comp = self.compensation[0][1]
 
     def start(self):
         rospy.init_node('steering_controller')
@@ -64,13 +68,24 @@ class SteeringController:
         return self.clip_bounds(angle)
 
     def get_actual_angle(self):
-        return self.angle_sensor_listener.get_latest_smooth_angle()
+        acutal_angle = self.angle_sensor_listener.get_latest_smooth_angle()
+        angle_deg_discrete = floor(actual_angle * 180 / pi)
+        (self.right_comp, self.left_comp) = self.compensation[angle_deg_discrete]
+	right_lowlim = self.min_displacement / right_comp
+        right_upplim = self.max_displacement / right_comp
+        left_lowlim = self.min_displacement / left_comp
+        left_upplim = self.max_displacement / left_comp
+        self.right_pid.set_limits(right_lowlim, right_upplim)
+        self.left_pid.set_limits(left_lowlim, left_upplim)
+        return acutal_angle
 
     def set_spring_displacement_right(self, displacement):
+        diplacement *= self.right_comp
         print(displacement)
         self.muscle_controller.send_command_right(displacement)
 
     def set_spring_displacement_left(self, displacement):
+        displacement *= self.left_comp
         print(displacement)
         self.muscle_controller.send_command_left(displacement)
 

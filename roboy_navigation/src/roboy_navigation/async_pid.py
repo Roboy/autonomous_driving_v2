@@ -52,3 +52,6 @@ class AsyncPID:
         rospy.loginfo('PID reconfigured (%.2f, %.2f %.2f)',
                       cfg.Kp, cfg.Kd, cfg.Ki)
         return PIDConfigResponse(True)
+
+    def set_limits(lower_limit, upper_limit):
+        self.pid.ouput_limits = (lower_limit, upper_limit)
