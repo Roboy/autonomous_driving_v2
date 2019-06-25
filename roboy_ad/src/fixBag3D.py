@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
 import rosbag as rb
+import rospy as rp
+import rosnode as rn
 import genpy as gp
 import sys
 import os
 import time
 import argparse
+import click
 
 
 def status(length, percent):
@@ -24,6 +27,21 @@ def status(length, percent):
                + "] " + str(round(percent * 100.0, 2)) + "%"
     sys.stdout.write(progress)
     sys.stdout.flush()
+
+
+def str2bool(v):
+    """
+    converges str into boolean value
+
+    Input v: str
+    Output b: bool
+    """
+    if str(v).lower() in ['true', 't', '1', 'yes', 'on']:
+        return True
+    elif str(v).lower() in ['false', 'f', '0', 'no', 'off']:
+        return False
+    else:
+        raise IOError("Input not interpretable as boolean")
 
 
 class BagOrder:
@@ -47,19 +65,19 @@ class BagOrder:
             self._start_time = self.bag.get_start_time()  # store start time of messages
             self._duration = self.bag.get_end_time() - self._start_time  # store duration
             self._topic_timerange = {}
-	    
-	    if os.path.isdir(outpath):
-		filename, ext = os.path.splitext(os.path.split(self.file)[1])
+
+            if outpath and os.path.isdir(outpath):
+                filename, ext = os.path.splitext(os.path.split(self.file)[1])
                 self.sorted_file = outpath + filename + '_sort' + ext
                 self.sorted_bag = rb.Bag(self.sorted_file, 'w')
-	    else:
+            else:
                 root, ext = os.path.splitext(self.file)  # make path and bag for sorted messages
                 self.sorted_file = root + '_sort' + ext
                 self.sorted_bag = rb.Bag(self.sorted_file, 'w')
 
         else:
-            print("IOError: Argument path does not point to a valid bag file.")
-            print("Make sure, that a valid path to a bag file (*.bag) is passed to this class.")
+            raise IOError("Argument path does not point to a valid bag file.\n"
+                          + "Make sure, that a valid path to a bag file (*.bag) is passed to this class.")
 
     def get_topic_timerange(self, bag):
         """
@@ -159,12 +177,13 @@ class BagOrder:
 
             # iterate over all messages
             for topic, msg, t in self.bag.read_messages(topics=['/imu', '/points2', '/imu_data', '/livox/lidar']):
-		
-		if topic == '/livox/lidar':
-		    newtopic = '/points2'
-		else:
-		    newtopic = topic
-		
+
+                # if not already happened remap lidar topic to correct topic name
+                if topic == '/livox/lidar':
+                    newtopic = '/points2'
+                else:
+                    newtopic = topic
+
                 # update status bar every 100 ms
                 if time.clock() - last_time > .1:
                     percent = (t.to_sec() - self._start_time) / self._duration
@@ -196,11 +215,28 @@ if __name__ == '__main__':
     parser.add_argument('bag_file', help='path to the bagfile whose messages should be reordered')
     parser.add_argument('--ref_topic', '-rf', help='topic name which acts as a reference for the time stamps')
     parser.add_argument('--out_path', '-o', help='path to file with reordered bag file')
-    args = parser.parse_args()
+    parser.add_argument('--is_recording', '-ros',
+                        help='only set to true when this script is running alongside rosbag record and should '
+                             'suspend until recording is finished')
+    args = parser.parse_args(rp.myargv()[1:])
+    
+    if str2bool(args.is_recording):
+        # init node to being able to catch keyboard interrupt
+        rp.init_node('keyboard_supervisor', disable_signals=True)
+        time.sleep(2)
+        print('Suspension because of recording')
+        while any('record' in nodename for nodename in rn.get_node_names()):
+            try:
+                time.sleep(0.5)
+            except KeyboardInterrupt:
+                print('Terminate recording')
+                rn.kill_nodes([node for node in rn.get_node_names() if 'record' in node])
+        print('Recording terminated')
+        rn.kill_nodes('keyboard_supervisor')
 
     slam_bag = BagOrder(args.bag_file, args.out_path)
 
-    if args.ref_topic is None:
+    if not args.ref_topic:
         # if no reference topic is specified, take first topic that is contained in bagfile
         args.ref_topic = slam_bag.topics[0]
 

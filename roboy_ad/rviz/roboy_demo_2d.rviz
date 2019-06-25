@@ -1,0 +1,685 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /TF1
+        - /Submaps1
+        - /PointCloud21
+      Splitter Ratio: 0.600670993
+    Tree Height: 1283
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679016
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: PointCloud2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.0299999993
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 100
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base_link:
+          Value: true
+        horizontal_laser_link:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          odom:
+            base_link:
+              horizontal_laser_link:
+                {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        horizontal_laser_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: Submaps
+      Enabled: true
+      Fade-out distance: 1
+      High Resolution: true
+      Low Resolution: false
+      Name: Submaps
+      Submap query service: /submap_query
+      Submaps:
+        All: true
+        Trajectory 0:
+          0.100: true
+          1.100: true
+          10.100: true
+          100.100: true
+          101.100: true
+          102.100: true
+          103.100: true
+          104.100: true
+          105.100: true
+          106.100: true
+          107.100: true
+          108.100: true
+          109.100: true
+          11.100: true
+          110.100: true
+          111.100: true
+          112.100: true
+          113.100: true
+          114.100: true
+          115.100: true
+          116.100: true
+          117.100: true
+          118.100: true
+          119.100: true
+          12.100: true
+          120.100: true
+          121.100: true
+          122.100: true
+          123.100: true
+          124.100: true
+          125.100: true
+          126.100: true
+          127.100: true
+          128.100: true
+          129.100: true
+          13.100: true
+          130.100: true
+          131.100: true
+          132.100: true
+          133.100: true
+          134.100: true
+          135.100: true
+          136.100: true
+          137.100: true
+          138.100: true
+          139.100: true
+          14.100: true
+          140.100: true
+          141.100: true
+          142.100: true
+          143.100: true
+          144.100: true
+          145.100: true
+          146.100: true
+          147.100: true
+          148.100: true
+          149.100: true
+          15.100: true
+          150.100: true
+          151.100: true
+          152.100: true
+          153.100: true
+          154.100: true
+          155.100: true
+          156.100: true
+          157.100: true
+          158.100: true
+          159.100: true
+          16.100: true
+          160.100: true
+          161.100: true
+          162.100: true
+          163.100: true
+          164.100: true
+          165.100: true
+          166.100: true
+          167.100: true
+          168.100: true
+          169.100: true
+          17.100: true
+          170.100: true
+          171.100: true
+          172.100: true
+          173.100: true
+          174.100: true
+          175.100: true
+          176.100: true
+          177.100: true
+          178.100: true
+          179.100: true
+          18.100: true
+          180.100: true
+          181.100: true
+          182.100: true
+          183.100: true
+          184.100: true
+          185.100: true
+          186.100: true
+          187.100: true
+          188.100: true
+          189.100: true
+          19.100: true
+          190.100: true
+          191.100: true
+          192.100: true
+          193.100: true
+          194.100: true
+          195.100: true
+          196.100: true
+          197.100: true
+          198.100: true
+          199.100: true
+          2.100: true
+          20.100: true
+          200.100: true
+          201.100: true
+          202.100: true
+          203.100: true
+          204.100: true
+          205.100: true
+          206.100: true
+          207.100: true
+          208.100: true
+          209.100: true
+          21.100: true
+          210.100: true
+          211.100: true
+          212.100: true
+          213.100: true
+          214.100: true
+          215.100: true
+          216.100: true
+          217.100: true
+          218.100: true
+          219.100: true
+          22.100: true
+          220.100: true
+          221.100: true
+          222.100: true
+          223.100: true
+          224.100: true
+          225.100: true
+          226.100: true
+          227.100: true
+          228.100: true
+          229.100: true
+          23.100: true
+          230.100: true
+          231.100: true
+          232.100: true
+          233.100: true
+          234.100: true
+          235.100: true
+          236.100: true
+          237.100: true
+          238.100: true
+          239.100: true
+          24.100: true
+          240.100: true
+          241.100: true
+          242.100: true
+          243.100: true
+          244.100: true
+          245.100: true
+          246.100: true
+          247.100: true
+          248.100: true
+          249.100: true
+          25.100: true
+          250.100: true
+          251.100: true
+          252.100: true
+          253.100: true
+          254.100: true
+          255.100: true
+          256.100: true
+          257.100: true
+          258.100: true
+          259.100: true
+          26.100: true
+          260.100: true
+          261.100: true
+          262.100: true
+          263.100: true
+          264.100: true
+          265.100: true
+          266.100: true
+          267.100: true
+          268.100: true
+          269.100: true
+          27.100: true
+          270.100: true
+          271.100: true
+          272.100: true
+          273.100: true
+          274.100: true
+          275.100: true
+          276.100: true
+          277.100: true
+          278.100: true
+          279.100: true
+          28.100: true
+          280.100: true
+          281.100: true
+          282.100: true
+          283.100: true
+          284.100: true
+          285.100: true
+          286.100: true
+          287.100: true
+          288.100: true
+          289.100: true
+          29.100: true
+          290.100: true
+          291.100: true
+          292.100: true
+          293.100: true
+          294.100: true
+          295.100: true
+          296.100: true
+          297.100: true
+          298.100: true
+          299.100: true
+          3.100: true
+          30.100: true
+          300.100: true
+          301.100: true
+          302.100: true
+          303.100: true
+          304.100: true
+          305.100: true
+          306.100: true
+          307.100: true
+          308.100: true
+          309.100: true
+          31.100: true
+          310.100: true
+          311.100: true
+          312.100: true
+          313.100: true
+          314.100: true
+          315.100: true
+          316.100: true
+          317.100: true
+          318.100: true
+          319.100: true
+          32.100: true
+          320.100: true
+          321.100: true
+          322.100: true
+          323.100: true
+          324.100: true
+          325.100: true
+          326.100: true
+          327.100: true
+          328.100: true
+          329.100: true
+          33.100: true
+          330.100: true
+          331.100: true
+          332.100: true
+          333.100: true
+          334.100: true
+          335.100: true
+          336.100: true
+          337.100: true
+          338.100: true
+          339.100: true
+          34.100: true
+          340.100: true
+          341.100: true
+          342.100: true
+          343.100: true
+          344.100: true
+          345.100: true
+          346.100: true
+          347.100: true
+          348.100: true
+          349.100: true
+          35.100: true
+          350.100: true
+          351.100: true
+          352.100: true
+          353.100: true
+          354.100: true
+          355.100: true
+          356.100: true
+          357.100: true
+          358.100: true
+          359.100: true
+          36.100: true
+          360.100: true
+          361.100: true
+          362.100: true
+          363.100: true
+          364.100: true
+          365.100: true
+          366.100: true
+          367.100: true
+          368.100: true
+          369.100: true
+          37.100: true
+          370.100: true
+          371.100: true
+          372.100: true
+          373.100: true
+          374.100: true
+          375.100: true
+          376.100: true
+          377.100: true
+          378.100: true
+          379.100: true
+          38.100: true
+          380.100: true
+          381.100: true
+          382.100: true
+          383.100: true
+          384.100: true
+          385.100: true
+          386.100: true
+          387.100: true
+          388.100: true
+          389.100: true
+          39.100: true
+          390.100: true
+          391.100: true
+          392.100: true
+          393.100: true
+          394.100: true
+          395.100: true
+          396.100: true
+          397.100: true
+          398.100: true
+          399.100: true
+          4.100: true
+          40.100: true
+          400.100: true
+          401.100: true
+          402.100: true
+          403.100: true
+          404.100: true
+          405.100: true
+          406.100: true
+          407.100: true
+          408.100: true
+          409.100: true
+          41.100: true
+          410.100: true
+          411.100: true
+          412.100: true
+          413.100: true
+          414.100: true
+          415.100: true
+          416.100: true
+          417.100: true
+          418.100: true
+          419.62: true
+          42.100: true
+          420.12: true
+          43.100: true
+          44.100: true
+          45.100: true
+          46.100: true
+          47.100: true
+          48.100: true
+          49.100: true
+          5.100: true
+          50.100: true
+          51.100: true
+          52.100: true
+          53.100: true
+          54.100: true
+          55.100: true
+          56.100: true
+          57.100: true
+          58.100: true
+          59.100: true
+          6.100: true
+          60.100: true
+          61.100: true
+          62.100: true
+          63.100: true
+          64.100: true
+          65.100: true
+          66.100: true
+          67.100: true
+          68.100: true
+          69.100: true
+          7.100: true
+          70.100: true
+          71.100: true
+          72.100: true
+          73.100: true
+          74.100: true
+          75.100: true
+          76.100: true
+          77.100: true
+          78.100: true
+          79.100: true
+          8.100: true
+          80.100: true
+          81.100: true
+          82.100: true
+          83.100: true
+          84.100: true
+          85.100: true
+          86.100: true
+          87.100: true
+          88.100: true
+          89.100: true
+          9.100: true
+          90.100: true
+          91.100: true
+          92.100: true
+          93.100: true
+          94.100: true
+          95.100: true
+          96.100: true
+          97.100: true
+          98.100: true
+          99.100: true
+          Value: true
+      Topic: /submap_list
+      Tracking frame: base_link
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 0; 255; 0
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.0500000007
+      Style: Flat Squares
+      Topic: /scan_matched_points2
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /trajectory_node_list
+      Name: Trajectories
+      Namespaces:
+        Trajectory 0: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /landmark_poses_list
+      Name: Landmark Poses
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /constraint_list
+      Name: Constraints
+      Namespaces:
+        Inter constraints, different trajectories: true
+        Inter constraints, same trajectory: true
+        Inter residuals, different trajectories: true
+        Inter residuals, same trajectory: true
+        Intra constraints: true
+        Intra residuals: true
+      Queue Size: 100
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 100; 100; 100
+    Default Light: true
+    Fixed Frame: map
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Topic: /initialpose
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Angle: -1.10999978
+      Class: rviz/TopDownOrtho
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.0599999987
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.00999999978
+      Scale: 6.09147406
+      Target Frame: <Fixed Frame>
+      Value: TopDownOrtho (rviz)
+      X: -57.5690804
+      Y: 62.5978165
+    Saved:
+      - Angle: 0
+        Class: rviz/TopDownOrtho
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.0599999987
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Invert Z Axis: false
+        Name: TopDownOrtho
+        Near Clip Distance: 0.00999999978
+        Scale: 3.06650877
+        Target Frame: <Fixed Frame>
+        Value: TopDownOrtho (rviz)
+        X: -57.5690804
+        Y: 62.5978165
+      - Angle: 0
+        Class: rviz/TopDownOrtho
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.0599999987
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Invert Z Axis: false
+        Name: TopDownOrtho
+        Near Clip Distance: 0.00999999978
+        Scale: 3.06650877
+        Target Frame: <Fixed Frame>
+        Value: TopDownOrtho (rviz)
+        X: -57.5690804
+        Y: 62.5978165
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1564
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001c500000592fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006100fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000592000000d700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000015c00000592fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000002800000592000000ad00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000099e0000003efc0100000002fb0000000800540069006d006501000000000000099e0000030000fffffffb0000000800540069006d00650100000000000004500000000000000000000006710000059200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 2462
+  X: 98
+  Y: 36

@@ -1,8 +1,15 @@
 <launch>
-  <include file="$(find roboy_ad)/launch/imu_converter.launch"/>
-  <include file="$(find roboy_ad)/launch/sick_lms_155.launch"/>
-  <node name="fake_scan_publisher" pkg="roboy_ad"
-        type="fake_scan.py"/>
+  
+  <arg name="rviz" default="true" doc="bool, whether or not to show Lidar point cloud in rviz"/>
+  <arg name="launch_lidar" default="true" doc="bool, whether or not lidar sensor should be launched"/>
+  <arg name="launch_imu" default="true" doc="bool, whether or not imu sensor should be launched"/>
+
+  <group if="$(arg launch_lidar)">
+    <include if="$(arg rviz)" file="$(find livox_ros_driver)/launch/livox_lidar_rviz.launch"/>
+
+    <include unless="$(arg rviz)" file="$(find livox_ros_driver)/launch/livox_lidar.launch"/>
+  </group>
+
+  <include file="$(find roboy_ad)/launch/imu_converter.launch" if="$(arg launch_imu)"/>
+
 </launch>
-
-
