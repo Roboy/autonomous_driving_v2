@@ -1,0 +1,17 @@
+pid_gains:
+    joint_front:
+        p: 10000000.0
+        i: 0.0
+        d: 1.0
+    joint_wheel_back:
+        p: 10000000.0
+        i: 0.0
+        d: 1.0
+    joint_wheel_left:
+        p: 10000000.0
+        i: 0.0
+        d: 1.0
+    joint_wheel_right:
+        p: 10000000.0
+        i: 0.0
+        d: 1.0

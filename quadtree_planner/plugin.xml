@@ -1,0 +1,7 @@
+<library path="lib/libquadtree_planner">
+    <class type="quadtree_planner::QuadTreePlanner" base_class_type="nav_core::BaseGlobalPlanner">
+        <description>
+            An implementation of non-holonomic A* path planning algorithm.
+        </description>
+    </class>
+</library>
