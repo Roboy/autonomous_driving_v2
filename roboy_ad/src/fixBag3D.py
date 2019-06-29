@@ -36,10 +36,10 @@ def str2bool(v):
     Input v: str
     Output b: bool
     """
-    if str(v).lower() in ['true', 't', '1', 'yes', 'on']:
-        return True
-    elif str(v).lower() in ['false', 'f', '0', 'no', 'off']:
+    if not v or str(v).lower() in ['false', 'f', '0', 'no', 'off']:
         return False
+    elif str(v).lower() in ['true', 't', '1', 'yes', 'on']:
+        return True
     else:
         raise IOError("Input not interpretable as boolean")
 

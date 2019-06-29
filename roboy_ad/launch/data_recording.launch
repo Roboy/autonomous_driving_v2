@@ -1,8 +1,7 @@
 <launch>
 
   <arg name="record_lidar" default="true" doc="bool, whether or not to record lidar data"/>
-  <arg name="record_imu" default="true" doc="bool, whether or not to record imu data"/>
-  <arg name="rviz" default="true" doc="bool, whether or not to show Lidar point cloud in rviz" />
+  <arg name="record_imu" default="true" doc="bool, whether or not to record imu data"/>s
   <arg name="dir" default="!" doc="directory and filename where the bag file should be saved (add .bag extension!)"/>
 
   <!--evaluate some arguments-->
@@ -10,16 +9,6 @@
   <arg name="imu" value="$(eval '/imu' if arg('record_imu') else '')"/>
   <arg name="filename" value="$(eval '$(env HOME)/default_name.bag' if arg('dir')=='!' else arg('dir'))" />
   <arg name="filename_resolved" value="-O $(arg filename)"/>
-
-  <!--start the sensors that should be recorded-->
-  <include file="$(find roboy_ad)/launch/sensors.launch">
-    <arg name="rviz" value="$(arg rviz)" />
-    <arg name="launch_lidar" value="$(arg record_lidar)" />
-    <arg name="launch_imu" value="$(arg record_imu)" />
-  </include>
-
-
-  <remap from="/livox/lidar" to="/points2" />
 
   <!--record sensor data-->
   <node pkg="rosbag" type="record" name="rosbag_record_sensors"
@@ -30,4 +19,5 @@
     <arg name="ref_topic" value="/points2" />
     <arg name="is_recording" value="true" />
   </include>
+
 </launch>
