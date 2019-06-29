@@ -5,7 +5,7 @@
   <arg name="dir" default="!" doc="directory and filename where the bag file should be saved (add .bag extension!)"/>
 
   <!--evaluate some arguments-->
-  <arg name="lidar" value="$(eval '/points2' if arg('record_lidar') else '')"/>
+  <arg name="lidar" value="$(eval '/livox/lidar' if arg('record_lidar') else '')"/>
   <arg name="imu" value="$(eval '/imu' if arg('record_imu') else '')"/>
   <arg name="filename" value="$(eval '$(env HOME)/default_name.bag' if arg('dir')=='!' else arg('dir'))" />
   <arg name="filename_resolved" value="-O $(arg filename)"/>
@@ -16,7 +16,7 @@
   
   <include file="$(find roboy_ad)/launch/data_processing.launch">
     <arg name="bag_file" value="$(arg filename)" />
-    <arg name="ref_topic" value="/points2" />
+    <arg name="ref_topic" value="/livox/lidar" />
     <arg name="is_recording" value="true" />
   </include>
 
