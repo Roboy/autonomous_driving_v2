@@ -1,0 +1,7 @@
+image: ../data/utum_groundfloor_res20.pgm
+resolution: 0.050000
+origin: [-15.571335, -42.864758, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+
