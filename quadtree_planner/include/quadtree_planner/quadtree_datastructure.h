@@ -10,6 +10,7 @@
 
 // Visualization
 #include <visualization_msgs/Marker.h>
+#include "costmap.h"
 
 // structure for positions
 struct Point
@@ -67,12 +68,17 @@ public:
         topLeft = _topL;
         botRight = _botR;
     }
-    int insert();
-    void testQuadtree(ros::Publisher marker_publisher_);
+    int buildQuadtree(quadtree_planner::Costmap* costmap, long long * area_);
+    void testQuadtree(ros::Publisher marker_publisher_, double resolution, bool showOnlyLowestLevel);
+    unsigned int getMaximumCostOfArea(Point topL, Point botR, quadtree_planner::Costmap* costmap);
+    bool isCostOfAreaUniform(Point topL, Point botR, quadtree_planner::Costmap* costmap);   // Checks if a cell is completely free or completely occupied by an obstacle
 
     // Visualization
     void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale_x,
                               double marker_scale_y);
+
+    // Debugging
+    void printQuadtree();
  //   Quadtree_Cell* search(Point);
  //   bool inBoundary(Point);
 };

@@ -25,7 +25,7 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_("") {}
+        name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_(""), area(0) {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
@@ -41,14 +41,19 @@ namespace quadtree_planner {
         marker_publisher_ = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
         loadParameters();
         double dth = step_size_ / turning_radius_;
-        angle_discretization_level_ = uint(ceil(2 * 2 * M_PI / dth));
-        ROS_INFO("QuadTreePlanner initialized with name '%s' and angle discretization level=%d.",
-                 name_.c_str(), angle_discretization_level_);
+        ROS_INFO("QuadTreePlanner initialized with name '%s' ",
+                 name_.c_str());
 
         // Testing of quadtree data structure
-        Quadtree_Cell testQuadTreeObject (Point(0,0), Point(6,6), 242);
-        testQuadTreeObject.insert();
-        testQuadTreeObject.testQuadtree(marker_publisher_);
+        Point botR = Point (costmap->getSizeInCellsX(), costmap->getSizeInCellsY());
+        Quadtree_Cell testQuadTreeObject (Point(0,0), botR, 255);
+        testQuadTreeObject.printQuadtree();
+        ROS_INFO("testQuadtreeObejct created");
+        testQuadTreeObject.buildQuadtree(costmap, &area);
+        ROS_INFO("Quadtree built successfully");
+        ROS_INFO("Total area of quadtree is %lli", area);
+        testQuadTreeObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
+        ROS_INFO("Quadtree test was run");
     }
 
     void QuadTreePlanner::loadParameters() {
@@ -397,8 +402,7 @@ namespace quadtree_planner {
     Cell QuadTreePlanner::getCell(const Pose &pos) const {
         Cell cell;
         costmap_->worldToMap(pos.x, pos.y, cell.x, cell.y);
-        // 0 <= cell.th <= angle_discretization_level
-        cell.th = uint(normalize_angle(pos.th) * angle_discretization_level_ / 2 / M_PI);
+        cell.th = 0;
         return cell;
     }
 

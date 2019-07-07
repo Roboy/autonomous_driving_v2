@@ -127,10 +127,12 @@ namespace quadtree_planner {
         double step_size_;
         double turning_radius_;
         double goal_tolerance_;
-        uint angle_discretization_level_;
 
         // Visualization
         ros::Publisher marker_publisher_;
+
+        // Debugging
+        long long area;
     };
 
 
