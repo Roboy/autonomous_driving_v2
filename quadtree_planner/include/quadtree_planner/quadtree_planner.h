@@ -21,6 +21,8 @@
 // Visualization
 #include <visualization_msgs/Marker.h>
 
+#include "../include/quadtree_planner/quadtree_datastructure.h"
+
 namespace quadtree_planner {
 
     class QuadTreePlanner : public nav_core::BaseGlobalPlanner {
@@ -68,6 +70,8 @@ namespace quadtree_planner {
 
         std::vector<CellWithDist> getNeighborCells(const Cell &cell) const;
 
+        std::vector<QuadtreeCellWithDist> getNeighborQuads(QuadtreeCellWithDist &quad, Pose goal) const;
+
 
     private:
         /**
@@ -93,6 +97,20 @@ namespace quadtree_planner {
          * Snap pose to a costmap cell.
          */
         Cell getCell(const Pose &pos) const;
+
+
+        // Quad Tree based search
+        /** Snap pose to a quadtree cell
+         *
+         * @param pos
+         * @param quadtreeCellObject
+         * @return
+         */
+        Quadtree_SearchCell getQuad(const Pose &pos, std::vector<Quadtree_SearchCell> QuadtreeSearchCellVectorObject);
+
+        Pose getPoseFromQuad(Quadtree_SearchCell &quad, Pose goal) const;
+
+        bool hasReachedGoalQuad(Quadtree_SearchCell &quad, const Pose &goal);
 
         // Cell based search
         Pose getPoseFromCell(const Cell &cell) const;
@@ -130,6 +148,10 @@ namespace quadtree_planner {
 
         // Visualization
         ros::Publisher marker_publisher_;
+
+        // Quadtree planning
+        Quadtree_Cell QuadtreeCellObject;
+        std::vector<Quadtree_SearchCell> QuadtreeSearchCellVector;
 
         // Debugging
         long long area;

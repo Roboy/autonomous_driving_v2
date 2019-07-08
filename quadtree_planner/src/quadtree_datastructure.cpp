@@ -216,3 +216,142 @@ void Quadtree_Cell::printQuadtree() {
     ROS_INFO("topLeft.x = %i, topLeft.y = %i, bottomRight.x = %i, bottomRight.y = %i !", topLeft.x, topLeft.y, botRight.x, botRight.y);
     ROS_INFO("Cost: %i", cost);
 }
+
+Quadtree_SearchCell Quadtree_Cell::convertToQuadtreeSearchCell() {
+    // Insert elements
+    std::vector<Quadtree_SearchCell*> neighbors;
+    neighbors.push_back(nullptr);
+    Quadtree_SearchCell element(topLeft, botRight, cost, neighbors);
+    return element;
+}
+
+void Quadtree_Cell::createSearchCellVector(std::vector<Quadtree_SearchCell>* quadVector){
+    if(topLeftCell == nullptr) {    // Low level element is found
+        quadVector->push_back(convertToQuadtreeSearchCell());
+    } else {
+            topLeftCell->createSearchCellVector(quadVector);
+            topRightCell->createSearchCellVector(quadVector);
+            botLeftCell->createSearchCellVector(quadVector);
+            botRightCell->createSearchCellVector(quadVector);
+    }
+}
+
+void Quadtree_Cell::findNeighborsInSearchCellVector(std::vector<Quadtree_SearchCell> & quadVector) {
+    // Debugging
+    unsigned int debug_counter = 0;
+    unsigned int total_number_of_neighbors = 0;
+
+    for(auto &quadSearchCell: quadVector) {
+        // Neighbors of this cell
+        std::vector<Quadtree_SearchCell*>  neighbors;
+
+        // Debugging
+        debug_counter++;
+        if(debug_counter % 50 == 0) {
+            ROS_INFO("debug_counter: %i", debug_counter);
+        }
+        unsigned int number_of_neighbors_x = 0;
+        unsigned int number_of_neighbors_y = 0;
+
+        int tLxA = quadSearchCell.getTopLeft().x;
+        int tLyA = quadSearchCell.getTopLeft().y;
+        int bRxA = quadSearchCell.getBotRight().x;
+        int bRyA = quadSearchCell.getBotRight().y;
+
+        // Variable to enforce early stopping once all neighbors are found
+        int circumference = (bRxA-tLxA)*2 + (bRyA-tLyA)*2;
+
+        for(auto &quadSearchCellPotentialNeighbor: quadVector) {
+            int tLxB = quadSearchCellPotentialNeighbor.getTopLeft().x;
+            int tLyB = quadSearchCellPotentialNeighbor.getTopLeft().y;
+            int bRxB = quadSearchCellPotentialNeighbor.getBotRight().x;
+            int bRyB = quadSearchCellPotentialNeighbor.getBotRight().y;
+
+            if( (tLxA - bRxB == 1) || (tLxB - bRxA == 1) ) { // A is potentially above B or B is potentially above A
+                // Check y bounds
+                if ( ((tLyA >= tLyB) && (tLyA <= bRyB ))
+                    || ((tLyB >= tLyA) && (tLyB <= bRyA))
+                    || ((bRyA <= bRyB) && (bRyA >= tLyB))
+                    || ((bRyB <= bRyA) && (bRyB >= tLyA))   ) {
+                    neighbors.push_back(&quadSearchCellPotentialNeighbor);
+
+                    int touchingEdge = std::min((bRyA-tLyA),(bRyB-tLyB));
+                    circumference = circumference - touchingEdge;
+
+                    number_of_neighbors_x++;  // Debugging
+                    total_number_of_neighbors++; // Debugging
+                }
+                else {
+                    // Do nothing
+                }
+            } else if ( (tLyA - bRyB == 1) || (tLyB - bRyA == 1)) { // A is potentially right of B or B is potentially right of A
+                // Check x bounds
+                if ( ((tLxA >= tLxB) && (tLxA <= bRxB ))
+                     || ((tLxB >= tLxA) && (tLxB <= bRxA))
+                     || ((bRxA <= bRxB) && (bRxA >= tLxB))
+                     || ((bRxB <= bRxA) && (bRxB >= tLxA))   ) {
+                    neighbors.push_back(&quadSearchCellPotentialNeighbor);
+
+                    int touchingEdge = std::min((bRxA-tLxA),(bRxB-tLxB));
+                    circumference = circumference - touchingEdge;
+
+                    number_of_neighbors_y++;  // Debugging
+                    total_number_of_neighbors++; // Debugging
+                }
+                else {
+                    // Do nothing
+                }
+            } else {    // The two cells are definitely not neighbor cells
+                // Do nothing and continue
+            }
+
+           if(circumference <= 0) {    // Maximum number of neighbors is reached
+             //   ROS_INFO("Speed up of neighbor search as maximum number of neighbors is reached! circumference: %i", circumference);
+                break;
+            }
+        }
+
+        // Debugging
+      //  ROS_INFO("Number of neighbors: %i !", (number_of_neighbors_x + number_of_neighbors_y));
+
+
+        quadSearchCell.setNeighbors(neighbors);
+
+    }
+    ROS_INFO("Number of analyzed cells: %i", debug_counter);
+    ROS_INFO("Total number of neighbors: %i", total_number_of_neighbors);
+
+    if(quadVector.front().getNeighbors().front() == nullptr) {
+        ROS_INFO("quadVector nullptr");
+    } else {
+        ROS_INFO("quadVector without nullptr");
+    }
+}
+
+
+// Class Quadtree_SearchCell
+
+Point Quadtree_SearchCell::getTopLeft() {
+    return topLeft;
+}
+
+Point Quadtree_SearchCell::getBotRight() {
+    return botRight;
+}
+
+unsigned int Quadtree_SearchCell::getCost() {
+    return cost;
+}
+
+std::vector<Quadtree_SearchCell*> Quadtree_SearchCell::getNeighbors() {
+    return neighbors;
+}
+
+void Quadtree_SearchCell::setNeighbors(std::vector<Quadtree_SearchCell*> _neighbors) {
+    neighbors = _neighbors;
+}
+
+bool Quadtree_SearchCell::operator==(const Quadtree_SearchCell &other) const {
+    return (topLeft == other.topLeft) && (botRight == other.botRight) && (cost == other.cost);
+}
+

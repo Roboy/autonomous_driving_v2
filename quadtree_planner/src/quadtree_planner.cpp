@@ -25,7 +25,7 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_(""), area(0) {}
+        name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
@@ -46,14 +46,19 @@ namespace quadtree_planner {
 
         // Testing of quadtree data structure
         Point botR = Point (costmap->getSizeInCellsX(), costmap->getSizeInCellsY());
-        Quadtree_Cell testQuadTreeObject (Point(0,0), botR, 255);
-        testQuadTreeObject.printQuadtree();
+        QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
+        QuadtreeCellObject.printQuadtree();
         ROS_INFO("testQuadtreeObejct created");
-        testQuadTreeObject.buildQuadtree(costmap, &area);
+        QuadtreeCellObject.buildQuadtree(costmap, &area);
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
-        testQuadTreeObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
-        ROS_INFO("Quadtree test was run");
+     //   QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
+     //   ROS_INFO("Quadtree test was run");
+        QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
+        ROS_INFO("Creation of QuadtreeSearchCellVector was succesful");
+        QuadtreeCellObject.findNeighborsInSearchCellVector(QuadtreeSearchCellVector);
+        Quadtree_SearchCell* test = QuadtreeSearchCellVector.front().getNeighbors().front();
+        ROS_INFO("Neighbor Search of QuadtreeSearchCellVector was succesful");
     }
 
     void QuadTreePlanner::loadParameters() {
@@ -103,155 +108,96 @@ namespace quadtree_planner {
         if (!validateParameters()) {
             return false;
         }
-        auto cell_start = getCell(start);
-        auto cell_goal = getCell(goal);
-        // Instantiate data structures
-  //      set<PoseWithDist> candidatePoses = {PoseWithDist(0.0, start)};  // set is sorted based on distance, pose with smallest distance is the first element
-  //      unordered_map<Cell, double> pathLength = {{cell_start, 0.0}};
-        //TODO(melkonyan): this is potentially very unoptimal, because poses will be copied many times.
-  //      unordered_map<Pose, Pose> parents;
-  //      Pose reached_pose;
-  //      bool reached_goal = false;
 
+        // Quadtree based search
+        ROS_INFO("Starting instantiation of data structures");
 
-        // Cell based search
-        set<CellWithDist> candidateCells = {CellWithDist(0.0, getCell(start))};
-        unordered_map<Cell, Cell> parentsCells;
-        unordered_map<Pose, Pose> parentsCellsPoses;
-        unordered_map<Cell, double> pathLengthCells = {{cell_start, 0.0}};
-        Cell reached_cell;
-        bool reached_goal_cell = false;
+        Quadtree_SearchCell quad_start = Quadtree_SearchCell();
+        quad_start = Quadtree_SearchCell(getQuad(start, QuadtreeSearchCellVector));
+        Quadtree_SearchCell quad_goal = Quadtree_SearchCell();
+        quad_goal = Quadtree_SearchCell(getQuad(goal, QuadtreeSearchCellVector));
+        ROS_INFO("quadStart Top Left x: %i y: %i, Bottom Right x: %i, y:%i, cost: %i", quad_start.topLeft.x, quad_start.topLeft.y, quad_start.botRight.x, quad_start.botRight.y, quad_start.cost);
+        set<QuadtreeCellWithDist> candidateQuads = {QuadtreeCellWithDist(0.0, quad_start)};
+        unordered_map<Quadtree_SearchCell, Quadtree_SearchCell> parentsQuads;
+        unordered_map<Pose, Pose> parentsQuadsPoses;
+        unordered_map<Quadtree_SearchCell, double> pathLengthQuads = {{quad_start, 0.0}};
+        Quadtree_SearchCell reached_quad;
+        bool reached_goal_quad = false;
+
+        ROS_INFO("Instantiation of data structures succesful");
 
         // Create variables to log performance
         time_t start_time = time(NULL);
         int num_nodes_visited = 0;
 
-        // Implementation from last semester:
-        // Perform the search as long as there are still candidatePoses available
-    /*    while (!candidatePoses.empty()) {
+       // Quadtree based search
+        ROS_INFO("Starting quad tree cell based search.");
+        while (!candidateQuads.empty()) {
             // Checks if the maximum allowed time of the algorithm is already reached
             if (max_allowed_time_ > 0 && difftime(time(NULL), start_time) > max_allowed_time_) {
                 break;
             }
             num_nodes_visited++;
-            PoseWithDist cand = *candidatePoses.begin();
-            auto cell_cand = getCell(cand.pose);
-            if (hasReachedGoal(cand.pose, goal)) {
-                reached_pose = cand.pose;
-                reached_goal = true;
-                break;
-            }
-            double l_cand = pathLength[cell_cand];
-
-            candidatePoses.erase(cand);
-            vector<PoseWithDist> neighbors = getNeighbors(cand.pose);
-            for (auto &nbr : neighbors) {
-                // Checks if neigboring pose is outside of the map
-                if (!checkBounds(nbr.pose)) {
-                    continue;
-                }
-                auto cell_nbr = getCell(nbr.pose);
-                if (cell_cand == cell_nbr) {
-                    ROS_WARN("AStarPlanner: Oops, ended up in the same cell.");
-                    continue;
-                }
-                // Checks if the cell of the neighboring pose contains an obstacle (cost > 0)
-                if (costmap_->getCost(cell_nbr.x, cell_nbr.y) > 0) {
-                    continue;
-                }
-                // Check if cell_nbr is not contained in the pathLength set yet (meaning that it is not explored yet)
-                // or if the distance (l_cand + nbr.dist) is smaller than the distance that is currently stored for
-                // cell_nbr
-                // if both conditions are fulfilled, the neighbor needs to be inserted in the candidatePoses set
-                if (pathLength.find(cell_nbr) == pathLength.end() || l_cand + nbr.dist < pathLength[cell_nbr]) {
-                    pathLength[cell_nbr] = l_cand + nbr.dist;
-                    parents[nbr.pose] = cand.pose;
-                    candidatePoses.insert(PoseWithDist(l_cand + nbr.dist + distEstimate(nbr.pose, goal), nbr.pose));
-                }
-            }
-
-        }   */
-
-
-        // Cell based search
-        // Perform the search as long as there are still candidateCells available
-       ROS_INFO("Starting cell based search.");
-       while (!candidateCells.empty()) {
-            // Checks if the maximum allowed time of the algorithm is already reached
-            if (max_allowed_time_ > 0 && difftime(time(NULL), start_time) > max_allowed_time_) {
-                break;
-            }
-            num_nodes_visited++;
-            CellWithDist candCell = *candidateCells.begin();
-            Pose candCellPose = getPoseFromCell(candCell.cell);
-            if (hasReachedGoalCell(candCell.cell, goal)) {
-                reached_cell = candCell.cell;
-                reached_goal_cell = true;
+            QuadtreeCellWithDist candQuad = *candidateQuads.begin();
+            Pose candQuadPose = getPoseFromQuad(candQuad.quadtreeCell, goal);
+            if (hasReachedGoalQuad(candQuad.quadtreeCell, goal)) {
+                reached_quad = candQuad.quadtreeCell;
+                reached_goal_quad = true;
                 break;
             }
             else {
-                double distToGoal = distEstimate(getPoseFromCell(candCell.cell), goal);
-             //   ROS_INFO("The distance of the current candCell to the goal is %.2f", distToGoal);
+                double distToGoal = distEstimate(getPoseFromQuad(candQuad.quadtreeCell, goal), goal);
+                //   ROS_INFO("The distance of the current candCell to the goal is %.2f", distToGoal);
             }
-            double l_candCell = pathLengthCells[candCell.cell];
+            double l_candQuad = pathLengthQuads[candQuad.quadtreeCell];
 
             // Visualization
-            publishVisualization(marker_publisher_, candCellPose.x, candCellPose.y, costmap_->getResolution());
+     //       publishVisualization(marker_publisher_, candQuadPose.x, candQuadPose.y, costmap_->getResolution());
 
-            candidateCells.erase(candCell);
-            vector<CellWithDist> neighbors = getNeighborCells(candCell.cell);
+            candidateQuads.erase(candQuad);
+            vector<QuadtreeCellWithDist> neighbors = getNeighborQuads(candQuad, goal);
             for (auto &nbr : neighbors) {
-                if (candCell.cell == nbr.cell) {
+                if (candQuad.quadtreeCell == nbr.quadtreeCell) {
                     ROS_WARN("AStarPlanner: Oops, ended up in the same cell.");
                     continue;
                 }
                 // Checks if the neighboring cell contains an obstacle (cost > 0)
-                if (costmap_->getCost(nbr.cell.x, nbr.cell.y) > 0) {
+                // Checks if the neighboring cell contains an obstacle (cost > 0)
+                if (nbr.quadtreeCell.getCost() > 0) {
                     continue;
                 }
-                // Check if cell_nbr is not contained in the pathLength set yet (meaning that it is not explored yet)
+                // Check if neighboring quad cell is not contained in the pathLength set yet (meaning that it is not explored yet)
                 // or if the distance (l_cand + nbr.dist) is smaller than the distance that is currently stored for
                 // cell_nbr
                 // if both conditions are fulfilled, the neighbor needs to be inserted in the candidatePoses set
-                if (pathLengthCells.find(nbr.cell) == pathLengthCells.end() || l_candCell + nbr.dist < pathLengthCells[nbr.cell]) {
-                    Pose nbr_cell_pose = getPoseFromCell(nbr.cell);
-         //           ROS_INFO("Debug Info: New Cell with cell coordinates %i x %i y and cartesian coordinates %f x %f y inserted in candidateCells set", nbr.cell.x, nbr.cell.y, nbr_cell_pose.x, nbr_cell_pose.y);
-                    pathLengthCells[nbr.cell] = l_candCell + nbr.dist;
-                    parentsCells[nbr.cell] = candCell.cell;
-                    parentsCellsPoses[nbr_cell_pose] = candCellPose;
-                    candidateCells.insert(CellWithDist(l_candCell + nbr.dist + distEstimate(getPoseFromCell(nbr.cell), goal) ,nbr.cell));
+                if (pathLengthQuads.find(nbr.quadtreeCell) == pathLengthQuads.end() || l_candQuad + nbr.dist < pathLengthQuads[nbr.quadtreeCell]) {
+                    Pose nbr_quad_pose = getPoseFromQuad(nbr.quadtreeCell, goal);
+             //       ROS_INFO("Debug Info: New Quad with cell coordinates Top Left %i x %i y, Bottom Right %i x %i y and cartesian coordinates %f x %f y inserted in candidateCells set", nbr.quadtreeCell.topLeft.x, nbr.quadtreeCell.topLeft.y, nbr.quadtreeCell.botRight.x, nbr.quadtreeCell.botRight.y, nbr_quad_pose.x, nbr_quad_pose.y);
+                    pathLengthQuads[nbr.quadtreeCell] = l_candQuad + nbr.dist;
+                    parentsQuads[nbr.quadtreeCell] = candQuad.quadtreeCell;
+                    parentsQuadsPoses[nbr_quad_pose] = candQuadPose;
+                    candidateQuads.insert(QuadtreeCellWithDist(l_candQuad + nbr.dist + distEstimate(getPoseFromQuad(nbr.quadtreeCell, goal), goal) ,nbr.quadtreeCell));
                 }
             }
 
         }
 
-
-  /*      if (reached_goal) {
-            getPath(parents, reached_pose, path);
-        }   */
-
-
-
-        // Cell based search
-       if (reached_goal_cell) {
-            ROS_INFO("Cell based search reached the goal cell");
-            Pose goal_cell_pose = getPoseFromCell(reached_cell);
-            ROS_INFO("The found goal cell has the cell coordinates %i x %i y and cartesian coordinates %f x %f y %f th", reached_cell.x, reached_cell.y, goal_cell_pose.x, goal_cell_pose.y, goal_cell_pose.th);
-            double distanceGoalCellRealGoal = distEstimate(goal_cell_pose, goal);
-            ROS_INFO("The distance of the goal cell to the real goal is %f m", distanceGoalCellRealGoal);
-            getPath(parentsCellsPoses, goal_cell_pose, path);
+        // Quad based search
+        if (reached_goal_quad) {
+            ROS_INFO("Quad tree based search reached the goal quad");
+            Pose goal_quad_pose = getPoseFromQuad(reached_quad, goal);
+            ROS_INFO("The found goal quad has the cell coordinates Top Left %i x %i y, Bottom Right %i x %i y and cartesian coordinates %f x %f y %f th", reached_quad.topLeft.x, reached_quad.topLeft.y, reached_quad.botRight.x, reached_quad.botRight.y, goal_quad_pose.x, goal_quad_pose.y, goal_quad_pose.th);
+            double distanceGoalQuadRealGoal = distEstimate(goal_quad_pose, goal);
+            ROS_INFO("The distance of the goal cell to the real goal is %f m", distanceGoalQuadRealGoal);
+            getPath(parentsQuadsPoses, goal_quad_pose, path);
         } else {
-           ROS_INFO("Cell based search did not reach the goal cell");
-       }
+            ROS_INFO("Cell based search did not reach the goal cell");
+        }
 
-//        ROS_INFO("AStarPlanner finished in %.2fs, generated %d nodes, reached goal: %s",
-//                 difftime(time(NULL), start_time), num_nodes_visited, reached_goal ? "true" : "false");
         ROS_INFO("QuadTreePlanner finished in %.2fs, generated %d nodes, reached goal: %s",
-                 difftime(time(NULL), start_time), num_nodes_visited, reached_goal_cell ? "true" : "false");
+                 difftime(time(NULL), start_time), num_nodes_visited, reached_goal_quad ? "true" : "false");
 
-        return reached_goal_cell;
-  //      return reached_goal;
-
+        return reached_goal_quad;
     }
 
     bool QuadTreePlanner::validateParameters() const {
@@ -399,11 +345,51 @@ namespace quadtree_planner {
         return{upperCellWithDist, rightCellWithDist, lowerCellWithDist, leftCellWithDist};
     }
 
+    vector<QuadtreeCellWithDist> QuadTreePlanner::getNeighborQuads(quadtree_planner::QuadtreeCellWithDist &quad, Pose goal) const {
+        Quadtree_SearchCell quadSearchCell = Quadtree_SearchCell(quad.quadtreeCell);
+        Quadtree_SearchCell quadtreeSearchCellFromVector;
+        for(auto quad_cell: QuadtreeSearchCellVector) {
+            if(quad_cell == quadSearchCell) {
+                quadtreeSearchCellFromVector = Quadtree_SearchCell(quad_cell);
+              //  ROS_INFO("Found quad in quad vector!");
+              //  ROS_INFO("quad_cell Top Left x: %i y: %i, Bottom Right x: %i, y:%i, cost: %i", quad_cell.topLeft.x, quad_cell.topLeft.y, quad_cell.botRight.x, quad_cell.botRight.y, quad_cell.cost);
+                break;
+            } else {
+           //     ROS_INFO("quad_cell Top Left x: %i y: %i, Bottom Right x: %i, y:%i, cost: %i", quad_cell.topLeft.x, quad_cell.topLeft.y, quad_cell.botRight.x, quad_cell.botRight.y, quad_cell.cost);
+           //     ROS_INFO("quadSearchCell Top Left x: %i y: %i, Bottom Right x: %i, y:%i, cost: %i", quadSearchCell.topLeft.x, quadSearchCell.topLeft.y, quadSearchCell.botRight.x, quadSearchCell.botRight.y, quadSearchCell.cost);
+            }
+        }
+
+        vector<Quadtree_SearchCell*> neighborSearchCellsPointers = quadtreeSearchCellFromVector.getNeighbors();
+        vector<QuadtreeCellWithDist> return_vector;
+
+        for(auto neighborPointer: neighborSearchCellsPointers) {
+            Quadtree_SearchCell neighbor = *neighborPointer;
+            return_vector.push_back(QuadtreeCellWithDist(distEstimate(getPoseFromQuad(quad.quadtreeCell, goal),getPoseFromQuad(neighbor,goal)),neighbor));
+        }
+        return return_vector;
+    }
+
     Cell QuadTreePlanner::getCell(const Pose &pos) const {
         Cell cell;
         costmap_->worldToMap(pos.x, pos.y, cell.x, cell.y);
         cell.th = 0;
         return cell;
+    }
+
+    Quadtree_SearchCell QuadTreePlanner::getQuad(const Pose &pos, std::vector<Quadtree_SearchCell> QuadtreeSearchCellVectorObject) {
+        unsigned int cell_x = 0;
+        unsigned int cell_y = 0;
+        costmap_->worldToMap(pos.x, pos.y, cell_x, cell_y);
+        for(auto quad: QuadtreeSearchCellVectorObject) {
+            if( (cell_x >= quad.getTopLeft().x) && (cell_x <= quad.getBotRight().x) && (cell_y >= quad.getTopLeft().y) && (cell_y <= quad.getBotRight().y) ) {
+                Quadtree_SearchCell new_quad;
+                new_quad.topLeft = quad.topLeft;
+                new_quad.botRight = quad.botRight;
+                new_quad.cost = quad.cost;
+                return new_quad;
+            }
+        }
     }
 
     Pose QuadTreePlanner::getPoseFromCell(const Cell &cell) const {
@@ -412,6 +398,33 @@ namespace quadtree_planner {
         pos.th = 0; // ToDo Maximilian Kempa: Think of a way to calculate the proper theta value (orientation of robot)
         return pos;
     }
+
+    Pose QuadTreePlanner::getPoseFromQuad(Quadtree_SearchCell &quad, Pose goal) const {
+        Pose pos;
+        unsigned int goal_map_x = 0;
+        unsigned int goal_map_y = 0;
+
+        costmap_->worldToMap(goal.x, goal.y, goal_map_x, goal_map_y);
+
+        // Check if goal is contained in current quad cell
+        if( (goal_map_x >= quad.topLeft.x) && (goal_map_x <= quad.botRight.x) && (goal_map_y >= quad.topLeft.y) && (goal_map_y <= quad.botRight.y)) {
+            pos = goal;
+        } else {   // Use center of quad tree cell in case goal is not contained in the current cell
+            unsigned int quad_x = (quad.getBotRight().x + quad.getTopLeft().x)/2;
+            unsigned int quad_y = (quad.getBotRight().y + quad.getTopLeft().y)/2;
+            costmap_->mapToWorld(quad_x,quad_y, pos.x, pos.y);
+        }
+
+        return pos;
+    }
+
+    bool QuadTreePlanner::hasReachedGoalQuad(Quadtree_SearchCell &quad, const quadtree_planner::Pose &goal){
+        Pose quadPose = getPoseFromQuad(quad, goal);
+
+        return distEstimate(quadPose, goal) <= goal_tolerance_;
+    }
+
+
 
     double QuadTreePlanner::distEstimate(const Pose &pose1, const Pose &pose2) const {
         return euclid_dist(pose1, pose2);

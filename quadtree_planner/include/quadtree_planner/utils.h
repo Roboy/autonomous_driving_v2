@@ -7,6 +7,8 @@
 
 #include <geometry_msgs/PoseStamped.h>
 #include <ostream>
+#include "../include/quadtree_planner/quadtree_datastructure.h"
+
 
 namespace quadtree_planner {
 
@@ -79,6 +81,20 @@ namespace quadtree_planner {
         bool operator==(const CellWithDist &other) const;
     };
 
+    /**
+     * Container for storing quadtree cells and associated cost
+     */
+     struct QuadtreeCellWithDist {
+         double dist;
+         Quadtree_SearchCell quadtreeCell;
+
+         QuadtreeCellWithDist(double dist, Quadtree_SearchCell &quad) : dist(dist), quadtreeCell(quad) {}
+
+         bool operator<(const QuadtreeCellWithDist &other) const;
+
+         bool operator==(const QuadtreeCellWithDist &other) const;
+     };
+
 
     /**
      * Compute Euclidean distance between two positions.
@@ -102,6 +118,14 @@ namespace std {
         std::size_t operator()(const quadtree_planner::Pose &pose) const {
             return (size_t(pose.x) << 40) +
                    (size_t(pose.y) << 20) + size_t(pose.th);
+        }
+    };
+
+    template <>
+    struct hash<Quadtree_SearchCell> {
+        std::size_t operator()(const Quadtree_SearchCell &quad) const {
+            return (size_t(quad.topLeft.x) << 40) +
+                   (size_t(quad.topLeft.y) << 20) + (size_t(quad.botRight.x) << 10) + size_t(quad.botRight.y);
         }
     };
 

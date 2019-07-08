@@ -58,6 +58,14 @@ namespace quadtree_planner {
         return dist < other.dist;
     }
 
+    bool QuadtreeCellWithDist::operator==(const QuadtreeCellWithDist &other) const {
+        return std::equal_to<Quadtree_SearchCell>()(quadtreeCell, other.quadtreeCell);
+    }
+
+    bool QuadtreeCellWithDist::operator<(const QuadtreeCellWithDist &other) const {
+        return dist < other.dist;
+    }
+
 
     // ToDo Maximilian Kempa: Analyze if correct euclidean distance is required or if squared
     //  euclidean distance can be used to get rid of the potentially expensive sqrt operation
