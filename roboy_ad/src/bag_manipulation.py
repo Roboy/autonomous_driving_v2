@@ -30,27 +30,6 @@ def status(length, percent):
     sys.stdout.write(progress)
     sys.stdout.flush()
 
-
-def str2bool(v):
-    """
-    converges str into boolean value
-    Input v: str
-    Output b: bool
-    """
-    if not v or str(v).lower() in ['false', 'f', '0', 'no', 'off']:
-        return False
-    elif str(v).lower() in ['true', 't', '1', 'yes', 'on']:
-        return True
-    else:
-        raise IOError("Input not interpretable as boolean")
-
-def convert_to_int(msg, num_columns=4):
-    data = np.zeros((len(msg.data),1), dtype=np.uint8)
-    for i in range(len(msg.data)):
-        data[i] = ord(msg.data[i])
-    data = np.reshape(data, (-1, num_columns))
-    return data
-
 def convert_to_float(msg):
     data = np.zeros((len(msg.data) / 4,1))
     for i in range(len(msg.data) / 4):
@@ -91,32 +70,42 @@ class BagOrder:
             raise IOError("Argument path does not point to a valid bag file.\n"
                           + "Make sure, that a valid path to a bag file (*.bag) is passed to this class.")
 
-#    def add_offset(self, axis, offset):
-#        a = self.ordered_data[:,axis:(axis+1)]
-#        b = np.full(a.shape, offset, dtype=np.uint8)
-#        c = 255 - b
-#        np.putmask(a, c < a, c)
-#        a += b
-#        self.ordered_data[:,axis:(axis+1)] = a
+    def set_param(self, reference_topic, axis, offset, mirror):
+        if type(axis) != list:
+            self.axis = [axis]
+        else:
+            self.axis = axis
+        if type(offset) != list:
+           self.offset = [offset]
+        else:
+           self.offset = offset
+        if len(self.axis) != len(self.offset):
+           raise IOError("Arguments axis (-a) and offset (-off) do not have the same length. \n"
+                         + "Make sure to pass lists of the same length")
+        self.ref_topic = reference_topic
+        self.mirror = mirror
+            
 
-    def add_offset(self, axis, offset):
+    def add_offset(self):
 #        self.ordered_data[:,axis:(axis+1)] += offset
-        self.ordered_data[:,axis:(axis+1)] = 0
+        for axis, offset in zip(self.axis, self.offset):
+            #print(type(self.ordered_data[:,axis:(axis+1)]))
+            self.ordered_data[:,axis:(axis+1)] += offset
 
-    def mirror_data(self, axis):
-        self.ordered_data[:,axis:(axis+1)] = 255 - self.ordered_data[:,axis:(axis+1)]
+    def mirror_data(self):
+	for axis in self.axis:
+            self.ordered_data[:,axis:(axis+1)] = -self.ordered_data[:,axis:(axis+1)]
 
-    def write_bag_file(self, msg, reference_topic):
+    def write_bag_file(self, msg):
         self.ordered_data = self.ordered_data.reshape(-1,1)
 	msg_string = ''
         for i in range(self.ordered_data.size):
-            #print(self.ordered_data.shape)
             msg_string += struct.pack('f', self.ordered_data[i])
 	msg.data = msg_string
-        self.new_bag.write(reference_topic, msg)
+        self.new_bag.write(self.ref_topic, msg)
 
 
-    def read_array_data(self, reference_topic, axis, offset, mirror, output_bag, num_columns=4):
+    def read_array_data(self, reference_topic, output_bag, num_columns=4):
         """
         Adds an offset to a axis of the LIDAR data
         Writes sorted messages into new bagfile
@@ -137,12 +126,10 @@ class BagOrder:
         print(total)
         for topic, msg, t in self.bag.read_messages(topics=[reference_topic]):
             self.ordered_data = convert_to_float(msg)
-            #print(self.ordered_data)
-            #self.ordered_data = convert_to_int(msg, num_columns)
-            #self.add_offset(axis, offset)
-            #if mirror:
-            #    self.mirror_data(axis)
-            self.write_bag_file(msg, reference_topic)
+            self.add_offset()
+            #if self.mirror:
+            #    self.mirror_data()
+            self.write_bag_file(msg)
             if counter % 100 ==0:
                 percent = counter/total
                 status(40, percent)
@@ -158,7 +145,7 @@ if __name__ == '__main__':
     parser.add_argument('--ref_topic', '-rf', help='topic name which acts as a reference for the time stamps')
     parser.add_argument('--axis', '-a', nargs='+', help='choose which axis to add an offset to', type=int)
     parser.add_argument('--offset', '-off', nargs='+', help='define the size of the offset', type=int)
-    parser.add_argument('--mirror', '-m', help='mirror the axis after adding the offset')
+    parser.add_argument('--mirror', '-m', help='mirror the axis after adding the offset', type=bool)
     parser.add_argument('--out_path', '-o', help='path to file with reordered bag file')
 
     args = parser.parse_args(rp.myargv()[1:])
@@ -169,6 +156,7 @@ if __name__ == '__main__':
         # if no reference topic is specified, take first topic that is contained in bagfile
         args.ref_topic = slam_bag.topics[0]
 
-    slam_bag.read_array_data(args.ref_topic, args.axis, args.offset, args.mirror, args.out_path)
+    slam_bag.set_param(args.ref_topic, args.axis, args.offset, args.mirror)
+    slam_bag.read_array_data(args.ref_topic, args.out_path)
 
 
