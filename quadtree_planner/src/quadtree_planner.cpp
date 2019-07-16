@@ -52,8 +52,9 @@ namespace quadtree_planner {
         QuadtreeCellObject.buildQuadtree(costmap, &area);
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
-     //   QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
-     //   ROS_INFO("Quadtree test was run");
+        ROS_INFO("Starting visualization of quadtree!");
+        QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
+        ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
         ROS_INFO("Creation of QuadtreeSearchCellVector was succesful");
         QuadtreeCellObject.findNeighborsInSearchCellVector(QuadtreeSearchCellVector);

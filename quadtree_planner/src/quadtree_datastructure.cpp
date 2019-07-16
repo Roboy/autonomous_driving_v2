@@ -17,10 +17,11 @@ int Quadtree_Cell::buildQuadtree(quadtree_planner::Costmap* costmap, long long *
     // or we have an uniform area --> no subdivision of this cell required
     int cell_area = (botRight.x - topLeft.x + 1) * (botRight.y - topLeft.y + 1);
     bool isAreaUniform = isCostOfAreaUniform(topLeft, botRight, costmap);
+    const int MINIMUM_CELL_AREA = 4;
 
-    if ( (cell_area < 4) || (isAreaUniform == true) ) {
+    if ( (cell_area < MINIMUM_CELL_AREA) || (isAreaUniform == true) ) {
         *area_ += cell_area;    // Debugging
-        ROS_INFO("Create low level cell");
+     //   ROS_INFO("Create low level cell");
         return -1;
     } else {
 
@@ -96,14 +97,22 @@ void Quadtree_Cell::testQuadtree(ros::Publisher marker_publisher_, double resolu
     if(showOnlyLowestLevel == false) {
         publishVisualization(marker_publisher_, (double((topLeft.x + botRight.x) * resolution / 2.0 + x_origin)),
                              ((double((topLeft.y + botRight.y) * resolution) / 2.0 + y_origin)),
-                             double(botRight.x - topLeft.x + 1) * resolution, double(botRight.y - topLeft.y + 1) * resolution);
-        ROS_INFO("Publish marker");
+                             double(botRight.x - topLeft.x + 1) * resolution, double(botRight.y - topLeft.y + 1) * resolution, true);
+   //     ROS_INFO("Publish marker");
         ros::Duration(0.004).sleep();
     } else if (topLeftCell == nullptr) {    // We are on lowest level of quadtree
-        publishVisualization(marker_publisher_, (double((topLeft.x + botRight.x) * resolution / 2.0 + x_origin)),
-                             ((double((topLeft.y + botRight.y) * resolution) / 2.0 + y_origin)),
-                             double(botRight.x - topLeft.x + 1) * resolution, double(botRight.y - topLeft.y + 1) * resolution);
-        ROS_INFO("Publish marker");
+        if(cost == 0) {
+            publishVisualization(marker_publisher_, (double((topLeft.x + botRight.x) * resolution / 2.0 + x_origin)),
+                                 ((double((topLeft.y + botRight.y) * resolution) / 2.0 + y_origin)),
+                                 double(botRight.x - topLeft.x + 1) * resolution,
+                                 double(botRight.y - topLeft.y + 1) * resolution, true);
+        } else {
+            publishVisualization(marker_publisher_, (double((topLeft.x + botRight.x) * resolution / 2.0 + x_origin)),
+                                 ((double((topLeft.y + botRight.y) * resolution) / 2.0 + y_origin)),
+                                 double(botRight.x - topLeft.x + 1) * resolution,
+                                 double(botRight.y - topLeft.y + 1) * resolution, false);
+        }
+   //     ROS_INFO("Publish marker");
         ros::Duration(0.004).sleep();
     }
 
@@ -129,7 +138,7 @@ void Quadtree_Cell::testQuadtree(ros::Publisher marker_publisher_, double resolu
 
 // Visualization - not required for actual path planning!
 void Quadtree_Cell::publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale_x,
-                                         double marker_scale_y) {
+                                         double marker_scale_y, bool free_space) {
     //  ros::Rate r(1);
     // Set our initial shape type to be a cube
     uint32_t shape = visualization_msgs::Marker::CUBE;
@@ -193,6 +202,47 @@ void Quadtree_Cell::publishVisualization(ros::Publisher marker_pub, double marke
         marker.color.b = 0.33f;
     }
 
+    // Different colors for free and occupied cells:
+    if(free_space == true) {
+        // Set to green (use different shades of green to visualize the different cells better)
+        if ( modulo_value == 0)  {
+            marker.color.r = 0.0f;
+            marker.color.g = 1.0f;
+            marker.color.b = 0.0f;
+        } else if ( modulo_value == 1)  {
+            marker.color.r = 0.0f;
+            marker.color.g = 0.75f;
+            marker.color.b = 0.0f;
+        } else if ( modulo_value == 2)  {
+            marker.color.r = 0.0f;
+            marker.color.g = 0.5f;
+            marker.color.b = 0.0f;
+        } else if ( modulo_value == 3)  {
+            marker.color.r = 0.0f;
+            marker.color.g = 0.25f;
+            marker.color.b = 0.0f;
+        }
+    } else {
+        // Set to red (use different shades of red to visualize the different cells better)
+        if ( modulo_value == 0)  {
+            marker.color.r = 1.0f;
+            marker.color.g = 0.0f;
+            marker.color.b = 0.0f;
+        } else if ( modulo_value == 1)  {
+            marker.color.r = 0.75f;
+            marker.color.g = 0.0f;
+            marker.color.b = 0.0f;
+        } else if ( modulo_value == 2)  {
+            marker.color.r = 0.5f;
+            marker.color.g = 0.0f;
+            marker.color.b = 0.0f;
+        } else if ( modulo_value == 3) {
+            marker.color.r = 0.25f;
+            marker.color.g = 0.0f;
+            marker.color.b = 0.0f;
+        }
+    }
+
 
 
     marker.lifetime = ros::Duration();
@@ -247,9 +297,6 @@ void Quadtree_Cell::findNeighborsInSearchCellVector(std::vector<Quadtree_SearchC
 
         // Debugging
         debug_counter++;
-        if(debug_counter % 50 == 0) {
-            ROS_INFO("debug_counter: %i", debug_counter);
-        }
         unsigned int number_of_neighbors_x = 0;
         unsigned int number_of_neighbors_y = 0;
 
@@ -321,11 +368,6 @@ void Quadtree_Cell::findNeighborsInSearchCellVector(std::vector<Quadtree_SearchC
     ROS_INFO("Number of analyzed cells: %i", debug_counter);
     ROS_INFO("Total number of neighbors: %i", total_number_of_neighbors);
 
-    if(quadVector.front().getNeighbors().front() == nullptr) {
-        ROS_INFO("quadVector nullptr");
-    } else {
-        ROS_INFO("quadVector without nullptr");
-    }
 }
 
 

@@ -128,7 +128,7 @@ public:
 
     // Visualization
     void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale_x,
-                              double marker_scale_y);
+                              double marker_scale_y, bool free_space);
 
     bool operator==(const Quadtree_Cell &p) const {
         return topLeft == p.topLeft && botRight == p.botRight && cost == p.cost && topLeftCell == p.topLeftCell && topRightCell == p.topRightCell && botLeftCell == p.botLeftCell && botRightCell == p.botRightCell;
