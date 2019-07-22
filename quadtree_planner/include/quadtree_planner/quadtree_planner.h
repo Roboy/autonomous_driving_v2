@@ -72,7 +72,6 @@ namespace quadtree_planner {
 
         std::vector<QuadtreeCellWithDist> getNeighborQuads(QuadtreeCellWithDist &quad, Pose goal) const;
 
-
     private:
         /**
          * Reconstruct the path to the goal position given a set of child/parent pairs.
@@ -135,6 +134,10 @@ namespace quadtree_planner {
 
         void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale);
 
+        // Path Refinement (Dubin's car)
+        bool IsTrajectoryCollisionFree(std::vector<Pose> pathVector);
+
+
     private:
         std::string name_;
         Costmap *costmap_;
@@ -159,5 +162,11 @@ namespace quadtree_planner {
 
 
 }
+
+// Path refinement via Dubin's car
+int printDubinsConfiguration(double q[3], double x, void* user_data);
+std::vector<quadtree_planner::Pose> Dubins_Poses_temp;
+std::vector<quadtree_planner::Pose> Dubins_Poses_final;
+
 
 #endif //QuadTreePlanner_H

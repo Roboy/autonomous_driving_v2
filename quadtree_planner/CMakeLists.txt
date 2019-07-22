@@ -4,6 +4,8 @@ project(quadtree_planner)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+add_definitions(-std=c99)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -126,11 +128,11 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/quadtree_planner.cpp
+#   src/${PROJECT_NAME}/dubins.c
 # )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME} src/quadtree_planner.cpp src/costmap.cpp src/utils.cpp src/quadtree_datastructure)
+add_library(${PROJECT_NAME} src/quadtree_planner.cpp src/costmap.cpp src/utils.cpp src/quadtree_datastructure.cpp src/dubins.c)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library

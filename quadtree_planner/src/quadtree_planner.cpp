@@ -16,6 +16,8 @@
 #include "../include/quadtree_planner/utils.h"
 #include "../include/quadtree_planner/costmap.h"
 #include "../include/quadtree_planner/quadtree_datastructure.h"
+#include "../include/quadtree_planner/dubins.h"
+#include "dubins.c"
 
 
 PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner, nav_core::BaseGlobalPlanner)
@@ -52,9 +54,9 @@ namespace quadtree_planner {
         QuadtreeCellObject.buildQuadtree(costmap, &area);
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
-        ROS_INFO("Starting visualization of quadtree!");
-        QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
-        ROS_INFO("Quadtree test was run. Visualization finished.");
+   //     ROS_INFO("Starting visualization of quadtree!");
+   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
+   //     ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
         ROS_INFO("Creation of QuadtreeSearchCellVector was succesful");
         QuadtreeCellObject.findNeighborsInSearchCellVector(QuadtreeSearchCellVector);
@@ -131,7 +133,6 @@ namespace quadtree_planner {
         time_t start_time = time(NULL);
         int num_nodes_visited = 0;
 
-       // Quadtree based search
         ROS_INFO("Starting quad tree cell based search.");
         while (!candidateQuads.empty()) {
             // Checks if the maximum allowed time of the algorithm is already reached
@@ -152,14 +153,11 @@ namespace quadtree_planner {
             }
             double l_candQuad = pathLengthQuads[candQuad.quadtreeCell];
 
-            // Visualization
-     //       publishVisualization(marker_publisher_, candQuadPose.x, candQuadPose.y, costmap_->getResolution());
-
             candidateQuads.erase(candQuad);
             vector<QuadtreeCellWithDist> neighbors = getNeighborQuads(candQuad, goal);
             for (auto &nbr : neighbors) {
                 if (candQuad.quadtreeCell == nbr.quadtreeCell) {
-                    ROS_WARN("AStarPlanner: Oops, ended up in the same cell.");
+                    ROS_WARN("QuadTreePlanner: Oops, ended up in the same cell.");
                     continue;
                 }
                 // Checks if the neighboring cell contains an obstacle (cost > 0)
@@ -185,14 +183,64 @@ namespace quadtree_planner {
 
         // Quad based search
         if (reached_goal_quad) {
+
             ROS_INFO("Quad tree based search reached the goal quad");
             Pose goal_quad_pose = getPoseFromQuad(reached_quad, goal);
             ROS_INFO("The found goal quad has the cell coordinates Top Left %i x %i y, Bottom Right %i x %i y and cartesian coordinates %f x %f y %f th", reached_quad.topLeft.x, reached_quad.topLeft.y, reached_quad.botRight.x, reached_quad.botRight.y, goal_quad_pose.x, goal_quad_pose.y, goal_quad_pose.th);
             double distanceGoalQuadRealGoal = distEstimate(goal_quad_pose, goal);
-            ROS_INFO("The distance of the goal cell to the real goal is %f m", distanceGoalQuadRealGoal);
+            ROS_INFO("The distance of the reached goal position to the real goal is %f m", distanceGoalQuadRealGoal);
             getPath(parentsQuadsPoses, goal_quad_pose, path);
+
+            // Path Refinement (Dubin's car)
+            // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path
+            bool refinement_finished = false;
+            int first_index = 0;
+            int second_index = path.size()-1;
+            // In the loop, we try to connect the first position with a collision-free smooth path to the last position
+            // If this does not work, we use the cell next to the goal position
+            // the second index is decremented until we find a possible connection
+            // then the loop continues with the remaining not yet connected cells
+            while(!refinement_finished) {
+                double q0[] = {path.at(first_index).x, path.at(first_index).y, path.at(first_index).th};
+                double q1[] = {path.at(second_index).x, path.at(second_index).y, path.at(second_index).th};
+                DubinsPath DubinsPath;
+                dubins_shortest_path( &DubinsPath, q0, q1, turning_radius_);
+                dubins_path_sample_many(&DubinsPath, 0.05, printDubinsConfiguration, NULL);
+
+                // Checking for collisions
+                if(IsTrajectoryCollisionFree(Dubins_Poses_temp) == false) {
+                    Dubins_Poses_temp.clear();
+                    refinement_finished = false;
+                    if(second_index > first_index+1) {
+                        second_index--;
+                    } else {
+                        ROS_INFO("No path refinement possible!");
+                        ROS_INFO("Quadtree cell based search did find a path but it is not feasible due to the non-holonomic constraints");
+                        reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints
+                        // the reason for this is usually that the final orientation is not feasible.
+                        // depening on the requirements regarding correct orientation of the final position some adaptions might be possible
+                        // in order to ignore the orientation at the final position
+                        refinement_finished = true;
+                    }
+                }
+                else {
+                    Dubins_Poses_final.insert(Dubins_Poses_final.end(),Dubins_Poses_temp.begin(),Dubins_Poses_temp.end());
+                    Dubins_Poses_temp.clear();
+                    if(second_index == (path.size() -1)) {
+                        refinement_finished = true;
+                    } else {
+                        first_index = second_index;
+                        second_index = path.size()-1;
+                    }
+                }
+            }
+            // Refined path via Dubin's car
+            path = Dubins_Poses_final;
+            Dubins_Poses_final.clear();
+
+
         } else {
-            ROS_INFO("Cell based search did not reach the goal cell");
+            ROS_INFO("Quadtree cell based search did not reach the goal cell");
         }
 
         ROS_INFO("QuadTreePlanner finished in %.2fs, generated %d nodes, reached goal: %s",
@@ -497,6 +545,31 @@ namespace quadtree_planner {
    //   r.sleep();
   }
 
+    // Path Refinement (Dubin's car)
+    bool QuadTreePlanner::IsTrajectoryCollisionFree(std::vector<Pose> pathVector) {
+        for (auto pos : pathVector) {
+            unsigned int cell_x = 0;
+            unsigned int cell_y = 0;
+            costmap_->worldToMap(pos.x, pos.y, cell_x, cell_y);
+            if(costmap_->getCost(cell_x,cell_y)> 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+}
+
+
+// Dubin's car
+int printDubinsConfiguration(double q[3], double x, void* user_data) {
+//    ROS_INFO("%f, %f, %f, %f\n", q[0], q[1], q[2], x);
+    quadtree_planner::Pose current_pos;
+    current_pos.x = q[0];
+    current_pos.y = q[1];
+    current_pos.th = q[2];
+    Dubins_Poses_temp.push_back(current_pos);
+    return 0;
 }
 
 
