@@ -1,13 +1,14 @@
 #!/usr/bin/python
 import argparse
 
-from math import pi
+from math import pi, floor
 
 import rospy
 
 from roboy_navigation.async_pid import AsyncPID
 from roboy_navigation.steering_helper import TargetAngleListener, \
-    AngleSensorListener, MyoMuscleController, rad_to_deg
+    AngleSensorListener, MyoMuscleController, rad_to_deg, \
+    get_compensation, testing_seq
 
 
 class SteeringController:
@@ -17,7 +18,7 @@ class SteeringController:
                  sample_rate=100, Kp=1, Ki=0, Kd=0,
                  min_displacement=10,
                  max_displacement=300,
-                 max_steering_angle_deg=10,
+                 max_steering_angle_deg=30,
                  zero_angle_raw=2600):
         self.angle_sensor_listener = AngleSensorListener(
             zero_angle_raw=zero_angle_raw
@@ -28,17 +29,32 @@ class SteeringController:
             left_motor_id=left_motor_id,
             right_motor_id=right_motor_id
         )
-        self.async_pid = AsyncPID(
+        self.right_pid = AsyncPID(
             target_val_provider=self.get_target_angle,
             actual_val_provider=self.get_actual_angle,
-            control_callback=self.set_spring_displacement,
+            control_callback=self.set_spring_displacement_right,
             sample_rate=sample_rate,
-            Kp=Kp, Ki=Ki, Kd=Kd
+            Kp=Kp, Ki=Ki, Kd=Kd,
+	    lower_limit=min_displacement, upper_limit=max_displacement
+        )
+	self.left_pid = AsyncPID(
+	    target_val_provider=self.get_target_angle,
+            actual_val_provider=self.get_actual_angle,
+            control_callback=self.set_spring_displacement_left,
+            sample_rate=sample_rate,
+            Kp=-Kp, Ki=-Ki, Kd=-Kd,
+	    lower_limit=min_displacement, upper_limit=max_displacement
         )
         self.min_displacement = min_displacement
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
         self.max_steering_angle = float(max_steering_angle_deg) / 180 * pi
+        self.compensation = get_compensation()
+        self.right_comp = self.compensation[0][0]
+        self.left_comp = self.compensation[0][1]
+        self.seq_counter = -1
+        self.finished_instance = False
+        self.testing_seq = testing_seq()
 
     def start(self):
         rospy.init_node('steering_controller')
@@ -47,24 +63,58 @@ class SteeringController:
         self.target_angle_listener.start()
         self.angle_sensor_listener.start()
         self.muscle_controller.start()
-        self.async_pid.start()
+        self.right_pid.start()
+        self.left_pid.start()
+
+    def act_test_seq(self):
+        self.right_pid.set_target_value_provider(self.internal_target_angle)
+        self.left_pid.set_target_value_provider(self.internal_target_angle)
+        self.seq_counter = 0
+        for i in len(self.testing_seq):
+            while not self.finished_instance:
+                pass
+            self.seq_counter += 1
+            self.finished_instance = False
+        self.seq_counter = -1
+
+	self.right_pid.set_target_value_provider(self.get_target_angle)
+	self.left_pid.set_target_value_provider(self.get_target_angle)
+
+    def internal_target_angle(self):
+	return self.testing_seq[counter][1]
+
+    def check_if_finished(self, angle):
+        if not (self.seq_counter == -1):
+            if abs(angle - self.internal_target_angle()) <= 0.1:
+                self.finished_instance = True
 
     def get_target_angle(self):
         angle = self.target_angle_listener.get_latest_target_angle()
         return self.clip_bounds(angle)
 
-    def get_actual_angle(self):
-        return self.angle_sensor_listener.get_latest_smooth_angle()
+    def get_actual_angle(self, updata_param = True):
+        acutal_angle = self.angle_sensor_listener.get_latest_smooth_angle()
+        if update_param:
+            angle_deg_discrete = floor(actual_angle * 180 / pi)
+            (self.right_comp, self.left_comp) = self.compensation[angle_deg_discrete]
+       	    right_lowlim = self.min_displacement / right_comp
+            right_upplim = self.max_displacement / right_comp
+            left_lowlim = self.min_displacement / left_comp
+            left_upplim = self.max_displacement / left_comp
+            self.right_pid.set_limits(right_lowlim, right_upplim)
+            self.left_pid.set_limits(left_lowlim, left_upplim)
+        return acutal_angle
 
-    def set_spring_displacement(self, displacement):
+    def set_spring_displacement_right(self, displacement):
+        check_if_finished(get_acutal_angle(update_param=False))
+        diplacement *= self.right_comp
         print(displacement)
-        disp_left, disp_right = (self.min_displacement, -displacement) if displacement < 0 \
-            else (displacement, self.min_displacement)
-        disp_left = max(disp_left, self.min_displacement)
-        disp_right = max(disp_right, self.min_displacement)
-        disp_left = min(disp_left, self.max_displacement)
-        disp_right = min(disp_right, self.max_displacement)
-        self.muscle_controller.send_command(disp_left, disp_right)
+        self.muscle_controller.send_command_right(displacement)
+
+    def set_spring_displacement_left(self, displacement):
+        displacement *= self.left_comp
+        print(displacement)
+        self.muscle_controller.send_command_left(displacement)
 
     def clip_bounds(self, angle):
         if -self.max_steering_angle<= angle <= self.max_steering_angle:
@@ -89,7 +139,7 @@ if __name__ == '__main__':
     parser.add_argument('--Kd', type=int, default=100000)
     parser.add_argument('--max_disp', type=int, default=300)
     parser.add_argument('--min_disp', type=int, default=10)
-    parser.add_argument('--max_steering_angle', type=int, default=10,
+    parser.add_argument('--max_steering_angle', type=int, default=30,
                         help='Max steering angle in degrees')
     parser.add_argument('--zero_angle_raw', type=int, default=2600)
     args, _ = parser.parse_known_args()
