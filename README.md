@@ -9,6 +9,6 @@ git clone -b docker https://github.com/Roboy/autonomous_driving_v2.git  ./docker
 
 Build  the containers with like so:
 ```
-docker build -t ad-drive -f drive.Dockerfile .
+docker build -t ad-planning -f planning.Dockerfile .
 docker build -t ad-slam -f slam.Dockerfile .
 ```

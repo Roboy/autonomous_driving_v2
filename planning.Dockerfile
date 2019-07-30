@@ -4,7 +4,7 @@ FROM ros:kinetic-robot
 WORKDIR /home
 
 # Get autonomous driving src folder from GIT
-RUN git clone -b devel https://github.com/Roboy/autonomous_driving_v2.git  ./src
+RUN git clone -b devel_planning https://github.com/Roboy/autonomous_driving_v2.git  ./src
 
 # Set up Kinetic keys
 RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
