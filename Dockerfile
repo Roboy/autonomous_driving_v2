@@ -4,7 +4,7 @@ FROM ros:kinetic-robot
 WORKDIR /home
 
 # Get autonomous driving src folder from GIT
-RUN git clone -b maximilian https://github.com/Roboy/autonomous_driving_v2.git  ./src
+RUN git clone -b devel https://github.com/Roboy/autonomous_driving_v2.git  ./src
 
 RUN cp ./src/package_requirements.sh ./package_requirements.sh
 
@@ -30,6 +30,3 @@ RUN rm -r ./src/cartographer_ros
 RUN catkin config \
       --extend /opt/ros/$ROS_DISTRO && \
     catkin build
-
-
-

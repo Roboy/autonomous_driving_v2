@@ -1,3 +1,7 @@
 # Autonomous Driving V2
 
-This is [Roboy's](https://roboy.org) Autonomous Driving Team's main repository from summer semester 2019. It is a follow-up on the [Autonomous Driving Team's work from the winter semester 2018/19](https://github.com/Roboy/autonomous_driving). More content will be added throughout the semester.
+## Docker
+
+Clone this branch onto the Computer you want to deploy (should be Leia). First, if not already happened, create the docker folder (`mkdir docker`). Then, clone the Dockerfile from this repo using the command
+`git clone -b docker https://github.com/Roboy/autonomous_driving_v2.git  ./docker`
+Build  the container with the this command: 
