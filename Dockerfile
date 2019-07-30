@@ -16,7 +16,7 @@ RUN chmod +x ./package_requirements.sh && \
  ./package_requirements.sh
 
 RUN apt install python-pip -y && \
-  pip install pip_requirements.txt --user
+  pip install -r pip_requirements.txt --user
 
 # Prepare git submodules
 RUN cd src && \
