@@ -1,7 +1,3 @@
-[submodule "cartographer_ros"]
-	path = cartographer_ros
-	url = https://github.com/Roboy/cartographer_ros.git
-	branch = adv2
 [submodule "roboy_communication"]
 	path = roboy_communication
 	url = https://github.com/Roboy/roboy_communication.git
