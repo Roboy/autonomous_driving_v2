@@ -26,8 +26,10 @@ git submodule update
 # remove cartographer as it is run in the other docker container anyways
 RUN rm -r ./src/cartographer_ros
 
-# Build
-# RUN cd /home/ && \
-# catkin build roboy_ad
+# build ros package source
+RUN catkin config \
+      --extend /opt/ros/$ROS_DISTRO && \
+    catkin build
+
 
 
