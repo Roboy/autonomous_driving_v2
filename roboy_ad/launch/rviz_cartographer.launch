@@ -1,6 +1,0 @@
-<launch>
-
-  <node name="rviz" pkg="rviz" type="rviz"
-      args="-d $(find roboy_ad)/rviz/roboy_demo_2d.rviz" />
-
-</launch>
