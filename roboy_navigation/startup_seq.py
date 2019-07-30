@@ -2,7 +2,7 @@
 
 import rospy
 import time
-from math import atan, pi
+from math import atan, pi, tan
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
 from roboy_middleware_msgs.srv import MotorConfigService
 from geometry_msgs.msg import Twist
@@ -16,11 +16,15 @@ def convert_trans_rot_vel_to_steering_angle(lin_vel, ang_vel, wheelbase):
     radius = lin_vel / ang_vel
     return atan(wheelbase / radius)
 
+def convert_steering_angle_to_trans_rot_vel(lin_vel, angle, wheelbase):
+    ang_vel = lin_vel*tan(angle)/wheelbase
+    return ang_vel
+
 class StartUpSequence:
 
     def __init__(self, sequence, zero_angle_raw=2600, decay=0.95, threshold=0.1/180 * pi, threshold_angle=2):
         self.counter = 0
-        self.rate = 1
+        self.rate = 5
         self.sequence = sequence
         self.target_angle = 0
         self.actual_angle = 0
@@ -49,18 +53,20 @@ class StartUpSequence:
         rate = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
             if self.counter < len(sequence):
-                vel_msg.linear.x = sequence[self.counter]['linear']['x']
-                vel_msg.linear.y = sequence[self.counter]['linear']['y']
-                vel_msg.linear.z = sequence[self.counter]['linear']['z']
-                vel_msg.angular.x = sequence[self.counter]['angular']['x']
-                vel_msg.angular.y = sequence[self.counter]['angular']['y']
-                vel_msg.angular.z = sequence[self.counter]['angular']['z']
+                vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, sequence[self.counter]['linear']*pi/180, self.wheel_base)
+                vel_msg.linear.y = 0 #sequence[self.counter]['linear']['y']
+                vel_msg.linear.z = 0 #sequence[self.counter]['linear']['z']
+                vel_msg.angular.x = 0 #sequence[self.counter]['angular']['x']
+                vel_msg.angular.y = 0 #sequence[self.counter]['angular']['y']
+                vel_msg.angular.z = convert_steering_angle_to_trans_rot_vel(lin_vel, sequence[self.counter]['angular']*pi/180, self.wheel_base)
                 self.pub.publish(vel_msg)
-                self.target_angle = convert_trans_rot_vel_to_steering_angle(
-                    lin_vel, sequence[self.counter]['angular']['z'], self.wheel_base)
                 if not self.send_true:
                     self.send_true = True
                     self.counter += 1
+                self.target_angle = sequence[self.counter]['angular']*pi/180
+                #print(self.target_angle)#convert_trans_rot_vel_to_steering_angle(
+                    #lin_vel, sequence[self.counter]['angular'], self.wheel_base)
+                
             else:
                 rospy.signal_shutdown('Finished Startup')
             rate.sleep()
@@ -92,9 +98,9 @@ class StartUpSequence:
 
 
 if __name__ == '__main__':
-    sequence = [{'linear':  {'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0,'y': 0.0,'z': 0.1}},
-                #{'linear':  {'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0,'y': 0.0,'z': -0.1}},
-                #{'linear':  {'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0,'y': 0.0,'z': 0.2}},
-                #{'linear':  {'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0,'y': 0.0,'z': -0.2}},
-                {'linear':  {'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0,'y': 0.0,'z': 0.0}}]
+    sequence = [{'linear': 0.0, 'angular': 10},
+                {'linear': 0.0, 'angular': -10},
+                {'linear': 0.0, 'angular': 20},
+                {'linear': 0.0, 'angular': -20},
+                {'linear': 0.0, 'angular': 0}]
     StartUpSequence(sequence).start()
