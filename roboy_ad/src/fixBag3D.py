@@ -8,7 +8,9 @@ import sys
 import os
 import time
 import argparse
-import click
+from sbg_driver.msg import SbgImuData
+from sensor_msgs.msg import Imu
+from sensor_msgs.msg import PointCloud2
 
 
 def status(length, percent):
@@ -104,7 +106,7 @@ class BagOrder:
                                            'header_timestamp': dict_template.copy()}.copy() for _ in self.topics]))
 
         # iterate through all messages in the bag
-        for topic, msg, t in bag.read_messages(topics=['/imu', '/points2', '/imu_data', '/livox/lidar']):
+        for topic, msg, t in bag.read_messages(topics=['/imu', '/points2', '/livox/lidar']): #, '/imu_data'])
 
             # check message time stamps for new earliest or latest time stamp
             # check whether new earliest message
@@ -176,7 +178,7 @@ class BagOrder:
             last_time = time.clock()
 
             # iterate over all messages
-            for topic, msg, t in self.bag.read_messages(topics=['/imu', '/points2', '/imu_data', '/livox/lidar']):
+            for topic, msg, t in self.bag.read_messages(topics=['/imu', '/points2', '/livox/lidar']): #, '/imu_data']):
 
                 # if not already happened remap lidar topic to correct topic name
                 if topic == '/livox/lidar':

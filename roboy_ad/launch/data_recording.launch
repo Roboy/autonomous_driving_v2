@@ -14,12 +14,12 @@
   <node pkg="rosbag" type="record" name="rosbag_record_sensors"
         args="$(arg filename_resolved) $(arg imu) $(arg lidar)" />
   
-  <!--
+  <!-- repair time stamps-->
   <include file="$(find roboy_ad)/launch/data_processing.launch">
     <arg name="bag_file" value="$(arg filename)" />
     <arg name="ref_topic" value="/livox/lidar" />
     <arg name="is_recording" value="true" />
   </include>
-  -->
+
 
 </launch>
