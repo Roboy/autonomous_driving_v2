@@ -35,7 +35,7 @@ class SteeringController:
             control_callback=self.set_spring_displacement_right,
             sample_rate=sample_rate,
             Kp=Kp, Ki=Ki, Kd=Kd,
-	    lower_limit=min_displacement, upper_limit=max_displacement
+	        lower_limit=min_displacement, upper_limit=max_displacement
         )
 	self.left_pid = AsyncPID(
 	    target_val_provider=self.get_target_angle,
@@ -43,7 +43,7 @@ class SteeringController:
             control_callback=self.set_spring_displacement_left,
             sample_rate=sample_rate,
             Kp=-Kp, Ki=-Ki, Kd=-Kd,
-	    lower_limit=min_displacement, upper_limit=max_displacement
+	        lower_limit=min_displacement, upper_limit=max_displacement
         )
         self.min_displacement = min_displacement
         self.max_displacement = max_displacement

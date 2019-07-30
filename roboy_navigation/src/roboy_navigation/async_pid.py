@@ -15,7 +15,6 @@ class AsyncPID:
                  control_callback, sample_rate, Kp=100, Ki=0.1, Kd=0.05, 
 		 lower_limit=10, upper_limit=300):
         """
-
         :param target_val_provider: callable, returns the target value for the
                 controller.
         :param actual_val_provider: callable, returns the actual value of the

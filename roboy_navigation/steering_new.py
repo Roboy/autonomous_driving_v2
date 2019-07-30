@@ -17,7 +17,7 @@ class SteeringController:
                  sample_rate=5, Kp=1, Ki=0, Kd=0,
                  min_displacement=10,
                  max_displacement=300,
-                 max_steering_angle_deg=10,
+                 max_steering_angle_deg=30,
                  zero_angle_raw=2600):
         self.angle_sensor_listener = AngleSensorListener(
             zero_angle_raw=zero_angle_raw
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     parser.add_argument('--Kd', type=int, default=100000)
     parser.add_argument('--max_disp', type=int, default=300)
     parser.add_argument('--min_disp', type=int, default=10)
-    parser.add_argument('--max_steering_angle', type=int, default=10,
+    parser.add_argument('--max_steering_angle', type=int, default=30,
                         help='Max steering angle in degrees')
     parser.add_argument('--zero_angle_raw', type=int, default=2600)
     args, _ = parser.parse_known_args()

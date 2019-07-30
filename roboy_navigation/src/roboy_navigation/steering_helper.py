@@ -40,6 +40,7 @@ def get_compensation():
     motor_l_static = np.array([MOTOR_POS_X, -MOTOR_POS_Y, MOTOR_POS_Z])
     liftingarm_r = np.array([LIFTING_ARM_POS_X, -LIFTING_ARM_POS_Y, LIFTING_ARM_POS_Z])
     liftingarm_l = np.array([LIFTING_ARM_POS_X, LIFTING_ARM_POS_Y, LIFTING_ARM_POS_Z])
+    max_angle = RICKSHAW_MAX_ANGLE
 
     for angle in range(-max_angle, max_angle, 1):
         angle_rad = (angle + 0.5) * np.pi /180
