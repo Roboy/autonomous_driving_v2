@@ -29,8 +29,4 @@
         type="startup_seq.py"
         output="screen"/>
 
-  <node name="startup_seq" pkg="roboy_navigation"
-        type="startup_seq.py"
-        output="screen"/>
-
 </launch>
