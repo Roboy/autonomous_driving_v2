@@ -2,6 +2,7 @@ obstacle_range: 10.0
 raytrace_range: 52.0
 inflation_radius: 1.0
 transform_tolerance: 2.0
+# we might need to adapt the footprint for our new architecture
 footprint: [[-0.3, -0.6], [-0.3, 0.6], [1.8, 0.5], [1.8, -0.5]]
 
 static_layer:
