@@ -3,7 +3,7 @@ Launch the navigation stack to run on a map obtained from the lidar.
 -->
 <launch>
   <arg name="nav_map_config"
-       default="$(find roboy_navigation)/config/utum_map_LIVOX.yaml"/>
+       default="$(find roboy_navigation)/config/MakerSpace_map_LIVOX.yaml"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
 	output="screen">
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
