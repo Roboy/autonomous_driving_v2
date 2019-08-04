@@ -13,7 +13,7 @@ local_costmap:
     observation_sources: livox
 
     livox: {
-      sensor_frame: livox_frame,	## to be updated
+      sensor_frame: livox_frame,
       data_type: PointCloud2,
       topic: /livox/lidar,
       marking: true,
