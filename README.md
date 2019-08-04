@@ -9,4 +9,5 @@ Build  the containers like so:
 ```
 docker build -t ad-planning -f planning.Dockerfile .
 docker build -t ad-slam -f slam.Dockerfile .
+docker build -t ad-control -f control.Dockerfile .
 ```
