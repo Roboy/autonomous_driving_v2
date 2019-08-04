@@ -1,0 +1,5 @@
+type: "velocity_controllers/JointGroupVelocityController"
+joints:
+ - joint_wheel_back
+ - joint_wheel_right
+ - joint_wheel_left
