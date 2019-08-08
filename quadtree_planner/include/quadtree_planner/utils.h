@@ -48,39 +48,6 @@ namespace quadtree_planner {
         bool operator==(const PoseWithDist &other) const;
     };
 
-
-
-    /**
-     * Conainer for storing Costmap coordinates.
-     */
-    struct Cell {
-        uint x;
-        uint y;
-        uint th;
-
-        Cell(): Cell(0, 0, 0) {}
-
-        Cell(uint x, uint y, uint th) : x(x), y(y), th(th) {}
-
-        bool operator==(const Cell &p) const {
-            return x == p.x && y == p.y && th == p.th;
-        }
-    };
-
-    /**
-    * Container for storing cells and associated cost.
-    */
-    struct CellWithDist {
-        double dist;
-        Cell cell;
-
-        CellWithDist(double dist, const Cell &cell) : dist(dist), cell(cell) {}
-
-        bool operator<(const CellWithDist &other) const;
-
-        bool operator==(const CellWithDist &other) const;
-    };
-
     /**
      * Container for storing quadtree cells and associated cost
      */
@@ -105,13 +72,6 @@ namespace quadtree_planner {
 }
 
 namespace std {
-
-    template<>
-    struct hash<quadtree_planner::Cell> {
-        std::size_t operator()(const quadtree_planner::Cell &p) const {
-            return (p.x << 26) + (p.y << 13) + p.th;
-        }
-    };
 
     template<>
     struct hash<quadtree_planner::Pose> {

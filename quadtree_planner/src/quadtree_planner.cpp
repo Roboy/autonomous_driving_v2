@@ -27,7 +27,7 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), step_size_(0.0), turning_radius_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
+        name_(""), costmap_(nullptr), turning_radius_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
@@ -42,7 +42,6 @@ namespace quadtree_planner {
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         marker_publisher_ = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
         loadParameters();
-        double dth = step_size_ / turning_radius_;
         ROS_INFO("QuadTreePlanner initialized with name '%s' ",
                  name_.c_str());
 
@@ -67,7 +66,6 @@ namespace quadtree_planner {
     void QuadTreePlanner::loadParameters() {
         ros::NodeHandle nh("~" + name_);
         nh.param<double>(std::string("turning_radius"), turning_radius_, 0.0);
-        nh.param<double>("step_size", step_size_, 0.0);
         nh.param<int>("max_allowed_time", max_allowed_time_, 20);
         nh.param<double>("goal_tolerance", goal_tolerance_, 0.5);
     }
@@ -251,27 +249,14 @@ namespace quadtree_planner {
 
     bool QuadTreePlanner::validateParameters() const {
         if (turning_radius_ <= 0) {
-            ROS_ERROR("AStarPlanner: turning radius has invalid value=%.2f. Must be greater than zero.",
+            ROS_ERROR("QuadtreePlanner: turning radius has invalid value=%.2f. Must be greater than zero.",
                       turning_radius_);
             return false;
         }
-        if (step_size_ <= 0) {
-            ROS_ERROR("AStarPlanner: step size has invalid value=%.2f. Must be greater than zero.",
-                      step_size_);
-            return false;
-        }
         if (goal_tolerance_ <= 0) {
-            ROS_ERROR("AStarPlanner: goal tolerance has invalid value=%.2f. Must be greater than zero",
+            ROS_ERROR("QuadtreePlanner: goal tolerance has invalid value=%.2f. Must be greater than zero",
                       goal_tolerance_);
             return false;
-        }
-        if (goal_tolerance_ < step_size_) {
-            ROS_WARN("AStarPlanner: goal tolerance (=%.2f) is smaller than the step size (=%.2f). "
-                     "Planner might fail to find a path.", goal_tolerance_, step_size_);
-        }
-        if (step_size_ < costmap_->getResolution()) {
-            ROS_WARN("AStarPlannner: step size (=%.2f) is smaller than costmap resolution (=%.2f). "
-                     "Planner might fail to exlore the map properly.", step_size_, costmap_->getResolution());
         }
         return true;
     }
@@ -289,109 +274,6 @@ namespace quadtree_planner {
             curr_pose = search->second;
         }
         reverse(path.begin(), path.end());
-    }
-
-    bool QuadTreePlanner::hasReachedGoal(const Pose &pos, const Pose &goal) {
-        return euclid_dist(pos, goal) <= goal_tolerance_;
-    }
-
-    // Cell based search
-    bool QuadTreePlanner::hasReachedGoalCell(const Cell &cell, const Pose &goal)
-    {
-        Pose cellPose = getPoseFromCell(cell);
-        return distEstimate(cellPose, goal) <= goal_tolerance_;
-    }
-
-    PoseWithDist QuadTreePlanner::turnLeft(const Pose &pos, double dth) const {
-        double pos_dx = -sin(pos.th) * turning_radius_;
-        double pos_dy = cos(pos.th) * turning_radius_;
-        double c_x = pos.x - pos_dx;
-        double c_y = pos.y - pos_dy;
-        double new_dx = -sin(pos.th - dth) * turning_radius_;
-        double new_dy = cos(pos.th - dth) * turning_radius_;
-        auto new_pos = Pose(c_x + new_dx, c_y + new_dy, pos.th - dth);
-        return PoseWithDist(step_size_, new_pos);
-    }
-
-    PoseWithDist QuadTreePlanner::goStraight(const Pose &pos) const {
-        auto go_straight = Pose();
-        go_straight.x = pos.x + step_size_ * cos(pos.th);
-        go_straight.y = pos.y + step_size_ * sin(pos.th);
-        go_straight.th = pos.th;
-        return PoseWithDist(step_size_, go_straight);
-    }
-
-    PoseWithDist QuadTreePlanner::turnRight(const Pose &pos, double dth) const {
-        double pos_dx = sin(pos.th) * turning_radius_;
-        double pos_dy = -cos(pos.th) * turning_radius_;
-        double c_x = pos.x - pos_dx;
-        double c_y = pos.y - pos_dy;
-        double new_dx = sin(pos.th + dth) * turning_radius_;
-        double new_dy = -cos(pos.th + dth) * turning_radius_;
-        auto new_pos = Pose(c_x + new_dx, c_y + new_dy, pos.th + dth);
-        return PoseWithDist(step_size_, new_pos);
-    }
-
-    bool QuadTreePlanner::checkBounds(const Pose &pos) const {
-        uint x, y;
-        return costmap_->worldToMap(pos.x, pos.y, x, y);
-    }
-
-
-    vector<PoseWithDist> QuadTreePlanner::getNeighbors(const Pose &pos) const {
-        double dth = step_size_ / turning_radius_;
-        return {turnLeft(pos, dth), goStraight(pos), turnRight(pos, dth)};
-    }
-
-
-    vector<CellWithDist> QuadTreePlanner::getNeighborCells(const Cell &cell) const{
-        CellWithDist upperCellWithDist = CellWithDist(step_size_, Cell());
-        CellWithDist rightCellWithDist = CellWithDist(step_size_, Cell());
-        CellWithDist lowerCellWithDist = CellWithDist(step_size_, Cell());
-        CellWithDist leftCellWithDist =  CellWithDist(step_size_, Cell());
-
-        Cell upperCell = Cell();
-        Cell lowerCell = Cell();
-        Cell rightCell = Cell();
-        Cell leftCell = Cell();
-
-        if(cell.x == costmap_->getSizeInCellsX()) {
-            upperCell = cell;
-            upperCellWithDist = CellWithDist(0.0, cell);
-            ROS_INFO("Debug Info: Reached Upper Limit of Map");
-        }
-        else {
-            upperCell = Cell(cell.x+1, cell.y, cell.th);
-            upperCellWithDist = CellWithDist(distEstimate(getPoseFromCell(cell),getPoseFromCell(upperCell)), upperCell);
-        }
-
-        if(cell.y == costmap_->getSizeInCellsY()) {
-            rightCell = cell;
-            rightCellWithDist = CellWithDist(0.0, cell);
-            ROS_INFO("Debug Info: Reached right Limit of Map");
-        } else {
-            rightCell = Cell(cell.x, cell.y+1, cell.th);
-            rightCellWithDist = CellWithDist(distEstimate(getPoseFromCell(cell),getPoseFromCell(rightCell)), rightCell);
-        }
-
-        if(cell.x > 0) {
-            lowerCell = Cell(cell.x-1, cell.y, cell.th);
-            lowerCellWithDist = CellWithDist(distEstimate(getPoseFromCell(cell),getPoseFromCell(lowerCell)), lowerCell);
-        } else {
-            lowerCell = cell;
-            lowerCellWithDist = CellWithDist(0.0, cell);
-            ROS_INFO("Debug Info: Reached lower Limit of Map");
-        }
-
-        if(cell.y > 0) {
-            leftCell = Cell(cell.x, cell.y-1, cell.th);
-            leftCellWithDist = CellWithDist(distEstimate(getPoseFromCell(cell),getPoseFromCell(leftCell)), leftCell);
-        } else {
-            leftCell = cell;
-            leftCellWithDist = CellWithDist(0.0, cell);
-            ROS_INFO("Debug Info: Reached left Limit of Map");
-        }
-        return{upperCellWithDist, rightCellWithDist, lowerCellWithDist, leftCellWithDist};
     }
 
     vector<QuadtreeCellWithDist> QuadTreePlanner::getNeighborQuads(quadtree_planner::QuadtreeCellWithDist &quad, Pose goal) const {
@@ -419,13 +301,6 @@ namespace quadtree_planner {
         return return_vector;
     }
 
-    Cell QuadTreePlanner::getCell(const Pose &pos) const {
-        Cell cell;
-        costmap_->worldToMap(pos.x, pos.y, cell.x, cell.y);
-        cell.th = 0;
-        return cell;
-    }
-
     Quadtree_SearchCell QuadTreePlanner::getQuad(const Pose &pos, std::vector<Quadtree_SearchCell> QuadtreeSearchCellVectorObject) {
         unsigned int cell_x = 0;
         unsigned int cell_y = 0;
@@ -439,13 +314,6 @@ namespace quadtree_planner {
                 return new_quad;
             }
         }
-    }
-
-    Pose QuadTreePlanner::getPoseFromCell(const Cell &cell) const {
-        Pose pos;
-        costmap_->mapToWorld(cell.x, cell.y, pos.x, pos.y);
-        pos.th = 0; // ToDo Maximilian Kempa: Think of a way to calculate the proper theta value (orientation of robot)
-        return pos;
     }
 
     Pose QuadTreePlanner::getPoseFromQuad(Quadtree_SearchCell &quad, Pose goal) const {
@@ -559,7 +427,6 @@ namespace quadtree_planner {
     }
 
 }
-
 
 // Dubin's car
 int printDubinsConfiguration(double q[3], double x, void* user_data) {

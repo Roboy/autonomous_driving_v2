@@ -49,15 +49,6 @@ namespace quadtree_planner {
         return dist < other.dist;
     }
 
-
-    bool CellWithDist::operator==(const CellWithDist &other) const {
-        return std::equal_to<Cell>()(cell, other.cell);
-    }
-
-    bool CellWithDist::operator<(const CellWithDist &other) const {
-        return dist < other.dist;
-    }
-
     bool QuadtreeCellWithDist::operator==(const QuadtreeCellWithDist &other) const {
         return std::equal_to<Quadtree_SearchCell>()(quadtreeCell, other.quadtreeCell);
     }

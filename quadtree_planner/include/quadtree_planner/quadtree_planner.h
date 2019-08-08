@@ -54,21 +54,11 @@ namespace quadtree_planner {
         // Methods that are left public for unit tests
 
         /**
-         * Initialization function for the AStarPlanner object
+         * Initialization function for the QuadtreePlanner object
          */
         void initialize(std::string name, Costmap *costmap);
 
         bool makePlan(const Pose &start, const Pose &goal, std::vector<Pose> &path);
-
-        /**
-         * Get poses reachable from the given pose by integrating a discrete set of controls
-         * over a short period of time.
-         * @param pos Pose from which to start.
-         * @return a vector of reachable poses.
-         */
-        std::vector<PoseWithDist> getNeighbors(const Pose &pos) const;
-
-        std::vector<CellWithDist> getNeighborCells(const Cell &cell) const;
 
         std::vector<QuadtreeCellWithDist> getNeighborQuads(QuadtreeCellWithDist &quad, Pose goal) const;
 
@@ -92,11 +82,6 @@ namespace quadtree_planner {
          */
         double distEstimate(const Pose &pose1, const Pose &pose2) const;
 
-        /**
-         * Snap pose to a costmap cell.
-         */
-        Cell getCell(const Pose &pos) const;
-
 
         // Quad Tree based search
         /** Snap pose to a quadtree cell
@@ -111,26 +96,9 @@ namespace quadtree_planner {
 
         bool hasReachedGoalQuad(Quadtree_SearchCell &quad, const Pose &goal);
 
-        // Cell based search
-        Pose getPoseFromCell(const Cell &cell) const;
-
         void loadParameters();
 
         bool validateParameters() const;
-
-        bool hasReachedGoal(const Pose &pos, const Pose &goal);
-
-        bool hasReachedGoalCell(const Cell &cell, const Pose &goal);
-
-        bool checkBounds(const Pose &pos) const;
-
-        bool checkBoundsCell(const Cell &cell) const;
-
-        PoseWithDist goStraight(const Pose &pos) const;
-
-        PoseWithDist turnLeft(const Pose &pos, double angle) const;
-
-        PoseWithDist turnRight(const Pose &pos, double angle) const;
 
         void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale);
 
@@ -145,7 +113,6 @@ namespace quadtree_planner {
         ros::Publisher plan_publisher_;
         int max_allowed_time_;
 
-        double step_size_;
         double turning_radius_;
         double goal_tolerance_;
 

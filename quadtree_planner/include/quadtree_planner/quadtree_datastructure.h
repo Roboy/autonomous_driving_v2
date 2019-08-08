@@ -136,8 +136,6 @@ public:
 
     // Debugging
     void printQuadtree();
- //   Quadtree_Cell* search(Point);
- //   bool inBoundary(Point);
 };
 
 
