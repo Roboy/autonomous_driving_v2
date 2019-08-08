@@ -12,7 +12,7 @@
 
   <!--record sensor data-->
   <node pkg="rosbag" type="record" name="rosbag_record_sensors"
-        args="$(arg filename_resolved) $(arg imu) $(arg lidar)" />
+        args="$(arg filename_resolved) $(arg imu) $(arg lidar) /rosout" />
   
   <!-- repair time stamps-->
   <include file="$(find roboy_ad)/launch/data_processing.launch">
