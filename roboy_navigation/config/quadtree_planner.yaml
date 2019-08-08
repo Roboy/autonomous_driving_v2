@@ -2,3 +2,4 @@ QuadTreePlanner:
   default_tolerance: 0.5
   turning_radius: 4.0
   max_allowed_time: 120
+  rickshaw_speed: 1.0

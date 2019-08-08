@@ -27,7 +27,8 @@ Launch the navigation stack to run on a static map published by map server.
   </node>
   <node pkg="roboy_navigation" type="tf_to_odom.py" respawn="false"
         name="fake_odom" output="screen"/>
-  <node name="rviz" pkg="rviz" type="rviz"
-        args="-d $(find roboy_navigation)/nav.rviz"/>
+  <node pkg="quadtree_planner" type="autonomous_driving" respawn="false"
+        name="autonomous_driving" output="screen"/>
 
 </launch>
+

@@ -18,7 +18,8 @@
 #include "../include/quadtree_planner/quadtree_datastructure.h"
 #include "../include/quadtree_planner/dubins.h"
 #include "dubins.c"
-
+#include "std_msgs/String.h"
+#include "std_msgs/Int16.h"
 
 PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner, nav_core::BaseGlobalPlanner)
 
@@ -27,7 +28,7 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), turning_radius_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
+        name_(""), costmap_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
@@ -40,7 +41,9 @@ namespace quadtree_planner {
         costmap_ = costmap;
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
-        marker_publisher_ = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+        marker_publisher_ = n.advertise<visualization_msgs::Marker>(name + "/visualization_marker", 1);
+        eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 1);
+        error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 1);
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' ",
                  name_.c_str());
@@ -68,6 +71,7 @@ namespace quadtree_planner {
         nh.param<double>(std::string("turning_radius"), turning_radius_, 0.0);
         nh.param<int>("max_allowed_time", max_allowed_time_, 20);
         nh.param<double>("goal_tolerance", goal_tolerance_, 0.5);
+        nh.param<double>("rickshaw_speed", rickshaw_speed_, 1.0);
     }
 
     bool QuadTreePlanner::makePlan(const geometry_msgs::PoseStamped &start,
@@ -82,7 +86,18 @@ namespace quadtree_planner {
             throw ex;
         }
         if (!foundPlan) {
+            std_msgs::Int16 msg;
+            msg.data = 32767;   // Invalid path --> set eta to int16_max value
+            eta_publisher_.publish(msg);
+            std_msgs::String msg2;
+            msg2.data = "No path found!";
+            error_message_publisher_.publish(msg2);
             return false;
+        } else {
+            calculateEta(positions);
+            std_msgs::String msg2;
+            msg2.data = "Valid path found!";
+            error_message_publisher_.publish(msg2);
         }
         ros::Time plan_time = ros::Time::now();
         for (auto position : positions) {
@@ -258,6 +273,10 @@ namespace quadtree_planner {
                       goal_tolerance_);
             return false;
         }
+
+        if (rickshaw_speed_ < 0) {
+            ROS_ERROR("QuadtreePlanner: rickshaw speed has invalid value=%.2f. Must be greater than or equal to zero", rickshaw_speed_);
+        }
         return true;
     }
 
@@ -346,6 +365,22 @@ namespace quadtree_planner {
     double QuadTreePlanner::distEstimate(const Pose &pose1, const Pose &pose2) const {
         return euclid_dist(pose1, pose2);
     }
+
+    double QuadTreePlanner::getPathLength(std::vector<Pose> &path) {
+        double path_length = 0;
+        for(int i = 1; i < path.size(); i++) {
+            path_length+= distEstimate(path.at(i), path.at(i-1));
+        }
+        return path_length;
+    }
+
+    void QuadTreePlanner::calculateEta(std::vector<quadtree_planner::Pose> positions){
+        double eta = getPathLength(positions) / rickshaw_speed_;
+        std_msgs::Int16 msg;
+        msg.data = (int)eta;
+        eta_publisher_.publish(msg);
+    }
+
 
     QuadTreePlanner::~QuadTreePlanner(){
         delete costmap_;

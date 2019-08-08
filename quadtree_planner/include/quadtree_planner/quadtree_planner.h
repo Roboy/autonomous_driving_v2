@@ -5,7 +5,6 @@
 #ifndef QUADTREE_PLANNER_H
 #define QUADTREE_PLANNER_H
 
-
 #include <ros/ros.h>
 #include <geometry_msgs/PoseStamped.h>
 // Costmap used for the map representation
@@ -62,6 +61,8 @@ namespace quadtree_planner {
 
         std::vector<QuadtreeCellWithDist> getNeighborQuads(QuadtreeCellWithDist &quad, Pose goal) const;
 
+        void calculateEta(std::vector<Pose> positions);
+
     private:
         /**
          * Reconstruct the path to the goal position given a set of child/parent pairs.
@@ -81,6 +82,13 @@ namespace quadtree_planner {
          * Estimated distance between two poses.
          */
         double distEstimate(const Pose &pose1, const Pose &pose2) const;
+
+        /**
+         *
+         * @param path
+         * @return path length calculated based on euclidean distance between path points
+         */
+        double getPathLength(std::vector<Pose> &path);
 
 
         // Quad Tree based search
@@ -115,9 +123,14 @@ namespace quadtree_planner {
 
         double turning_radius_;
         double goal_tolerance_;
+        double rickshaw_speed_;
 
         // Visualization
         ros::Publisher marker_publisher_;
+
+        // Communication with Luigi
+        ros::Publisher eta_publisher_;
+        ros::Publisher error_message_publisher_;
 
         // Quadtree planning
         Quadtree_Cell QuadtreeCellObject;
@@ -134,6 +147,5 @@ namespace quadtree_planner {
 int printDubinsConfiguration(double q[3], double x, void* user_data);
 std::vector<quadtree_planner::Pose> Dubins_Poses_temp;
 std::vector<quadtree_planner::Pose> Dubins_Poses_final;
-
 
 #endif //QuadTreePlanner_H

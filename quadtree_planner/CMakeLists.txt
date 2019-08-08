@@ -14,7 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
         nav_core
         roscpp
         std_msgs
-		visualization_msgs
+	visualization_msgs
+	message_generation
+	roboy_cognition_msgs
         )
 
 ## System dependencies are found with CMake's conventions
@@ -60,7 +62,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
-#   Service1.srv
 #   Service2.srv
 # )
 
@@ -74,7 +75,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   std_msgs
+#   geometry_msgs
+#  std_msgs
 # )
 
 ################################################
@@ -109,6 +111,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
         INCLUDE_DIRS include
         LIBRARIES quadtree_planner
+	CATKIN_DEPENDS message_runtime
         #  CATKIN_DEPENDS geometry_msgs move_base roscpp std_msgs
         #  DEPENDS system_lib
 )
@@ -194,6 +197,10 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
+
+add_executable(autonomous_driving src/drive_to_location_server.cpp)
+target_link_libraries(autonomous_driving ${catkin_LIBRARIES})
+# add_dependencies(drive_to_location_server roboy_cognition_msgs)
 
 #############
 ## Testing ##
