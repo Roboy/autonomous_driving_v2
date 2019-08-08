@@ -32,6 +32,7 @@ class AsyncPID:
         self.pid.output_limits = (lower_limit, upper_limit)
 
     def start(self):
+        print('started PID')
         rospy.Service('pid_config', PIDConfig, self.update_pid_config)
         Thread(target=self._run).run()
 

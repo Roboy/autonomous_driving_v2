@@ -15,8 +15,11 @@ def convert_trans_rot_vel_to_steering_angle(lin_vel, ang_vel, wheelbase):
     radius = lin_vel / ang_vel
     return atan(wheelbase / radius)
 
-def convert_angle_to_encoder(angle, zero_angle_raw=2600):
-    encoder = floor(angle / (2*pi) * 4096 + zero_angle_raw)
+def convert_angle_to_encoder(angle, zero_angle_raw=2190, 
+                             right_angle_raw=2570, right_angle=30,
+                             left_angle_raw=1810, left_angle=-30):
+    encoder = floor(angle * 180 / pi * (right_angle_raw - left_angle_raw) \
+                    / (right_angle - left_angle) + zero_angle_raw)
     return encoder
 
 class LowPassSim:

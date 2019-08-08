@@ -125,9 +125,9 @@ class AngleSensorListener:
         self.decay = decay
         self.threshold = threshold
         self.zero_angle_raw = zero_angle_raw
-        self.right_angle_raw = right_angle_raw,
-        self.right_angle = right_angle,
-        self.left_angle_raw = left_angle_raw,
+        self.right_angle_raw = right_angle_raw
+        self.right_angle = right_angle
+        self.left_angle_raw = left_angle_raw
         self.left_angle = left_angle
 
     def start(self):
@@ -137,8 +137,9 @@ class AngleSensorListener:
         def angle_receiver(raw_angle):
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
-            angle = float(
-                raw_angle.raw_angles[0] - self.zero_angle_raw) / (self.right_angle_raw[0] - self.left_angle_raw[0]) * (self.right_angle[0] - self.left_angle) * pi / 180
+            angle = float(raw_angle.raw_angles[0] - self.zero_angle_raw) \
+                    / (self.right_angle_raw - self.left_angle_raw) \
+                    * (self.right_angle - self.left_angle) * pi / 180
             self.actual_angle = angle
             self.smooth_angle = self.smooth_out(angle)
             if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:

@@ -57,15 +57,15 @@ class SteeringController:
         self.sim = sim
 
     def start(self):
-        rospy.init_node('steering_controller')
+        rospy.init_node('steering_controller_left')
         #TODO: refactor
         rospy.set_param('~wheel_base', 1.6)
         self.target_angle_listener.start()
         self.angle_sensor_listener.start()
         if not self.sim:
             self.muscle_controller.start()
-        self.right_pid.start()
         self.left_pid.start()
+
 
     def get_target_angle(self):
         angle = self.target_angle_listener.get_latest_target_angle()

@@ -2,6 +2,7 @@
 
 import rospy
 import time
+import argparse
 from math import atan, pi, tan
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
 from roboy_middleware_msgs.srv import MotorConfigService
@@ -22,7 +23,10 @@ def convert_steering_angle_to_trans_rot_vel(lin_vel, angle, wheelbase):
 
 class StartUpSequence:
 
-    def __init__(self, sequence, zero_angle_raw=2600, decay=0.95, threshold=0.1/180 * pi, threshold_angle=2):
+    def __init__(self, sequence, zero_angle_raw=2600, 
+                 right_angle_raw=2570, right_angle=30,
+                 left_angle_raw=1810, left_angle=-30, 
+                 decay=0.95, threshold=0.1/180 * pi, threshold_angle=2):
         self.rate = 5
         self.sequence = sequence
         print('sequence lenght: ', len(self.sequence))
@@ -34,6 +38,10 @@ class StartUpSequence:
         self.decay = decay
         self.threshold = threshold
         self.zero_angle_raw = zero_angle_raw
+        self.right_angle_raw = right_angle_raw
+        self.right_angle = right_angle
+        self.left_angle_raw = left_angle_raw
+        self.left_angle = left_angle
         self.threshold_angle = threshold_angle
         self.send_true = True
         #timing
@@ -58,17 +66,21 @@ class StartUpSequence:
         rate = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
             if self.counter < len(self.sequence):
-                vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, self.sequence[self.counter]['linear']*pi/180, self.wheel_base)
+                vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, 
+                                                                           self.sequence[self.counter]['linear']*pi/180, 
+                                                                           self.wheel_base)
                 vel_msg.linear.y = 0
                 vel_msg.linear.z = 0
                 vel_msg.angular.x = 0
                 vel_msg.angular.y = 0
-                vel_msg.angular.z = convert_steering_angle_to_trans_rot_vel(lin_vel, self.sequence[self.counter]['angular']*pi/180, self.wheel_base)
+                vel_msg.angular.z = convert_steering_angle_to_trans_rot_vel(lin_vel, 
+                                                                            self.sequence[self.counter]['angular']*pi/180, 
+                                                                            self.wheel_base)
                 self.pub.publish(vel_msg)
                 if not self.send_true:
                     self.send_true = True
                     self.counter += 1
-                    if self.counter + 1 >= len(self.sequence):
+                    if self.counter >= len(self.sequence):
                         rospy.signal_shutdown('Finished Startup')
                 self.target_angle = self.sequence[self.counter]['angular']*pi/180
                 self.timeout_time = self.sequence[self.counter]['timeout']
@@ -83,9 +95,9 @@ class StartUpSequence:
             # get angles
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
-            angle = float(
-                raw_angle.raw_angles[0] - self.zero_angle_raw) \
-                                / 4096 * 2 * pi
+            angle = float(raw_angle.raw_angles[0] - self.zero_angle_raw) \
+                    / (self.right_angle_raw - self.left_angle_raw) \
+                    * (self.right_angle - self.left_angle) * pi / 180
             self.actual_angle = angle
             self.smooth_angle = self.smooth_out(angle)
             if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:
@@ -120,9 +132,17 @@ class StartUpSequence:
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='ROS node publish a StartUp sequence')
+    parser.add_argument('--zero_angle_raw', type=int, default=2190)
+    parser.add_argument('--right_angle_raw', type=int, default=2570)
+    parser.add_argument('--right_angle', type=int, default=30)
+    parser.add_argument('--left_angle_raw', type=int, default=1810)
+    parser.add_argument('--left_angle', type=int, default=-30)
+    args, _ = parser.parse_known_args()
     sequence = [{'linear': 0.0, 'angular': 10, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': -10, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': 20, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': -20, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': 0, 'holdtime': 5, 'timeout': 120}]
-    StartUpSequence(sequence).start()
+    StartUpSequence(sequence, args.zero_angle_raw, args.right_angle_raw, args.right_angle, 
+        args.left_angle_raw, args.left_angle).start()

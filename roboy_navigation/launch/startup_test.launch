@@ -23,6 +23,10 @@
 
   <node name="steering_controller" pkg="roboy_navigation"
         type="steering_controller.py"
+        args="--left_motor_id $(arg left_motor_id) --right_motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --sim $(arg sim)" 
+        output="screen"/>
+  <node name="steering_controller_left" pkg="roboy_navigation"
+        type="steering_controller_left.py"
         args="--left_motor_id $(arg left_motor_id) --right_motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --sim $(arg sim)" />
   
   <node name="startup_seq" pkg="roboy_navigation"
