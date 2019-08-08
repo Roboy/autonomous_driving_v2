@@ -35,6 +35,11 @@ class StartUpSequence:
         self.zero_angle_raw = zero_angle_raw
         self.threshold_angle = threshold_angle
         self.send_true = True
+        self.timeout_start = time.time()
+        self.hold_start = time.time()
+        self.timing_started = False
+        self.hold_time = 10
+        self.timeout_time = 10
         
     def start(self):
         self.wheel_base = 1.6
@@ -54,10 +59,10 @@ class StartUpSequence:
         while not rospy.is_shutdown():
             if self.counter < len(sequence):
                 vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, sequence[self.counter]['linear']*pi/180, self.wheel_base)
-                vel_msg.linear.y = 0 #sequence[self.counter]['linear']['y']
-                vel_msg.linear.z = 0 #sequence[self.counter]['linear']['z']
-                vel_msg.angular.x = 0 #sequence[self.counter]['angular']['x']
-                vel_msg.angular.y = 0 #sequence[self.counter]['angular']['y']
+                vel_msg.linear.y = 0
+                vel_msg.linear.z = 0
+                vel_msg.angular.x = 0
+                vel_msg.angular.y = 0
                 vel_msg.angular.z = convert_steering_angle_to_trans_rot_vel(lin_vel, sequence[self.counter]['angular']*pi/180, self.wheel_base)
                 self.pub.publish(vel_msg)
                 if not self.send_true:
@@ -69,11 +74,12 @@ class StartUpSequence:
                 
             else:
                 rospy.signal_shutdown('Finished Startup')
-            rate.sleep()
+            rate.sleep()  
 
-   
+
     def listen_to_angle_sensor(self):
         def angle_receiver(raw_angle):
+            # get angles
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
             angle = float(
@@ -85,13 +91,28 @@ class StartUpSequence:
                 self.last_smooth_angle = self.smooth_angle
             #self.last_smooth_angle = angle
 
+            # check if timeout has occured
+            if (not self.timing_started) and ((time.time() - self.timeout_start) > self.timeout_time):
+                rospy.signal_shutdown('Failed Startup')
+                        
+            # check if actual angle stays in reach of desired angle for a certain time
             if abs(self.target_angle - self.last_smooth_angle) < (self.threshold_angle * pi/180) and self.send_true:
-                print('sending_next message: ', self.counter)
-                self.send_true = False
+                # start timer if threshold is frist crossed
+                if not self.timing_started:
+                    print('start timing')
+                    self.timing_started = True
+                    self.hold_start = time.time()
+                # check if time threshhold has been crossed
+                elif (time.time() - self.hold_start) > self.hold_time:
+                    print('sending_next message: ', self.counter)
+                    self.send_true = False
+                    self.timeout_start = time.time()
+            # reset timer if angle leaves threshold again 
+            elif self.timing_started:
+                self.timing_started = False
          
         rospy.Subscriber('/roboy/middleware/StearingAngle', MotorAngle,
                          angle_receiver)
-        #rospy.spin()
 
     def smooth_out(self, angle):
         return self.decay * self.smooth_angle + (1 - self.decay) * angle
