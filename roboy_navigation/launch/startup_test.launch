@@ -10,6 +10,7 @@
   <arg name="min_disp" default="!" doc="min_disp" />
   <arg name="max_steering_angle" default="!" doc="max_steering angle in degrees" />
   <arg name="zero_angle_raw" default="!" doc="zero_angle" />
+  <arg name="sim" default="False" doc="set to True if using sim" />
 
   <arg name="rate_resolved" value="$(eval '' if arg('sample_rate')=='!' else '--sample_rate ' + arg('sample_rate'))" />
   <arg name="kp_resolved" value="$(eval '' if arg('kp')=='!' else '--kp ' + arg('kp'))" />
@@ -22,11 +23,15 @@
 
   <node name="steering_controller" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="--left_motor_id $(arg left_motor_id) --right_motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved)" 
+        args="--left_motor_id $(arg left_motor_id) --right_motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --sim $(arg sim)" 
         output="screen"/>
-
+  
   <node name="startup_seq" pkg="roboy_navigation"
         type="startup_seq.py"
+        output="screen"/>
+  <node name="rick_sim" pkg="roboy_navigation"
+        type="rick_sim.py"
+        if="$(eval sim == True)"
         output="screen"/>
 
 </launch>

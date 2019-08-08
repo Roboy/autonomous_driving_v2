@@ -19,7 +19,8 @@ class SteeringController:
                  min_displacement=10,
                  max_displacement=300,
                  max_steering_angle_deg=30,
-                 zero_angle_raw=2600):
+                 zero_angle_raw=2600,
+                 sim=False):
         self.angle_sensor_listener = AngleSensorListener(zero_angle_raw=zero_angle_raw)
         self.target_angle_listener = TargetAngleListener()
         self.muscle_controller = MyoMuscleController(fpga_id=fpga_id, left_motor_id=left_motor_id, right_motor_id=right_motor_id)
@@ -33,6 +34,7 @@ class SteeringController:
         self.right_comp = self.compensation[0][0]
         self.left_comp = self.compensation[0][1]
         self.update_param = False
+        self.sim = sim
 
     def start(self):
         rospy.init_node('steering_controller')
@@ -40,7 +42,8 @@ class SteeringController:
         rospy.set_param('~wheel_base', 1.6)
         self.target_angle_listener.start()
         self.angle_sensor_listener.start()
-        self.muscle_controller.start()
+        if not self.sim:
+            self.muscle_controller.start()
         self.right_pid.start()
         self.left_pid.start()
 
@@ -64,12 +67,14 @@ class SteeringController:
     def set_spring_displacement_right(self, displacement):
         displacement *= self.right_comp
         print(displacement)
-        self.muscle_controller.send_command_right(displacement)
+        if not self.sim:
+            self.muscle_controller.send_command_right(displacement)
 
     def set_spring_displacement_left(self, displacement):
         displacement *= self.left_comp
         print(displacement)
-        self.muscle_controller.send_command_left(displacement)
+        if not self.sim:
+            self.muscle_controller.send_command_left(displacement)
 
     def clip_bounds(self, angle):
         if -self.max_steering_angle<= angle <= self.max_steering_angle:
@@ -97,6 +102,7 @@ if __name__ == '__main__':
     parser.add_argument('--max_steering_angle', type=int, default=30,
                         help='Max steering angle in degrees')
     parser.add_argument('--zero_angle_raw', type=int, default=2600)
+    parser.add_argument('--sim', type=bool, default=False)
     args, _ = parser.parse_known_args()
     print('steering_controller config:')
     print(args)
@@ -104,5 +110,5 @@ if __name__ == '__main__':
         args.fpga_id, args.left_motor_id, args.right_motor_id,
         args.sample_rate, args.Kp, args.Ki, args.Kd,
         args.min_disp, args.max_disp, args.max_steering_angle,
-        args.zero_angle_raw
+        args.zero_angle_raw, args.sim
     ).start()

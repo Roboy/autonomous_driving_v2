@@ -75,4 +75,5 @@ class LowPassSim:
 
 
 if __name__ == '__main__':
+    print('started simulation')
     LowPassSim().start()
