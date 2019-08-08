@@ -16,16 +16,35 @@ class SteeringController:
     def __init__(self,
                  fpga_id, left_motor_id, right_motor_id,
                  sample_rate=100, Kp=1, Ki=0, Kd=0,
-                 min_displacement=10,
-                 max_displacement=300,
+                 min_displacement=10, max_displacement=300,
                  max_steering_angle_deg=30,
-                 zero_angle_raw=2600,
+                 zero_angle_raw=2190,
+                 right_angle_raw=2570, right_angle=30,
+                 left_angle_raw=1810, left_angle=-30,
                  sim=False):
-        self.angle_sensor_listener = AngleSensorListener(zero_angle_raw=zero_angle_raw)
+        self.angle_sensor_listener = AngleSensorListener(zero_angle_raw=zero_angle_raw,
+                                                         right_angle_raw=right_angle_raw,
+                                                         right_angle=right_angle,
+                                                         left_angle_raw=left_angle_raw,
+                                                         left_angle=left_angle)
         self.target_angle_listener = TargetAngleListener()
-        self.muscle_controller = MyoMuscleController(fpga_id=fpga_id, left_motor_id=left_motor_id, right_motor_id=right_motor_id)
-        self.right_pid = AsyncPID(target_val_provider=self.get_target_angle, actual_val_provider=self.get_actual_angle, control_callback=self.set_spring_displacement_right, sample_rate=sample_rate, Kp=Kp, Ki=Ki, Kd=Kd, lower_limit=min_displacement, upper_limit=max_displacement)
-        self.left_pid = AsyncPID(target_val_provider=self.get_target_angle, actual_val_provider=self.get_actual_angle, control_callback=self.set_spring_displacement_left, sample_rate=sample_rate, Kp=-Kp, Ki=-Ki, Kd=-Kd, lower_limit=min_displacement, upper_limit=max_displacement)
+        self.muscle_controller = MyoMuscleController(fpga_id=fpga_id, 
+                                                     left_motor_id=left_motor_id, 
+                                                     right_motor_id=right_motor_id)
+        self.right_pid = AsyncPID(target_val_provider=self.get_target_angle, 
+                                  actual_val_provider=self.get_actual_angle, 
+                                  control_callback=self.set_spring_displacement_right, 
+                                  sample_rate=sample_rate, 
+                                  Kp=Kp, Ki=Ki, Kd=Kd, 
+                                  lower_limit=min_displacement, 
+                                  upper_limit=max_displacement)
+        self.left_pid = AsyncPID(target_val_provider=self.get_target_angle, 
+                                 actual_val_provider=self.get_actual_angle, 
+                                 control_callback=self.set_spring_displacement_left, 
+                                 sample_rate=sample_rate, 
+                                 Kp=-Kp, Ki=-Ki, Kd=-Kd, 
+                                 lower_limit=min_displacement, 
+                                 upper_limit=max_displacement)
         self.min_displacement = min_displacement
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
@@ -101,7 +120,11 @@ if __name__ == '__main__':
     parser.add_argument('--min_disp', type=int, default=10)
     parser.add_argument('--max_steering_angle', type=int, default=30,
                         help='Max steering angle in degrees')
-    parser.add_argument('--zero_angle_raw', type=int, default=2600)
+    parser.add_argument('--zero_angle_raw', type=int, default=2190)
+    parser.add_argument('--right_angle_raw', type=int, default=2570)
+    parser.add_argument('--right_angle', type=int, default=30)
+    parser.add_argument('--left_angle_raw', type=int, default=1810)
+    parser.add_argument('--left_angle', type=int, default=-30)
     parser.add_argument('--sim', type=bool, default=False)
     args, _ = parser.parse_known_args()
     print('steering_controller config:')
@@ -110,5 +133,7 @@ if __name__ == '__main__':
         args.fpga_id, args.left_motor_id, args.right_motor_id,
         args.sample_rate, args.Kp, args.Ki, args.Kd,
         args.min_disp, args.max_disp, args.max_steering_angle,
-        args.zero_angle_raw, args.sim
+        args.zero_angle_raw, args.right_angle_raw, args.right_angle, 
+        args.left_angle_raw, args.left_angle, 
+        args.sim
     ).start()

@@ -1,0 +1,7 @@
+<launch>
+  <arg name="num_msgs" default="10" doc="how many msgs to average over" />
+
+  <node name="calibration" pkg="roboy_navigation"
+        type="angle_sensor_calibration.py"
+        args="--num_msgs $(arg num_msgs)" />
+</launch>

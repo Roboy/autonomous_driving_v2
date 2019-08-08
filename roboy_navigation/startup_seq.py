@@ -23,9 +23,10 @@ def convert_steering_angle_to_trans_rot_vel(lin_vel, angle, wheelbase):
 class StartUpSequence:
 
     def __init__(self, sequence, zero_angle_raw=2600, decay=0.95, threshold=0.1/180 * pi, threshold_angle=2):
-        self.counter = 0
         self.rate = 5
         self.sequence = sequence
+        print('sequence lenght: ', len(self.sequence))
+        # angles
         self.target_angle = 0
         self.actual_angle = 0
         self.smooth_angle = 0
@@ -35,11 +36,13 @@ class StartUpSequence:
         self.zero_angle_raw = zero_angle_raw
         self.threshold_angle = threshold_angle
         self.send_true = True
+        #timing
         self.timeout_start = time.time()
+        self.timeout_time = 10
         self.hold_start = time.time()
         self.timing_started = False
         self.hold_time = 10
-        self.timeout_time = 10
+        self.counter = 0
         
     def start(self):
         self.wheel_base = 1.6
@@ -49,31 +52,29 @@ class StartUpSequence:
         self.listen_to_angle_sensor()
         self.send_msg()
 
-    def shutdown_msg():
-        print('shutting down node: sending commands')
-
     def send_msg(self):
         vel_msg = Twist()
         lin_vel = 1.0
         rate = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
-            if self.counter < len(sequence):
-                vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, sequence[self.counter]['linear']*pi/180, self.wheel_base)
+            if self.counter < len(self.sequence):
+                vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, self.sequence[self.counter]['linear']*pi/180, self.wheel_base)
                 vel_msg.linear.y = 0
                 vel_msg.linear.z = 0
                 vel_msg.angular.x = 0
                 vel_msg.angular.y = 0
-                vel_msg.angular.z = convert_steering_angle_to_trans_rot_vel(lin_vel, sequence[self.counter]['angular']*pi/180, self.wheel_base)
+                vel_msg.angular.z = convert_steering_angle_to_trans_rot_vel(lin_vel, self.sequence[self.counter]['angular']*pi/180, self.wheel_base)
                 self.pub.publish(vel_msg)
                 if not self.send_true:
                     self.send_true = True
                     self.counter += 1
-                self.target_angle = sequence[self.counter]['angular']*pi/180
+                    if self.counter + 1 >= len(self.sequence):
+                        rospy.signal_shutdown('Finished Startup')
+                self.target_angle = self.sequence[self.counter]['angular']*pi/180
+                self.timeout_time = self.sequence[self.counter]['timeout']
+                self.hold_time = self.sequence[self.counter]['holdtime']
                 #print(self.target_angle)#convert_trans_rot_vel_to_steering_angle(
                     #lin_vel, sequence[self.counter]['angular'], self.wheel_base)
-                
-            else:
-                rospy.signal_shutdown('Finished Startup')
             rate.sleep()  
 
 
@@ -104,7 +105,7 @@ class StartUpSequence:
                     self.hold_start = time.time()
                 # check if time threshhold has been crossed
                 elif (time.time() - self.hold_start) > self.hold_time:
-                    print('sending_next message: ', self.counter)
+                    print('sending_next message: ', self.counter + 1)
                     self.send_true = False
                     self.timeout_start = time.time()
             # reset timer if angle leaves threshold again 
@@ -119,9 +120,9 @@ class StartUpSequence:
 
 
 if __name__ == '__main__':
-    sequence = [{'linear': 0.0, 'angular': 10},
-                {'linear': 0.0, 'angular': -10},
-                {'linear': 0.0, 'angular': 20},
-                {'linear': 0.0, 'angular': -20},
-                {'linear': 0.0, 'angular': 0}]
+    sequence = [{'linear': 0.0, 'angular': 10, 'holdtime': 5, 'timeout': 120},
+                {'linear': 0.0, 'angular': -10, 'holdtime': 5, 'timeout': 120},
+                {'linear': 0.0, 'angular': 20, 'holdtime': 5, 'timeout': 120},
+                {'linear': 0.0, 'angular': -20, 'holdtime': 5, 'timeout': 120},
+                {'linear': 0.0, 'angular': 0, 'holdtime': 5, 'timeout': 120}]
     StartUpSequence(sequence).start()
