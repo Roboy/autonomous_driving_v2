@@ -65,6 +65,7 @@ POSE_GRAPH.optimize_every_n_nodes = 40 --100
 --POSE_GRAPH.optimization_problem.ceres_solver_options.max_num_iterations = 10
 --POSE_GRAPH.constraint_builder.min_score = 0.8
 --POSE_GRAPH.constraint_builder.global_localization_min_score = 0.66
+POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher_3d.linear_z_search_window = 3. --1.
 
 
 

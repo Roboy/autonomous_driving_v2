@@ -32,7 +32,7 @@
   <joint name="laser_joint" type="fixed">
     <parent link="imu" />
     <child link="livox_frame" />
-    <origin xyz="0.16735 0.0 0.030"/>
+    <origin xyz="0.20335 0.0 0.030"/>
   </joint>
 
   
