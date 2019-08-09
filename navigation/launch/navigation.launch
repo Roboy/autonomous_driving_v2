@@ -22,7 +22,9 @@ Launch the navigation stack to run on a static map published by map server.
               command="load" ns="local_costmap"/>
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
-     <param name="base_global_planner" value="quadtree_planner::QuadTreePlanner"/>
+    <param name="base_global_planner" value="quadtree_planner::QuadTreePlanner"/>
+    <param name="recovery_behavior_enabled" value="false" />
+    <param name="max_planning_retries" value="0" />
   </node>
   <node pkg="navigation" type="tf_to_odom.py" respawn="false"
         name="fake_odom" output="screen"/>

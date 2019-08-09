@@ -21,7 +21,8 @@ Launch the navigation stack to run on a map obtained from the lidar.
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
     <param name="base_global_planner" value="quadtree_planner::QuadTreePlanner"/>
-    <!--<param name="base_global_planner" value="global_planner/GlobalPlanner"/>-->
+    <param name="recovery_behavior_enabled" value="false" />
+    <param name="max_planning_retries" value="0" />
   </node>
   <node pkg="quadtree_planner" type="autonomous_driving" respawn="false"
         name="autonomous_driving" output="screen"/>
