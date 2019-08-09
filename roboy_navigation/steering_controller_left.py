@@ -85,13 +85,13 @@ class SteeringController:
         return actual_angle
 
     def set_spring_displacement_right(self, displacement):
-        displacement *= self.right_comp
+        #displacement *= self.right_comp
         print(displacement, 'right')
         if not self.sim:
             self.muscle_controller.send_command_right(displacement)
 
     def set_spring_displacement_left(self, displacement):
-        displacement *= self.left_comp
+        #displacement *= self.left_comp
         print(displacement, 'left')
         if not self.sim:
             self.muscle_controller.send_command_left(displacement)
@@ -114,9 +114,9 @@ if __name__ == '__main__':
     parser.add_argument('--right_motor_id', type=int, required=True)
     parser.add_argument('--fpga_id', type=int, default=4)
     parser.add_argument('--sample_rate', type=int, default=100)
-    parser.add_argument('--Kp', type=int, default=500000)
+    parser.add_argument('--Kp', type=int, default=100)
     parser.add_argument('--Ki', type=int, default=0)
-    parser.add_argument('--Kd', type=int, default=100000)
+    parser.add_argument('--Kd', type=int, default=0)
     parser.add_argument('--max_disp', type=int, default=300)
     parser.add_argument('--min_disp', type=int, default=10)
     parser.add_argument('--max_steering_angle', type=int, default=30,
