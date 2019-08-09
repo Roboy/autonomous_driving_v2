@@ -16,6 +16,7 @@
 
 <launch>
   <arg name="no_rviz" default="false" />
+  <arg name="offline" default="false"/>
   <param name="/use_sim_time" value="true" />
 
   <param name="robot_description"
@@ -39,6 +40,9 @@
     <node name="rviz" pkg="rviz" type="rviz" required="true"
         args="-d $(find cartographer_ros)/configuration_files/testrig3D.rviz" />
   </group>
-  <node name="playbag" pkg="rosbag" type="play"
-      args="--clock $(arg bag_filename)" />
+  
+  <group if="$(arg offline)">
+    <node name="playbag" pkg="rosbag" type="play"
+        args="--clock $(arg bag_filename)" />
+  </group>
 </launch>
