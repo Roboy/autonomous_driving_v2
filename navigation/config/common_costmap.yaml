@@ -2,7 +2,7 @@ obstacle_range: 10.0
 raytrace_range: 52.0
 inflation_radius: 1.0
 transform_tolerance: 2.0
-footprint: [[-1.9, -0.6], [-1.9, 0.6], [1.0, 0.5], [1.0, -0.5]]
+footprint: [[-0.3, -0.6], [-0.3, 0.6], [1.8, 0.5], [1.8, -0.5]]
 
 static_layer:
   lethal_cost_threshold: 50
