@@ -6,6 +6,9 @@ WORKDIR /home/ros
 RUN apt-get update && \
     apt-get install -y sudo ninja-build python-catkin-tools python-wstool python-rosdep ros-melodic-abseil-cpp ros-melodic-catkin ros-melodic-map-server ros-melodic-geometry2 ros-melodic-moveit-msgs net-tools
 
+# Install vim
+RUN apt install vim -y
+
 # Initialize ROS
 RUN /bin/bash -c 'source /opt/ros/melodic/setup.bash'
 
