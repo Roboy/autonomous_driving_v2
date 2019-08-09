@@ -36,6 +36,7 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     std::string coordinates = req.coordinates.c_str();
     eta_received = false;
     error_message_received = false;
+    bool location_unknown = false;
     // Send 2D nav goal according to received coordinates(string) from Luigi
     // Publish simple 2D nav goal
     move_base_msgs::MoveBaseActionGoal ActionGoal;
@@ -73,15 +74,25 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
         navGoalPublisher_.publish(ActionGoal);
+    } else {
+        location_unknown = true;
     }
 
-    // Wait for messages
-    while( (!eta_received) || (!error_message_received) ) {
-        ros::spinOnce();;
-    }
 
-    res.eta = eta;    // Subscribes to eta from QuadTreePlanner
-    res.error_message = error_message.data; // Subscribes to error_message from QuadTreePlanner
+
+    if (location_unknown) {
+       res.eta = 32767;
+       res.error_message = "Location unknown!";
+    }
+    else {
+       // Wait for messages
+       while ((!eta_received) || (!error_message_received)) {
+           ros::spinOnce();;
+       }
+        res.eta = eta;    // Subscribes to eta from QuadTreePlanner
+        res.error_message = error_message.data; // Subscribes to error_message from QuadTreePlanner
+    }
+    
     ROS_INFO("sending back response eta: [%i], error_message: [%s]", res.eta, res.error_message.c_str());
     return true;
 }
