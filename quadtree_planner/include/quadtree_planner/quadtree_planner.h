@@ -73,7 +73,7 @@ namespace quadtree_planner {
          *              The first element is the start position, the last element - goal position.
          */
         void getPath(const std::unordered_map<Pose, Pose> &parents,
-                     const Pose &goal_pos,
+                     const Pose &goal_pos, const Pose &start_pos,
                      std::vector<Pose> &path) const;
 
         void publishPlan(std::vector<geometry_msgs::PoseStamped> &path);

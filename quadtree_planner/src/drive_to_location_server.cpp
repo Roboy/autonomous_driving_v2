@@ -37,22 +37,41 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     eta_received = false;
     error_message_received = false;
     // Send 2D nav goal according to received coordinates(string) from Luigi
+    // Publish simple 2D nav goal
+    move_base_msgs::MoveBaseActionGoal ActionGoal;
+    move_base_msgs::MoveBaseGoal goal;
+
+    //we'll send a goal to the robot to move 1 meter forward
+    ActionGoal.header.frame_id = "";
+    ActionGoal.header.stamp = ros::Time::now();
+    ActionGoal.goal.target_pose.header.frame_id = "map";
+    ActionGoal.goal.target_pose.header.stamp = ros::Time::now();
+    // IMPORTANT: Positions are just mock positions as map is not avaible yet
+    // ToDo: Replace positions by correct values once the maps are available
     if(coordinates == "test_location") {
-        // Publish simple 2D nav goal
-        move_base_msgs::MoveBaseActionGoal ActionGoal;
-        move_base_msgs::MoveBaseGoal goal;
-
-        //we'll send a goal to the robot to move 1 meter forward
-        ActionGoal.header.frame_id = "";
-        ActionGoal.header.stamp = ros::Time::now();
-
-        ActionGoal.goal.target_pose.header.frame_id = "map";
-        ActionGoal.goal.target_pose.header.stamp = ros::Time::now();
-
         ActionGoal.goal.target_pose.pose.position.x = 17.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-
+        navGoalPublisher_.publish(ActionGoal);
+    } else if (coordinates == "mensa") {
+        ActionGoal.goal.target_pose.pose.position.x = 19.0;
+        ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        navGoalPublisher_.publish(ActionGoal);
+    } else if (coordinates == "mi") {
+        ActionGoal.goal.target_pose.pose.position.x = 21.0;
+        ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        navGoalPublisher_.publish(ActionGoal);
+    } else if (coordinates == "mw") {
+        ActionGoal.goal.target_pose.pose.position.x = 23.0;
+        ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        navGoalPublisher_.publish(ActionGoal);
+    } else if (coordinates == "ubahn") {
+        ActionGoal.goal.target_pose.pose.position.x = 25.0;
+        ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
         navGoalPublisher_.publish(ActionGoal);
     }
 

@@ -202,7 +202,7 @@ namespace quadtree_planner {
             ROS_INFO("The found goal quad has the cell coordinates Top Left %i x %i y, Bottom Right %i x %i y and cartesian coordinates %f x %f y %f th", reached_quad.topLeft.x, reached_quad.topLeft.y, reached_quad.botRight.x, reached_quad.botRight.y, goal_quad_pose.x, goal_quad_pose.y, goal_quad_pose.th);
             double distanceGoalQuadRealGoal = distEstimate(goal_quad_pose, goal);
             ROS_INFO("The distance of the reached goal position to the real goal is %f m", distanceGoalQuadRealGoal);
-            getPath(parentsQuadsPoses, goal_quad_pose, path);
+            getPath(parentsQuadsPoses, goal_quad_pose, start, path);
 
             // Path Refinement (Dubin's car)
             // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path
@@ -281,9 +281,9 @@ namespace quadtree_planner {
     }
 
     void QuadTreePlanner::getPath(const unordered_map<Pose, Pose> &parents,
-                               const Pose &goal_pose,
+                               const Pose &goal_pos, const Pose &start_pos,
                                vector<Pose> &path) const {
-        auto curr_pose = goal_pose;
+        auto curr_pose = goal_pos;
         while (true) {
             path.push_back(curr_pose);
             auto search = parents.find(curr_pose);
@@ -293,6 +293,7 @@ namespace quadtree_planner {
             curr_pose = search->second;
         }
         reverse(path.begin(), path.end());
+        path.insert(path.begin(),start_pos);
     }
 
     vector<QuadtreeCellWithDist> QuadTreePlanner::getNeighborQuads(quadtree_planner::QuadtreeCellWithDist &quad, Pose goal) const {

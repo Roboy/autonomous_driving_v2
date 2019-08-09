@@ -3,6 +3,7 @@ import sys
 import rospy
 from roboy_cognition_msgs.srv import DriveToLocation
 
+# This script is supposed to be used only as test script for the communication between Luigi and autononomous driving via the service DriveToLocation (located in roboy_cognition_msgs)
 def ad_communication(location):
     rospy.wait_for_service('autonomous_driving')
     try:
@@ -15,4 +16,4 @@ def ad_communication(location):
     # return 42, ""
 
 if __name__ == "__main__":
-    ad_communication("test_location")
+    ad_communication("mensa")
