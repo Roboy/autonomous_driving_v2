@@ -15,7 +15,7 @@
 """
 import rospy
 import numpy as np
-from math import atan, pi
+from math import atan, pi, floor
 
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
 from roboy_middleware_msgs.srv import MotorConfigService
@@ -32,9 +32,12 @@ MOTOR_POS_Z = 10
 LIFTING_ARM_POS_X = 65
 LIFTING_ARM_POS_Y = 12
 LIFTING_ARM_POS_Z = 0
+LEFT_MOTOR_ID = 9
+RIGHT_MOTOR_ID = 10
 
-def get_compensation():
-    compensation = {}
+def get_compensation(motor_id):
+    left_motor = {}
+    right_motor = {}
 
     motor_r_static = np.array([MOTOR_POS_X, MOTOR_POS_Y, MOTOR_POS_Z])
     motor_l_static = np.array([MOTOR_POS_X, -MOTOR_POS_Y, MOTOR_POS_Z])
@@ -55,8 +58,13 @@ def get_compensation():
         cross_r = np.cross(liftingarm_r, tendon_r)
         cross_l = np.cross(liftingarm_l, tendon_l)
 
-        compensation[angle] = (abs(np.divide(np.linalg.norm(tendon_r), cross_r[2])),
-	                       abs(np.divide(np.linalg.norm(tendon_l), cross_l[2])))
+        right_motor[str(int(floor(angle)))] = abs(np.divide(np.linalg.norm(tendon_r), cross_r[2]))
+        left_motor[str(int(floor(angle)))] = abs(np.divide(np.linalg.norm(tendon_l), cross_l[2]))
+    if motor_id == LEFT_MOTOR_ID:
+        compensation = right_motor
+    elif motor_id == RIGHT_MOTOR_ID:
+        compensation = left_motor
+    else: print('Wrong motor ID provided')
     return compensation
 
 def testing_seq():
@@ -169,10 +177,9 @@ class AngleSensorListener:
 
 class MyoMuscleController:
 
-    def __init__(self, fpga_id, left_motor_id, right_motor_id, init_disp=10):
+    def __init__(self, fpga_id, motor_id, init_disp=10):
         self.fpga_id = fpga_id
-        self.left_motor_id = left_motor_id
-        self.right_motor_id = right_motor_id
+        self.motor_id = motor_id
         self.init_disp = init_disp
 
     def start(self):
@@ -181,7 +188,7 @@ class MyoMuscleController:
                                          queue_size=1)
         rospy.logwarn('CAREFUL! Myo-muscle controller is activated, '
                       'rickshaw will start turning if cmd_vel command is set.')
-        self.set_control_mode()
+        #self.set_control_mode()
 
     def set_control_mode(self):
         config_motors_service = rospy.ServiceProxy(
@@ -190,34 +197,27 @@ class MyoMuscleController:
         )
         config = MotorConfig(
             id=self.fpga_id,
-            motors=[self.left_motor_id, self.right_motor_id],
-            control_mode=[MOTOR_CONTROL_DISPLACEMENT, MOTOR_CONTROL_DISPLACEMENT],
-            output_pos_max=[1000, 1000],
-            output_neg_max=[-1000, -1000],
-            sp_pos_max=[1000000, 1000000],
-            sp_neg_max=[-1000000, -1000000],
-            integral_pos_max=[1000, 1000],
-            integral_neg_max=[-1000, -1000],
-            kp=[200, 200],
-            ki=[0, 0],
-            kd=[0, 0],
-            forward_gain=[0, 0],
-            dead_band=[0, 0],
-            output_divider=[1, 1],
-            setpoint=[self.init_disp, self.init_disp]
+            motors=[self.motor_id],
+            control_mode=[MOTOR_CONTROL_DISPLACEMENT],
+            output_pos_max=[1000],
+            output_neg_max=[-1000],
+            sp_pos_max=[1000000],
+            sp_neg_max=[-1000000],
+            integral_pos_max=[1000],
+            integral_neg_max=[-1000],
+            kp=[200],
+            ki=[0],
+            kd=[0],
+            forward_gain=[0],
+            dead_band=[0],
+            output_divider=[1],
+            setpoint=[self.init_disp]
         )
         config_motors_service(config)
 
-    def send_command_right(self, effort_right):
+    def send_command(self, effort):
         command = MotorCommand()
         command.id = self.fpga_id
-        command.motors = [self.right_motor_id]
-        command.set_points = [effort_right]
-        self.publisher.publish(command)
-
-    def send_command_left(self, effort_left):
-        command = MotorCommand()
-        command.id = self.fpga_id
-        command.motors = [self.left_motor_id]
-        command.set_points = [effort_left]
+        command.motors = [self.motor_id]
+        command.set_points = [effort]
         self.publisher.publish(command)

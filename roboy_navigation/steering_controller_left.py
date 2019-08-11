@@ -53,7 +53,7 @@ class SteeringController:
         self.compensation = get_compensation()
         self.right_comp = self.compensation[0][0]
         self.left_comp = self.compensation[0][1]
-        self.update_param = False
+        self.update_param = True
         self.sim = sim
 
     def start(self):
@@ -62,8 +62,7 @@ class SteeringController:
         rospy.set_param('~wheel_base', 1.6)
         self.target_angle_listener.start()
         self.angle_sensor_listener.start()
-        if not self.sim:
-            self.muscle_controller.start()
+        self.muscle_controller.start()
         self.left_pid.start()
 
 
@@ -85,16 +84,15 @@ class SteeringController:
         return actual_angle
 
     def set_spring_displacement_right(self, displacement):
-        #displacement *= self.right_comp
+        print(displacement)
+        displacement *= self.right_comp
         print(displacement, 'right')
-        if not self.sim:
-            self.muscle_controller.send_command_right(displacement)
+        self.muscle_controller.send_command_right(displacement)
 
     def set_spring_displacement_left(self, displacement):
-        #displacement *= self.left_comp
+        displacement *= self.left_comp
         print(displacement, 'left')
-        if not self.sim:
-            self.muscle_controller.send_command_left(displacement)
+        self.muscle_controller.send_command_left(displacement)
 
     def clip_bounds(self, angle):
         if -self.max_steering_angle<= angle <= self.max_steering_angle:

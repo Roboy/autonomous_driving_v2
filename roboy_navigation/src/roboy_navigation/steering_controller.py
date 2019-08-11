@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import argparse
+
 from math import pi, floor
 
 import rospy
@@ -60,8 +61,7 @@ class SteeringController:
     def get_actual_angle(self):
         actual_angle = self.angle_sensor_listener.get_latest_smooth_angle()
         if self.update_param:
-            clipped_angle = self.clip_bounds(actual_angle)
-            angle_deg_discrete = str(int(floor(clipped_angle * 180 / pi)))
+            angle_deg_discrete = floor(actual_angle * 180 / pi)
             self.comp = self.compensation[angle_deg_discrete]
        	    lower_limit = self.min_displacement / self.comp
             upper_limit = self.max_displacement / self.comp
@@ -84,32 +84,3 @@ class SteeringController:
                       self.max_steering_angle_deg
                       )
         return min(max(angle, -self.max_steering_angle), self.max_steering_angle)
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='ROS node to control the steering myomuscles')
-    parser.add_argument('--motor_id', type=int, required=True)
-    parser.add_argument('--fpga_id', type=int, default=4)
-    parser.add_argument('--sample_rate', type=int, default=100)
-    parser.add_argument('--Kp', type=int, default=100)
-    parser.add_argument('--Ki', type=int, default=0)
-    parser.add_argument('--Kd', type=int, default=0)
-    parser.add_argument('--max_disp', type=int, default=300)
-    parser.add_argument('--min_disp', type=int, default=10)
-    parser.add_argument('--max_steering_angle', type=int, default=30,
-                        help='Max steering angle in degrees')
-    parser.add_argument('--zero_angle_raw', type=int, default=2190)
-    parser.add_argument('--right_angle_raw', type=int, default=2570)
-    parser.add_argument('--right_angle', type=int, default=30)
-    parser.add_argument('--left_angle_raw', type=int, default=1810)
-    parser.add_argument('--left_angle', type=int, default=-30)
-    args, _ = parser.parse_known_args()
-    print('steering_controller config:')
-    print(args)
-    SteeringController(
-        args.fpga_id, args.motor_id,
-        args.sample_rate, args.Kp, args.Ki, args.Kd,
-        args.min_disp, args.max_disp, args.max_steering_angle,
-        args.zero_angle_raw, args.right_angle_raw, args.right_angle, 
-        args.left_angle_raw, args.left_angle
-    ).start()
