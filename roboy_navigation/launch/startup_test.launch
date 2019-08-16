@@ -23,11 +23,11 @@
 
   <node name="steering_controller_right" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="--motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved)" 
+        args="--motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --direction right" 
         output="screen"/>
   <node name="steering_controller_left" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="--motor_id $(arg left_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved)" 
+        args="--motor_id $(arg left_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --direction left" 
         output="screen"/>
   
   <node name="startup_seq" pkg="roboy_navigation"

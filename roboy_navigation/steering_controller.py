@@ -69,8 +69,12 @@ class SteeringController:
         return actual_angle
 
     def set_spring_displacement(self, displacement):
-        print(displacement, self.comp)
-        displacement *= self.comp
+        #displacement *= self.comp
+        print(displacement)
+        if displacement < self.min_displacement:
+            displacement = self.min_displacement
+        elif displacement > self.max_displacement:
+            displacement = self.max_displacement
         print(displacement, self.motor_id)
         self.muscle_controller.send_command(displacement)
 
@@ -103,7 +107,16 @@ if __name__ == '__main__':
     parser.add_argument('--right_angle', type=int, default=30)
     parser.add_argument('--left_angle_raw', type=int, default=1810)
     parser.add_argument('--left_angle', type=int, default=-30)
+    parser.add_argument('--direction', type=str)
     args, _ = parser.parse_known_args()
+    if args.direction == 'right':
+        pass
+    elif args.direction == 'left':
+        args.Kp *= -1
+        args.Ki *= -1
+        args.Kd *= -1
+    else:
+        print('wrong direction argument')
     print('steering_controller config:')
     print(args)
     SteeringController(

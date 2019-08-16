@@ -1,0 +1,7 @@
+gains:
+    k_p: 500
+    k_i: 0
+    k_d: 1
+displacement:
+    min_disp: 10
+    max_disp: 300
