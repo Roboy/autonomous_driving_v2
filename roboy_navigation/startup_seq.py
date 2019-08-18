@@ -3,6 +3,9 @@
 import rospy
 import time
 import argparse
+import yaml
+import os
+import rospkg
 from math import atan, pi, tan
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
 from roboy_middleware_msgs.srv import MotorConfigService
@@ -132,17 +135,16 @@ class StartUpSequence:
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='ROS node publish a StartUp sequence')
-    parser.add_argument('--zero_angle_raw', type=int, default=2190)
-    parser.add_argument('--right_angle_raw', type=int, default=2570)
-    parser.add_argument('--right_angle', type=int, default=30)
-    parser.add_argument('--left_angle_raw', type=int, default=1810)
-    parser.add_argument('--left_angle', type=int, default=-30)
-    args, _ = parser.parse_known_args()
+    config_path = os.path.join(rospkg.RosPack().get_path('roboy_navigation'), 'config')
+    # calibration
+    with open(os.path.join(config_path, 'calibration.yaml'), 'r') as ymlfile:
+        calibration = yaml.load(ymlfile)
+
     sequence = [{'linear': 0.0, 'angular': 10, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': -10, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': 20, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': -20, 'holdtime': 5, 'timeout': 120},
                 {'linear': 0.0, 'angular': 0, 'holdtime': 5, 'timeout': 120}]
-    StartUpSequence(sequence, args.zero_angle_raw, args.right_angle_raw, args.right_angle, 
-        args.left_angle_raw, args.left_angle).start()
+
+    StartUpSequence(sequence, calibration['raw']['raw_middle'], calibration['raw']['raw_right'], calibration['angles']['right'], 
+        calibration['raw']['raw_left'], calibration['angles']['left']).start()

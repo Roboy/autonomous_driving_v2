@@ -1,6 +1,9 @@
 #!/usr/bin/python
 import argparse
 from math import pi, floor
+import yaml
+import os
+import rospkg
 
 import rospy
 
@@ -13,7 +16,7 @@ from roboy_navigation.steering_helper import TargetAngleListener, \
 class SteeringController:
 
     def __init__(self,
-                 fpga_id, motor_id,
+                 fpga_id, motor_id, comp,
                  sample_rate=100, Kp=1, Ki=0, Kd=0,
                  min_displacement=10, max_displacement=300,
                  max_steering_angle_deg=30,
@@ -40,7 +43,7 @@ class SteeringController:
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
         self.max_steering_angle = float(max_steering_angle_deg) / 180 * pi
-        self.compensation = get_compensation(self.motor_id)
+        self.compensation = comp
         self.update_param =True
 
     def start(self):
@@ -62,7 +65,7 @@ class SteeringController:
         if self.update_param:
             clipped_angle = self.clip_bounds(actual_angle)
             angle_deg_discrete = str(int(floor(clipped_angle * 180 / pi)))
-            self.comp = self.compensation[angle_deg_discrete]
+            self.comp = float(self.compensation[angle_deg_discrete])
        	    lower_limit = self.min_displacement / self.comp
             upper_limit = self.max_displacement / self.comp
             self.pid.set_limits(lower_limit, upper_limit)
@@ -91,38 +94,56 @@ class SteeringController:
 
 
 if __name__ == '__main__':
+    config_path = os.path.join(rospkg.RosPack().get_path('roboy_navigation'), 'config')
+    # electronics
+    with open(os.path.join(config_path, 'electronics.yaml'), 'r') as ymlfile:
+        electronics = yaml.safe_load(ymlfile) 
+    # controller
+    with open(os.path.join(config_path, 'controller.yaml'), 'r') as ymlfile:
+        controller = yaml.safe_load(ymlfile)
+    # compensation
+    with open(os.path.join(config_path, 'compensation.yaml'), 'r') as ymlfile:
+        compensation = yaml.safe_load(ymlfile)
+    # calibration
+    with open(os.path.join(config_path, 'calibration.yaml'), 'r') as ymlfile:
+        calibration = yaml.safe_load(ymlfile)
+    # geometry
+    with open(os.path.join(config_path, 'geometry.yaml'), 'r') as ymlfile:
+        geometry = yaml.safe_load(ymlfile)
+    
     parser = argparse.ArgumentParser(description='ROS node to control the steering myomuscles')
-    parser.add_argument('--motor_id', type=int, required=True)
-    parser.add_argument('--fpga_id', type=int, default=4)
-    parser.add_argument('--sample_rate', type=int, default=100)
-    parser.add_argument('--Kp', type=int, default=100)
-    parser.add_argument('--Ki', type=int, default=0)
-    parser.add_argument('--Kd', type=int, default=0)
-    parser.add_argument('--max_disp', type=int, default=300)
-    parser.add_argument('--min_disp', type=int, default=10)
-    parser.add_argument('--max_steering_angle', type=int, default=30,
-                        help='Max steering angle in degrees')
-    parser.add_argument('--zero_angle_raw', type=int, default=2190)
-    parser.add_argument('--right_angle_raw', type=int, default=2570)
-    parser.add_argument('--right_angle', type=int, default=30)
-    parser.add_argument('--left_angle_raw', type=int, default=1810)
-    parser.add_argument('--left_angle', type=int, default=-30)
+    parser.add_argument('--motor_id', type=int)
+    parser.add_argument('--fpga_id', type=int, default=electronics['IDs']['fpga_id'])
+    parser.add_argument('--sample_rate', type=int, default=controller['sample_rate'])
+    parser.add_argument('--Kp', type=int, default=controller['gains']['k_p'])
+    parser.add_argument('--Ki', type=int, default=controller['gains']['k_i'])
+    parser.add_argument('--Kd', type=int, default=controller['gains']['k_d'])
+    parser.add_argument('--max_disp', type=int, default=controller['displacement']['max_disp'])
+    parser.add_argument('--min_disp', type=int, default=controller['displacement']['min_disp'])
     parser.add_argument('--direction', type=str)
     args, _ = parser.parse_known_args()
+
     if args.direction == 'right':
-        pass
-    elif args.direction == 'left':
+        motor_id = electronics['IDs']['right_motor_id']
+        comp = compensation['right_comp']
         args.Kp *= -1
         args.Ki *= -1
         args.Kd *= -1
+    elif args.direction == 'left':
+        motor_id = electronics['IDs']['left_motor_id']
+        comp = compensation['left_comp']
     else:
-        print('wrong direction argument')
+        print('Wrong direction argument')
+    if args.motor_id is not None:
+        motor_id = args.motor_id
+
     print('steering_controller config:')
     print(args)
+    config_path = os.path.join(rospkg.RosPack().get_path('roboy_navigation'), 'config')
     SteeringController(
-        args.fpga_id, args.motor_id,
+        args.fpga_id, motor_id, comp,
         args.sample_rate, args.Kp, args.Ki, args.Kd,
-        args.min_disp, args.max_disp, args.max_steering_angle,
-        args.zero_angle_raw, args.right_angle_raw, args.right_angle, 
-        args.left_angle_raw, args.left_angle
+        args.min_disp, args.max_disp, geometry['max_steering_angle'],
+        calibration['raw']['raw_middle'], calibration['raw']['raw_right'], calibration['angles']['right'], 
+        calibration['raw']['raw_left'], calibration['angles']['left']
     ).start()

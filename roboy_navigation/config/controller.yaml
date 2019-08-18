@@ -5,3 +5,4 @@ gains:
 displacement:
     min_disp: 10
     max_disp: 300
+sample_rate: 5

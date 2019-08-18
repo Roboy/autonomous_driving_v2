@@ -1,7 +1,7 @@
 <launch>
-  <arg name="left_motor_id" doc="path to the bagfile whose messages should be reordered" />
-  <arg name="right_motor_id" doc="path to the bagfile whose messages should be reordered" />
-  <arg name="fpga_id" doc="fpga_id" />
+  <arg name="left_motor_id" default="!" doc="path to the bagfile whose messages should be reordered" />
+  <arg name="right_motor_id" default="!" doc="path to the bagfile whose messages should be reordered" />
+  <arg name="fpga_id" default="!" doc="fpga_id" />
   <arg name="sample_rate" default="!" doc="sample rate in Hz" />
   <arg name="kp" default="!" doc="kp" />
   <arg name="ki" default="!" doc="ki" />
@@ -9,25 +9,25 @@
   <arg name="max_disp" default="!" doc="max_disp" />
   <arg name="min_disp" default="!" doc="min_disp" />
   <arg name="max_steering_angle" default="!" doc="max_steering angle in degrees" />
-  <arg name="zero_angle_raw" default="!" doc="zero_angle" />
   <arg name="sim" default="False" doc="set to True if using sim" />
 
+  <arg name="left_resolved" value="$(eval '' if arg('left_motor_id')=='!' else '--motor_id ' + str(arg('left_motor_id')))" />
+  <arg name="right_resolved" value="$(eval '' if arg('right_motor_id')=='!' else '--motor_id ' + str(arg('right_motor_id')))" />
+  <arg name="fpga_resolved" value="$(eval '' if arg('fpga_id')=='!' else '--fpga_id ' + str(arg('fpga_id')))" />
   <arg name="rate_resolved" value="$(eval '' if arg('sample_rate')=='!' else '--sample_rate ' + str(arg('sample_rate')))" />
   <arg name="kp_resolved" value="$(eval '' if arg('kp')=='!' else '--Kp ' + str(arg('kp')))" />
   <arg name="ki_resolved" value="$(eval '' if arg('ki')=='!' else '--Ki ' + str(arg('ki')))" />
   <arg name="kd_resolved" value="$(eval '' if arg('kd')=='!' else '--Kd ' + str(arg('kd')))" />
   <arg name="max_disp_resolved" value="$(eval '' if arg('max_disp')=='!' else '--max_disp ' + str(arg('max_disp')))" />
   <arg name="min_disp_resolved" value="$(eval '' if arg('min_disp')=='!' else '--min_disp ' + str(arg('min_disp')))" />
-  <arg name="angle_resolved" value="$(eval '' if arg('max_steering_angle')=='!' else '--max_steering_angle ' + str(arg('max_steering_angle')))" />
-  <arg name="zero_raw_resolved" value="$(eval '' if arg('zero_angle_raw')=='!' else '--zero_angle_raw ' + str(arg('zero_angle_raw')))" />
 
   <node name="steering_controller_right" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="--motor_id $(arg right_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --direction right" 
+        args="$(arg right_resolved) $(arg fpga_resolved) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) --direction right" 
         output="screen"/>
   <node name="steering_controller_left" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="--motor_id $(arg left_motor_id) --fpga_id $(arg fpga_id) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) $(arg angle_resolved) $(arg zero_raw_resolved) --direction left" 
+        args="$(arg left_resolved) $(arg fpga_resolved) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) --direction left" 
         output="screen"/>
   
   <node name="startup_seq" pkg="roboy_navigation"
