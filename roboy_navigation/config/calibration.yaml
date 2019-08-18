@@ -1,0 +1,8 @@
+angles:
+  left: 20
+  middle: 10
+  right: 30
+raw:
+  raw_left: 3200
+  raw_middle: 3200
+  raw_right: 3200
