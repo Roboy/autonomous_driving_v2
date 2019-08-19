@@ -11,3 +11,9 @@ Build  the container with the this command:
 ```
 docker build -t adv2 .
 ```
+
+In general, add `--network=host` to enable network connection via the host PC
+For building the sensors Docker add `-d --device=/dev/ttyUSB0` to the docker run
+```
+sudo docker run -it -d --device=/dev/ttyUSB0 --network=host --name docker_name docker_name:latest
+```
