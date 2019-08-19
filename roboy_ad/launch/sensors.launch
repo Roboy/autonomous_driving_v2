@@ -9,7 +9,9 @@
 
     <include unless="$(arg rviz)" file="$(find livox_ros_driver)/launch/livox_lidar.launch"/>
   </group>
-
+  
+  <node name="lidar_converter" pkg="roboy_ad"
+        type="lidar_remapping.py"/>
   <include file="$(find roboy_ad)/launch/imu_converter.launch" if="$(arg launch_imu)"/>
 
 </launch>
