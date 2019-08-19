@@ -30,4 +30,5 @@ RUN catkin config \
 
 RUN chmod +x /home/ros/src/roboy_ad/src/fixBag3D.py
 RUN chmod +x /home/ros/src/roboy_ad/imu/imu_remapping.py
+RUN chmod +x /home/ros/src/roboy_ad/src/lidar_remapping.py
 RUN adduser root dialout
