@@ -5,9 +5,6 @@
 [submodule "roboy_communication"]
 	path = roboy_communication
 	url = https://github.com/Roboy/roboy_communication.git
-[submodule "roboy_rqt_plugins"]
-	path = roboy_rqt_plugins
-	url = https://github.com/Roboy/roboy_rqt_plugins
 [submodule "common_utilities"]
 	path = common_utilities
 	url = https://github.com/Roboy/common_utilities.git
