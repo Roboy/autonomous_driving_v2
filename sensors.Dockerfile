@@ -32,3 +32,9 @@ RUN chmod +x /home/ros/src/roboy_ad/src/fixBag3D.py
 RUN chmod +x /home/ros/src/roboy_ad/imu/imu_remapping.py
 RUN chmod +x /home/ros/src/roboy_ad/src/lidar_remapping.py
 RUN adduser root dialout
+
+RUN touch /root/.bashrc && \
+    echo 'source /home/ros/devel/setup.bash' >> /root/.bashrc && \
+    echo 'export ROS_MASTER_URI=http://192.168.0.105:11311' >> /root/.bashrc && \
+    echo 'export ROS_HOSTNAME=192.168.0.105' >> /root/.bashrc && \
+    echo 'export ROS_IP=192.168.0.105' >> /root/.bashrc

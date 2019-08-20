@@ -30,3 +30,9 @@ RUN rm -r ./src/cartographer_ros
 RUN catkin config \
       --extend /opt/ros/$ROS_DISTRO && \
     catkin build
+
+RUN touch /root/.bashrc && \
+    echo 'source /home/ros/devel/setup.bash' >> /root/.bashrc && \
+    echo 'export ROS_MASTER_URI=http://192.168.0.105:11311' >> /root/.bashrc && \
+    echo 'export ROS_HOSTNAME=192.168.0.105' >> /root/.bashrc && \
+    echo 'export ROS_IP=192.168.0.105' >> /root/.bashrc

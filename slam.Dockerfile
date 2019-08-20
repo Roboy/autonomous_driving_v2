@@ -18,4 +18,10 @@ RUN src/cartographer/scripts/install_proto3.sh && \
 
 # Build catkin workspace
 RUN catkin config --extend /opt/ros/melodic && \
-  catkin build
+    catkin build
+
+RUN touch /root/.bashrc && \
+    echo 'source /home/ros/devel/setup.bash' >> /root/.bashrc && \
+    echo 'export ROS_MASTER_URI=http://192.168.0.105:11311' >> /root/.bashrc && \
+    echo 'export ROS_HOSTNAME=192.168.0.105' >> /root/.bashrc && \
+    echo 'export ROS_IP=192.168.0.105' >> /root/.bashrc
