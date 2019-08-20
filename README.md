@@ -1,15 +1,15 @@
 # Autonomous Driving V2
 
-## Docker
-
-Clone this branch onto the Computer you want to deploy (should be Leia). First, if not already happened, create the docker folder (`mkdir docker`). Then, clone the Dockerfile from this repo using the command
+Clone this branch onto the Computer you want to deploy (should be Leia). First, if not already happened, create the docker folder (`mkdir docker`). Then, clone the .Dockerfiles from this repo using the command
 ```
-git clone -b docker https://github.com/Roboy/autonomous_driving_v2.git  ./docker
+git clone -b master https://github.com/Roboy/autonomous_driving_v2.git  ./docker
 ```
 
-Build  the container with the this command:
+Build  the containers like so:
 ```
-docker build -t adv2 .
+docker build -t ad-planning -f planning.Dockerfile .
+docker build -t ad-slam -f slam.Dockerfile .
+docker build -t ad-control -f control.Dockerfile .
 ```
 
 In general, add `--network=host` to enable network connection via the host PC.\
