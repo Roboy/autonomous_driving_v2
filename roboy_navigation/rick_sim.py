@@ -20,7 +20,7 @@ class LowPassSim:
         self.goal_angle = 0
         self.angle = MotorAngle()
         self.rate = 5
-        self.time_constant = 0.1
+        self.time_constant = 0.5
         self.current_angle = 0
         self.wheel_base = 1.6
         self.zero_angle_raw = zero_angle_raw
@@ -47,7 +47,6 @@ class LowPassSim:
         while not rospy.is_shutdown():
             self.listen_to_target_angle()
             self.current_angle = self.goal_angle - ((self.goal_angle - self.starting_angle) * exp(- self.time_constant * self.counter/self.rate))
-            #self.angle.raw_angles = [2600]
             self.angle.raw_angles = [self.convert_angle_to_encoder(self.current_angle)]
             self.pub.publish(self.angle)
             self.counter += 1

@@ -32,7 +32,8 @@ class StartUpSequence:
                  decay=0.95, threshold=0.1/180 * pi, threshold_angle=2):
         self.rate = 5
         self.sequence = sequence
-        print('sequence lenght: ', len(self.sequence))
+        print(self.sequence)
+        print('sequence lenght: {}'.format(len(self.sequence)))
         # angles
         self.target_angle = 0
         self.actual_angle = 0
@@ -88,8 +89,6 @@ class StartUpSequence:
                 self.target_angle = self.sequence[self.counter]['angular']*pi/180
                 self.timeout_time = self.sequence[self.counter]['timeout']
                 self.hold_time = self.sequence[self.counter]['holdtime']
-                #print(self.target_angle)#convert_trans_rot_vel_to_steering_angle(
-                    #lin_vel, sequence[self.counter]['angular'], self.wheel_base)
             rate.sleep()  
 
 
@@ -105,7 +104,6 @@ class StartUpSequence:
             self.smooth_angle = self.smooth_out(angle)
             if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:
                 self.last_smooth_angle = self.smooth_angle
-            #self.last_smooth_angle = angle
 
             # check if timeout has occured
             if (not self.timing_started) and ((time.time() - self.timeout_start) > self.timeout_time):
@@ -120,7 +118,7 @@ class StartUpSequence:
                     self.hold_start = time.time()
                 # check if time threshhold has been crossed
                 elif (time.time() - self.hold_start) > self.hold_time:
-                    print('sending_next message: ', self.counter + 1)
+                    print('sending_next message: {}'.format(self.counter + 1))
                     self.send_true = False
                     self.timeout_start = time.time()
             # reset timer if angle leaves threshold again 
@@ -139,12 +137,9 @@ if __name__ == '__main__':
     # calibration
     with open(os.path.join(config_path, 'calibration.yaml'), 'r') as ymlfile:
         calibration = yaml.load(ymlfile)
-
-    sequence = [{'linear': 0.0, 'angular': 10, 'holdtime': 5, 'timeout': 120},
-                {'linear': 0.0, 'angular': -10, 'holdtime': 5, 'timeout': 120},
-                {'linear': 0.0, 'angular': 20, 'holdtime': 5, 'timeout': 120},
-                {'linear': 0.0, 'angular': -20, 'holdtime': 5, 'timeout': 120},
-                {'linear': 0.0, 'angular': 0, 'holdtime': 5, 'timeout': 120}]
+    # startup sequence
+    with open(os.path.join(config_path, 'startup.yaml'), 'r') as ymlfile:
+        sequence = yaml.load(ymlfile)
 
     StartUpSequence(sequence, calibration['raw']['raw_middle'], calibration['raw']['raw_right'], calibration['angles']['right'], 
         calibration['raw']['raw_left'], calibration['angles']['left']).start()

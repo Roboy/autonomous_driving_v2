@@ -9,9 +9,9 @@ from roboy_middleware_msgs.msg import MotorAngle
 
 class AngleSensorCalibration:
 
-    def __init__(self, num_msgs=10):
+    def __init__(self, num_msgs=100):
         self.num_msgs = num_msgs
-        self.counter = 0
+        self.rate = 1
         self.target_angles = ('middle', 'right', 'left')
         self.default_angles = dict(middle = 0,
                                    right = -30,
@@ -21,11 +21,10 @@ class AngleSensorCalibration:
         self.raw = {}
 
     def start(self):
-        def callback(msg):
-            self.data.append(msg.raw_angles[0])
-            self.counter += 1
+        
 
         rospy.init_node('angle_calibration', anonymous=True)
+        rate = rospy.Rate(self.rate)
         for angle in self.target_angles:
             print('Move the rickshaw to the {}'.format(angle))
             try:
@@ -37,17 +36,20 @@ class AngleSensorCalibration:
                 input('If rickshaw is in position press Enter...')
             except SyntaxError:
                 pass
+            print('Hold in place')
 
             self.angles[angle] = input_angle
 
             self.data = []
             self.counter = 0
-            while self.counter < self.num_msgs:
-                message = rospy.Subscriber('/roboy/middleware/StearingAngle', MotorAngle, callback)
-                #data.append(message.raw_angles[0])
+            for self.counter in range(self.num_msgs):
+                message = rospy.wait_for_message('/roboy/middleware/StearingAngle', MotorAngle)
+                self.data.append(message.raw_angles[0])
+                rate.sleep()
             collected_data = np.asarray(self.data)
             raw_angle = 'raw_' + angle
             self.raw[raw_angle] = int(collected_data.mean())
+            print('You can release the rickshaw.')
         calibration = dict(raw = self.raw,
                            angles = self.angles)
 
