@@ -4,7 +4,7 @@ WORKDIR /home/ros
 
 # Install system libraries
 RUN apt-get update && \
-    apt-get install -y sudo apt-utils ninja-build python-catkin-tools python-wstool python-rosdep ros-melodic-catkin ros-melodic-map-server ros-melodic-geometry2 ros-melodic-moveit-msgs net-tools
+    apt-get install -y sudo vim apt-utils ninja-build python-catkin-tools python-wstool python-rosdep ros-melodic-catkin ros-melodic-map-server ros-melodic-geometry2 ros-melodic-moveit-msgs net-tools
 
 # Compile cartographer
 WORKDIR /home/ros

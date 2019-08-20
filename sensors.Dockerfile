@@ -10,6 +10,9 @@ RUN git clone -b devel_sensors https://github.com/Roboy/autonomous_driving_v2.gi
 RUN chmod +x src/package_requirements.sh
 RUN bash src/package_requirements.sh
 
+RUN apt update && \
+    apt install  -y sudo vim
+
 # Get Livox SDK from GIT
 RUN cd /
 RUN git clone https://github.com/Livox-SDK/Livox-SDK.git &&  \
