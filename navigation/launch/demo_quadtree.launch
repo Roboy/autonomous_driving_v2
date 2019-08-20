@@ -1,4 +1,7 @@
 <launch>
-   <include file="$(find simulation)/launch/tricycle.launch"/>
-   <include file="$(find navigation)/launch/navigation.launch"/>
+  <arg name="rviz" default="false" doc="bool, whether or not to start rviz on the host"/>
+  <include file="$(find simulation)/launch/tricycle.launch"/>
+  <include file="$(find navigation)/launch/navigation.launch"/> 
+  <node name="rviz" pkg="rviz" type="rviz"
+        args="-d $(find navigation)/nav.rviz" if="$(arg rviz)" />
 </launch>

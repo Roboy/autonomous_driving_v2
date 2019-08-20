@@ -131,6 +131,7 @@ namespace quadtree_planner {
         // Communication with Luigi
         ros::Publisher eta_publisher_;
         ros::Publisher error_message_publisher_;
+        ros::Publisher path_found_publisher_;
 
         // Quadtree planning
         Quadtree_Cell QuadtreeCellObject;

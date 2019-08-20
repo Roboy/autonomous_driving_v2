@@ -20,6 +20,7 @@
 #include "dubins.c"
 #include "std_msgs/String.h"
 #include "std_msgs/Int16.h"
+#include "std_msgs/Bool.h"
 
 PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner, nav_core::BaseGlobalPlanner)
 
@@ -42,8 +43,9 @@ namespace quadtree_planner {
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         marker_publisher_ = n.advertise<visualization_msgs::Marker>(name + "/visualization_marker", 1);
-        eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 1);
-        error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 1);
+        eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 100, true);
+        error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
+        path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' ",
                  name_.c_str());
@@ -90,14 +92,20 @@ namespace quadtree_planner {
             msg.data = 32767;   // Invalid path --> set eta to int16_max value
             eta_publisher_.publish(msg);
             std_msgs::String msg2;
+            std_msgs::Bool msg3;
+            msg3.data = false;
             msg2.data = "No path found!";
             error_message_publisher_.publish(msg2);
+            path_found_publisher_.publish(msg3);
             return false;
         } else {
             calculateEta(positions);
             std_msgs::String msg2;
+            std_msgs::Bool msg3;
             msg2.data = "Valid path found!";
+            msg3.data = true;
             error_message_publisher_.publish(msg2);
+            path_found_publisher_.publish(msg3);
         }
         ros::Time plan_time = ros::Time::now();
         for (auto position : positions) {
@@ -125,6 +133,7 @@ namespace quadtree_planner {
             return false;
         }
 
+        // Quadtree based search
         // Quadtree based search
         ROS_INFO("Starting instantiation of data structures");
 
