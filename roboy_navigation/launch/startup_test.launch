@@ -10,6 +10,7 @@
   <arg name="min_disp" default="!" doc="min_disp" />
   <arg name="max_steering_angle" default="!" doc="max_steering angle in degrees" />
   <arg name="sim" default="False" doc="set to True if using sim" />
+  <arg name="drive" default="False" doc="set to True if you want to drive" />
 
   <arg name="left_resolved" value="$(eval '' if arg('left_motor_id')=='!' else '--motor_id ' + str(arg('left_motor_id')))" />
   <arg name="right_resolved" value="$(eval '' if arg('right_motor_id')=='!' else '--motor_id ' + str(arg('right_motor_id')))" />
@@ -23,10 +24,17 @@
 
   <node name="steering_controller_right" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="$(arg right_resolved) $(arg fpga_resolved) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) --direction right" />
+        args="$(arg right_resolved) $(arg fpga_resolved) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) --direction right" 
+        output="screen"/>
   <node name="steering_controller_left" pkg="roboy_navigation"
         type="steering_controller.py"
-        args="$(arg left_resolved) $(arg fpga_resolved) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) --direction left"/>
+        args="$(arg left_resolved) $(arg fpga_resolved) $(arg rate_resolved) $(arg kp_resolved) $(arg ki_resolved) $(arg kd_resolved) $(arg max_disp_resolved) $(arg min_disp_resolved) --direction left"
+        output="screen"/>
+
+  <node name="rickshaw_controller" pkg="roboy_navigation"
+        type="rickshaw_controller.py
+        if="$(eval drive == True)"
+        output="screen" />
   
   <node name="startup_seq" pkg="roboy_navigation"
         type="startup_seq.py"

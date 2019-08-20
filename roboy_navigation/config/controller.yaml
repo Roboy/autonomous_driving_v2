@@ -1,8 +1,8 @@
 gains:
-    k_p: 500
+    k_p: 10000
     k_i: 0
-    k_d: 1
+    k_d: 300000
 displacement:
     min_disp: 10
-    max_disp: 300
+    max_disp: 1000
 sample_rate: 5
