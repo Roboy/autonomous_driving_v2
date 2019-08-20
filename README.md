@@ -11,3 +11,9 @@ docker build -t ad-planning -f planning.Dockerfile .
 docker build -t ad-slam -f slam.Dockerfile .
 docker build -t ad-control -f control.Dockerfile .
 ```
+
+In general, add `--network=host` to enable network connection via the host PC.\
+For building the sensors Docker add `-d --device=/dev/ttyUSB0` to the docker run
+```
+sudo docker run -it -d --device=/dev/ttyUSB0 --network=host --name docker_name docker_name:latest bash
+```

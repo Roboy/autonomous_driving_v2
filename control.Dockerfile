@@ -13,8 +13,9 @@ RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E
 RUN chmod +x src/package_requirements.sh
 RUN bash src/package_requirements.sh
 
-RUN apt install python-pip -y && \
-apt install vim -y
+RUN apt update && \
+    apt install -y python-pip vim
+
 RUN pip install -r src/pip_requirements.txt --user
 
 # Prepare git submodules
@@ -26,3 +27,9 @@ git submodule update
 RUN catkin config \
       --extend /opt/ros/$ROS_DISTRO && \
     catkin build
+
+RUN touch /root/.bashrc && \
+    echo 'source /home/ros/devel/setup.bash' >> /root/.bashrc && \
+    echo 'export ROS_MASTER_URI=http://192.168.0.105:11311' >> /root/.bashrc && \
+    echo 'export ROS_HOSTNAME=192.168.0.105' >> /root/.bashrc && \
+    echo 'export ROS_IP=192.168.0.105' >> /root/.bashrc

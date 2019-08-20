@@ -1,22 +1,25 @@
-FROM ros:kinetic-robot
+FROM ros:melodic-robot
 
 # Set working directory
-WORKDIR /home
+WORKDIR /home/ros
 
 # Get autonomous driving src folder from GIT
-RUN git clone -b devel_planning https://github.com/Roboy/autonomous_driving_v2.git  ./src
-
-# Set up Kinetic keys
-RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+RUN git clone -b devel_sensors https://github.com/Roboy/autonomous_driving_v2.git  ./src
 
 # Install required packages
 RUN chmod +x src/package_requirements.sh
 RUN bash src/package_requirements.sh
 
 RUN apt update && \
-    apt install -y python-pip vim
+    apt install  -y sudo vim
 
-RUN pip install -r src/pip_requirements.txt --user
+# Get Livox SDK from GIT
+RUN cd /
+RUN git clone https://github.com/Livox-SDK/Livox-SDK.git &&  \
+	cd Livox-SDK/build && \
+	cmake .. && \
+ 	make && \
+	make install
 
 # Prepare git submodules
 RUN cd src && \
@@ -27,6 +30,11 @@ git submodule update
 RUN catkin config \
       --extend /opt/ros/$ROS_DISTRO && \
     catkin build
+
+RUN chmod +x /home/ros/src/roboy_ad/src/fixBag3D.py
+RUN chmod +x /home/ros/src/roboy_ad/imu/imu_remapping.py
+RUN chmod +x /home/ros/src/roboy_ad/src/lidar_remapping.py
+RUN adduser root dialout
 
 RUN touch /root/.bashrc && \
     echo 'source /home/ros/devel/setup.bash' >> /root/.bashrc && \
