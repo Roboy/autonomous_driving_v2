@@ -30,4 +30,6 @@ Launch the navigation stack to run on a static map published by map server.
         name="fake_odom" output="screen"/>
   <node pkg="quadtree_planner" type="autonomous_driving" respawn="false"
         name="autonomous_driving" output="screen"/>
+  <node pkg="quadtree_planner" type="calculateHasArrivedFlag.py" respawn="false"
+        name="calculateFlag" output="screen"/>
 </launch>
