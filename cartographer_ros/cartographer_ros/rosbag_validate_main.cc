@@ -20,8 +20,8 @@
 #include <set>
 #include <string>
 
-#include "absl/memory/memory.h"
 #include "cartographer/common/histogram.h"
+#include "cartographer/common/make_unique.h"
 #include "cartographer_ros/msg_conversion.h"
 #include "gflags/gflags.h"
 #include "glog/logging.h"
@@ -72,7 +72,7 @@ const std::set<std::string> kPointDataTypes = {
         ros::message_traits::DataType<sensor_msgs::LaserScan>::value())};
 
 std::unique_ptr<std::ofstream> CreateTimingFile(const std::string& frame_id) {
-  auto timing_file = absl::make_unique<std::ofstream>(
+  auto timing_file = ::cartographer::common::make_unique<std::ofstream>(
       std::string("timing_") + frame_id + ".csv", std::ios_base::out);
 
   (*timing_file)
@@ -219,15 +219,14 @@ class RangeDataChecker {
     const cartographer::sensor::TimedPointCloud& point_cloud =
         std::get<0>(point_cloud_time).points;
     *to = std::get<1>(point_cloud_time);
-    *from = *to + cartographer::common::FromSeconds(point_cloud[0].time);
+    *from = *to + cartographer::common::FromSeconds(point_cloud[0][3]);
     Eigen::Vector4f points_sum = Eigen::Vector4f::Zero();
-    for (const auto& point : point_cloud) {
-      points_sum.head<3>() += point.position;
-      points_sum[3] += point.time;
+    for (const Eigen::Vector4f& point : point_cloud) {
+      points_sum += point;
     }
     if (point_cloud.size() > 0) {
-      double first_point_relative_time = point_cloud[0].time;
-      double last_point_relative_time = (*point_cloud.rbegin()).time;
+      double first_point_relative_time = point_cloud[0][3];
+      double last_point_relative_time = (*point_cloud.rbegin())[3];
       if (first_point_relative_time > 0) {
         LOG_FIRST_N(ERROR, 1)
             << "Sensor with frame_id \"" << message.header.frame_id
@@ -312,13 +311,13 @@ void Run(const std::string& bag_filename, const bool dump_timing) {
     auto& entry = frame_id_to_properties.at(frame_id);
     if (!first_packet) {
       const double delta_t_sec = (time - entry.last_timestamp).toSec();
-      if (delta_t_sec <= 0) {
+      if (delta_t_sec < 0) {
         LOG_FIRST_N(ERROR, 3)
             << "Sensor with frame_id \"" << frame_id
-            << "\" jumps backwards in time, i.e. timestamps are not strictly "
-               "increasing. Make sure that the bag contains the data for each "
-               "frame_id sorted by header.stamp, i.e. the order in which they "
-               "were acquired from the sensor.";
+            << "\" jumps backwards in time. Make sure that the bag "
+               "contains the data for each frame_id sorted by "
+               "header.stamp, i.e. the order in which they were "
+               "acquired from the sensor.";
       }
       entry.time_deltas.push_back(delta_t_sec);
     }

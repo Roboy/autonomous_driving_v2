@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include "absl/memory/memory.h"
 #include "cartographer/cloud/client/map_builder_stub.h"
 #include "cartographer_ros/node.h"
 #include "cartographer_ros/node_options.h"
@@ -22,9 +21,6 @@
 #include "gflags/gflags.h"
 #include "tf2_ros/transform_listener.h"
 
-DEFINE_bool(collect_metrics, false,
-            "Activates the collection of runtime metrics. If activated, the "
-            "metrics can be accessed via a ROS service.");
 DEFINE_string(configuration_directory, "",
               "First directory in which configuration files are searched, "
               "second is always the Cartographer installation to allow "
@@ -33,7 +29,8 @@ DEFINE_string(configuration_basename, "",
               "Basename, i.e. not containing any directory prefix, of the "
               "configuration file.");
 DEFINE_string(server_address, "localhost:50051",
-              "gRPC server address to stream the sensor data to.");
+              "gRPC server address to "
+              "stream the sensor data to.");
 DEFINE_bool(
     start_trajectory_with_default_topics, true,
     "Enable to immediately start the first trajectory with default topics.");
@@ -42,16 +39,7 @@ DEFINE_string(
     "If non-empty, serialize state and write it to disk before shutting down.");
 DEFINE_string(load_state_filename, "",
               "If non-empty, filename of a .pbstream file "
-              "to load, containing a saved SLAM state. "
-              "Unless --upload_load_state_file is set, the filepath refers "
-              "to the gRPC server's file system.");
-DEFINE_bool(load_frozen_state, true,
-            "Load the saved state as frozen (non-optimized) trajectories.");
-DEFINE_bool(upload_load_state_file, false,
-            "Upload the .pbstream file from a local path to the (remote) gRPC "
-            "server instead of loading it from the server file system.");
-DEFINE_string(client_id, "",
-              "Cartographer client ID to use when connecting to the server.");
+              "to load, containing a saved SLAM state.");
 
 namespace cartographer_ros {
 namespace {
@@ -65,19 +53,13 @@ void Run() {
   std::tie(node_options, trajectory_options) =
       LoadOptions(FLAGS_configuration_directory, FLAGS_configuration_basename);
 
-  auto map_builder = absl::make_unique<::cartographer::cloud::MapBuilderStub>(
-      FLAGS_server_address, FLAGS_client_id);
+  auto map_builder =
+      cartographer::common::make_unique<::cartographer::cloud::MapBuilderStub>(
+          FLAGS_server_address);
+  Node node(node_options, std::move(map_builder), &tf_buffer);
 
-  if (!FLAGS_load_state_filename.empty() && !FLAGS_upload_load_state_file) {
-    map_builder->LoadStateFromFile(FLAGS_load_state_filename,
-                                   FLAGS_load_frozen_state);
-  }
-
-  Node node(node_options, std::move(map_builder), &tf_buffer,
-            FLAGS_collect_metrics);
-
-  if (!FLAGS_load_state_filename.empty() && FLAGS_upload_load_state_file) {
-    node.LoadState(FLAGS_load_state_filename, FLAGS_load_frozen_state);
+  if (!FLAGS_load_state_filename.empty()) {
+    node.LoadState(FLAGS_load_state_filename, true /* load_frozen_state */);
   }
 
   if (FLAGS_start_trajectory_with_default_topics) {
@@ -90,8 +72,7 @@ void Run() {
   node.RunFinalOptimization();
 
   if (!FLAGS_save_map_filename.empty()) {
-    node.SerializeState(FLAGS_save_map_filename,
-                        false /* include_unfinished_submaps */);
+    node.SerializeState(FLAGS_save_map_filename);
   }
 }
 
@@ -106,7 +87,6 @@ int main(int argc, char** argv) {
       << "-configuration_directory is missing.";
   CHECK(!FLAGS_configuration_basename.empty())
       << "-configuration_basename is missing.";
-  CHECK(!FLAGS_client_id.empty()) << "-client_id is missing.";
 
   ::ros::init(argc, argv, "cartographer_grpc_node");
   ::ros::start();

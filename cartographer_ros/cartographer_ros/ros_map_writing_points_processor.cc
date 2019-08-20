@@ -16,7 +16,7 @@
 
 #include "cartographer_ros/ros_map_writing_points_processor.h"
 
-#include "absl/memory/memory.h"
+#include "cartographer/common/make_unique.h"
 #include "cartographer/io/image.h"
 #include "cartographer/io/probability_grid_points_processor.h"
 #include "cartographer_ros/ros_map.h"
@@ -34,15 +34,15 @@ RosMapWritingPointsProcessor::RosMapWritingPointsProcessor(
       next_(next),
       file_writer_factory_(file_writer_factory),
       range_data_inserter_(range_data_inserter_options),
-      probability_grid_(::cartographer::io::CreateProbabilityGrid(
-          resolution, &conversion_tables_)) {}
+      probability_grid_(::cartographer::io::CreateProbabilityGrid(resolution)) {
+}
 
 std::unique_ptr<RosMapWritingPointsProcessor>
 RosMapWritingPointsProcessor::FromDictionary(
     ::cartographer::io::FileWriterFactory file_writer_factory,
     ::cartographer::common::LuaParameterDictionary* const dictionary,
     ::cartographer::io::PointsProcessor* const next) {
-  return absl::make_unique<RosMapWritingPointsProcessor>(
+  return ::cartographer::common::make_unique<RosMapWritingPointsProcessor>(
       dictionary->GetDouble("resolution"),
       ::cartographer::mapping::CreateProbabilityGridRangeDataInserterOptions2D(
           dictionary->GetDictionary("range_data_inserter").get()),

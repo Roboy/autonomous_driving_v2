@@ -50,25 +50,25 @@ TEST(MsgConversion, LaserScanToPointCloud) {
   const auto point_cloud =
       std::get<0>(ToPointCloudWithIntensities(laser_scan)).points;
   EXPECT_TRUE(
-      point_cloud[0].position.isApprox(Eigen::Vector3f(1.f, 0.f, 0.f), kEps));
-  EXPECT_TRUE(point_cloud[1].position.isApprox(
-      Eigen::Vector3f(1.f / std::sqrt(2.f), 1.f / std::sqrt(2.f), 0.f), kEps));
-  EXPECT_TRUE(
-      point_cloud[2].position.isApprox(Eigen::Vector3f(0.f, 1.f, 0.f), kEps));
-  EXPECT_TRUE(point_cloud[3].position.isApprox(
-      Eigen::Vector3f(-1.f / std::sqrt(2.f), 1.f / std::sqrt(2.f), 0.f), kEps));
-  EXPECT_TRUE(
-      point_cloud[4].position.isApprox(Eigen::Vector3f(-1.f, 0.f, 0.f), kEps));
-  EXPECT_TRUE(point_cloud[5].position.isApprox(
-      Eigen::Vector3f(-1.f / std::sqrt(2.f), -1.f / std::sqrt(2.f), 0.f),
+      point_cloud[0].isApprox(Eigen::Vector4f(1.f, 0.f, 0.f, 0.f), kEps));
+  EXPECT_TRUE(point_cloud[1].isApprox(
+      Eigen::Vector4f(1.f / std::sqrt(2.f), 1.f / std::sqrt(2.f), 0.f, 0.f),
       kEps));
   EXPECT_TRUE(
-      point_cloud[6].position.isApprox(Eigen::Vector3f(0.f, -1.f, 0.f), kEps));
-  EXPECT_TRUE(point_cloud[7].position.isApprox(
-      Eigen::Vector3f(1.f / std::sqrt(2.f), -1.f / std::sqrt(2.f), 0.f), kEps));
-  for (int i = 0; i < 8; ++i) {
-    EXPECT_NEAR(point_cloud[i].time, 0.f, kEps);
-  }
+      point_cloud[2].isApprox(Eigen::Vector4f(0.f, 1.f, 0.f, 0.f), kEps));
+  EXPECT_TRUE(point_cloud[3].isApprox(
+      Eigen::Vector4f(-1.f / std::sqrt(2.f), 1.f / std::sqrt(2.f), 0.f, 0.f),
+      kEps));
+  EXPECT_TRUE(
+      point_cloud[4].isApprox(Eigen::Vector4f(-1.f, 0.f, 0.f, 0.f), kEps));
+  EXPECT_TRUE(point_cloud[5].isApprox(
+      Eigen::Vector4f(-1.f / std::sqrt(2.f), -1.f / std::sqrt(2.f), 0.f, 0.f),
+      kEps));
+  EXPECT_TRUE(
+      point_cloud[6].isApprox(Eigen::Vector4f(0.f, -1.f, 0.f, 0.f), kEps));
+  EXPECT_TRUE(point_cloud[7].isApprox(
+      Eigen::Vector4f(1.f / std::sqrt(2.f), -1.f / std::sqrt(2.f), 0.f, 0.f),
+      kEps));
 }
 
 TEST(MsgConversion, LaserScanToPointCloudWithInfinityAndNaN) {
@@ -88,11 +88,9 @@ TEST(MsgConversion, LaserScanToPointCloudWithInfinityAndNaN) {
       std::get<0>(ToPointCloudWithIntensities(laser_scan)).points;
   ASSERT_EQ(2, point_cloud.size());
   EXPECT_TRUE(
-      point_cloud[0].position.isApprox(Eigen::Vector3f(0.f, 2.f, 0.f), kEps));
+      point_cloud[0].isApprox(Eigen::Vector4f(0.f, 2.f, 0.f, 0.f), kEps));
   EXPECT_TRUE(
-      point_cloud[1].position.isApprox(Eigen::Vector3f(-3.f, 0.f, 0.f), kEps));
-  EXPECT_NEAR(point_cloud[0].time, 0.f, kEps);
-  EXPECT_NEAR(point_cloud[1].time, 0.f, kEps);
+      point_cloud[1].isApprox(Eigen::Vector4f(-3.f, 0.f, 0.f, 0.f), kEps));
 }
 
 ::testing::Matcher<const LandmarkObservation&> EqualsLandmark(
@@ -123,7 +121,7 @@ TEST(MsgConversion, LandmarkListToLandmarkData) {
   landmark_0.tracking_from_landmark_transform.orientation.z = 0.0;
   landmark_0.translation_weight = 1.0;
   landmark_0.rotation_weight = 2.0;
-  message.landmarks.push_back(landmark_0);
+  message.landmark.push_back(landmark_0);
 
   LandmarkData actual_landmark_data = ToLandmarkData(message);
   EXPECT_THAT(actual_landmark_data,

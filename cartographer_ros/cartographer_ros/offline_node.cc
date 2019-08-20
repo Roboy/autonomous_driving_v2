@@ -22,9 +22,9 @@
 #include <time.h>
 #include <chrono>
 
-#include "absl/strings/str_split.h"
 #include "cartographer_ros/node.h"
 #include "cartographer_ros/playable_bag.h"
+#include "cartographer_ros/split_string.h"
 #include "cartographer_ros/urdf_reader.h"
 #include "gflags/gflags.h"
 #include "ros/callback_queue.h"
@@ -32,9 +32,6 @@
 #include "tf2_ros/static_transform_broadcaster.h"
 #include "urdf/model.h"
 
-DEFINE_bool(collect_metrics, false,
-            "Activates the collection of runtime metrics. If activated, the "
-            "metrics can be accessed via a ROS service.");
 DEFINE_string(configuration_directory, "",
               "First directory in which configuration files are searched, "
               "second is always the Cartographer installation to allow "
@@ -86,11 +83,11 @@ void RunOfflineNode(const MapBuilderFactory& map_builder_factory) {
       << "-configuration_basenames is missing.";
   CHECK(!(FLAGS_bag_filenames.empty() && FLAGS_load_state_filename.empty()))
       << "-bag_filenames and -load_state_filename cannot both be unspecified.";
-  const std::vector<std::string> bag_filenames =
-      absl::StrSplit(FLAGS_bag_filenames, ',', absl::SkipEmpty());
+  const auto bag_filenames =
+      cartographer_ros::SplitString(FLAGS_bag_filenames, ',');
   cartographer_ros::NodeOptions node_options;
-  const std::vector<std::string> configuration_basenames =
-      absl::StrSplit(FLAGS_configuration_basenames, ',', absl::SkipEmpty());
+  const auto configuration_basenames =
+      cartographer_ros::SplitString(FLAGS_configuration_basenames, ',');
   std::vector<TrajectoryOptions> bag_trajectory_options(1);
   std::tie(node_options, bag_trajectory_options.at(0)) =
       LoadOptions(FLAGS_configuration_directory, configuration_basenames.at(0));
@@ -122,9 +119,8 @@ void RunOfflineNode(const MapBuilderFactory& map_builder_factory) {
   tf2_ros::Buffer tf_buffer;
 
   std::vector<geometry_msgs::TransformStamped> urdf_transforms;
-  const std::vector<std::string> urdf_filenames =
-      absl::StrSplit(FLAGS_urdf_filenames, ',', absl::SkipEmpty());
-  for (const auto& urdf_filename : urdf_filenames) {
+  for (const std::string& urdf_filename :
+       cartographer_ros::SplitString(FLAGS_urdf_filenames, ',')) {
     const auto current_urdf_transforms =
         ReadStaticTransformsFromUrdf(urdf_filename, &tf_buffer);
     urdf_transforms.insert(urdf_transforms.end(),
@@ -134,8 +130,7 @@ void RunOfflineNode(const MapBuilderFactory& map_builder_factory) {
 
   tf_buffer.setUsingDedicatedThread(true);
 
-  Node node(node_options, std::move(map_builder), &tf_buffer,
-            FLAGS_collect_metrics);
+  Node node(node_options, std::move(map_builder), &tf_buffer);
   if (!FLAGS_load_state_filename.empty()) {
     node.LoadState(FLAGS_load_state_filename, FLAGS_load_frozen_state);
   }
@@ -239,27 +234,7 @@ void RunOfflineNode(const MapBuilderFactory& map_builder_factory) {
         }));
   }
 
-  std::set<std::string> bag_topics;
-  std::stringstream bag_topics_string;
-  for (const auto& topic : playable_bag_multiplexer.topics()) {
-    std::string resolved_topic = node.node_handle()->resolveName(topic, false);
-    bag_topics.insert(resolved_topic);
-    bag_topics_string << resolved_topic << ",";
-  }
-  bool print_topics = false;
-  for (const auto& entry : bag_topic_to_sensor_id) {
-    const std::string& resolved_topic = entry.first.second;
-    if (bag_topics.count(resolved_topic) == 0) {
-      LOG(WARNING) << "Expected resolved topic \"" << resolved_topic
-                   << "\" not found in bag file(s).";
-      print_topics = true;
-    }
-  }
-  if (print_topics) {
-    LOG(WARNING) << "Available topics in bag file(s) are "
-                 << bag_topics_string.str();
-  }
-
+  // TODO(gaschler): Warn if resolved topics are not in bags.
   std::unordered_map<int, int> bag_index_to_trajectory_id;
   const ros::Time begin_time =
       // If no bags were loaded, we cannot peek the time of first message.
@@ -373,8 +348,7 @@ void RunOfflineNode(const MapBuilderFactory& map_builder_factory) {
     const std::string suffix = ".pbstream";
     const std::string state_output_filename = output_filename + suffix;
     LOG(INFO) << "Writing state to '" << state_output_filename << "'...";
-    node.SerializeState(state_output_filename,
-                        true /* include_unfinished_submaps */);
+    node.SerializeState(state_output_filename);
   }
   if (FLAGS_keep_running) {
     ::ros::waitForShutdown();

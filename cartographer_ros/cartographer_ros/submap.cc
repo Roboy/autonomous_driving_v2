@@ -16,7 +16,7 @@
 
 #include "cartographer_ros/submap.h"
 
-#include "absl/memory/memory.h"
+#include "cartographer/common/make_unique.h"
 #include "cartographer/common/port.h"
 #include "cartographer/transform/transform.h"
 #include "cartographer_ros/msg_conversion.h"
@@ -38,7 +38,8 @@ std::unique_ptr<::cartographer::io::SubmapTextures> FetchSubmapTextures(
   if (srv.response.textures.empty()) {
     return nullptr;
   }
-  auto response = absl::make_unique<::cartographer::io::SubmapTextures>();
+  auto response =
+      ::cartographer::common::make_unique<::cartographer::io::SubmapTextures>();
   response->version = srv.response.submap_version;
   for (const auto& texture : srv.response.textures) {
     const std::string compressed_cells(texture.cells.begin(),
