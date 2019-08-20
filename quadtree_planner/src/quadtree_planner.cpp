@@ -102,7 +102,7 @@ namespace quadtree_planner {
             calculateEta(positions);
             std_msgs::String msg2;
             std_msgs::Bool msg3;
-            msg2.data = "Valid path found!";
+            msg2.data = "";
             msg3.data = true;
             error_message_publisher_.publish(msg2);
             path_found_publisher_.publish(msg3);
