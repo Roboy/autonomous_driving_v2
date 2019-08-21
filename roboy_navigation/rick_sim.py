@@ -30,7 +30,7 @@ class LowPassSim:
         self.left_angle = left_angle
         
     def start(self):
-        self.pub = rospy.Publisher('/roboy/middleware/StearingAngle', MotorAngle, queue_size=1)
+        self.pub = rospy.Publisher('/roboy/middleware/SteeringAngle', MotorAngle, queue_size=1)
         self.angle.id = 0
         self.angle.raw_angles = [0]
         self.angle.raw_angles_prev = [0]

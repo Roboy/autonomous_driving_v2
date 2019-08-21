@@ -125,7 +125,7 @@ class StartUpSequence:
             elif self.timing_started:
                 self.timing_started = False
          
-        rospy.Subscriber('/roboy/middleware/StearingAngle', MotorAngle,
+        rospy.Subscriber('/roboy/middleware/SteeringAngle', MotorAngle,
                          angle_receiver)
 
     def smooth_out(self, angle):
