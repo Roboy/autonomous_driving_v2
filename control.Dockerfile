@@ -1,7 +1,7 @@
 FROM ros:kinetic-robot
 
 # Set working directory
-WORKDIR /home
+WORKDIR /home/ros
 
 # Get autonomous driving src folder from GIT
 RUN git clone -b devel_control https://github.com/Roboy/autonomous_driving_v2.git  ./src
