@@ -85,6 +85,13 @@ class StartUpSequence:
                     self.send_true = True
                     self.counter += 1
                     if self.counter >= len(self.sequence):
+                        vel_msg.linear.x = 0
+                        vel_msg.linear.y = 0
+                        vel_msg.linear.z = 0
+                        vel_msg.angular.x = 0
+                        vel_msg.angular.y = 0
+                        vel_msg.angular.z = 0
+                        self.pub.publish(vel_msg)
                         rospy.signal_shutdown('Finished Startup')
                 self.target_angle = self.sequence[self.counter]['angular']*pi/180
                 self.timeout_time = self.sequence[self.counter]['timeout']
@@ -107,6 +114,14 @@ class StartUpSequence:
 
             # check if timeout has occured
             if (not self.timing_started) and ((time.time() - self.timeout_start) > self.timeout_time):
+                vel_msg = Twist()
+                vel_msg.linear.x = 0
+                vel_msg.linear.y = 0
+                vel_msg.linear.z = 0
+                vel_msg.angular.x = 0
+                vel_msg.angular.y = 0
+                vel_msg.angular.z = 0
+                self.pub.publish(vel_msg)
                 rospy.signal_shutdown('Failed Startup')
                         
             # check if actual angle stays in reach of desired angle for a certain time

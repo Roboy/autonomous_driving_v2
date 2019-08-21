@@ -1,8 +1,24 @@
+- "linear": 0.0
+  "angular": 10
+  "holdtime": 5
+  "timeout": 30
+- "linear": 0.0
+  "angular": -10
+  "holdtime": 5
+  "timeout": 30
+- "linear": 0.0
+  "angular": 20
+  "holdtime": 5
+  "timeout": 30
+- "linear": 0.0
+  "angular": -20
+  "holdtime": 5
+  "timeout": 30
+- "linear": 0.0
+  "angular": 0
+  "holdtime": 5
+  "timeout": 30
 - "linear": 1.0
   "angular": 0
   "holdtime": 5
-  "timeout": 6
-- "linear": 0
-  "angular": 0
-  "holdtime": 5
-  "timeout": 6
+  "timeout": 10
