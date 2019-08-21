@@ -13,6 +13,7 @@ class CalculateHasArrivedFlag:
     def __init__(self):
         self.goal_x = 0
         self.goal_y = 0
+        self.OnlyOneOutputPerGoal = True
         
     def start(self):
         rospy.init_node('calculateHasArrivedFlag')
@@ -27,6 +28,7 @@ class CalculateHasArrivedFlag:
         rospy.spin()
 
     def handle_goal_position(self, goal_pos):
+        self.OnlyOneOutputPerGoal = True
         self.goal_x, self.goal_y = goal_pos.goal.target_pose.pose.position.x, goal_pos.goal.target_pose.pose.position.y
         rospy.loginfo('Goal Position(x=%.2f, y=%.2f) received', self.goal_x, self.goal_y)
 
@@ -39,9 +41,10 @@ class CalculateHasArrivedFlag:
         position, quaternion = self.tf.lookupTransform("/map", "/base_link", t)         
         current_pos_x, current_pos_y, = position[0], position[1]
         euclid_dist = self.euclidDistance(self.goal_x, self.goal_y, current_pos_x, current_pos_y)
-        if( (self.ego_velocity <= self.maximum_velocity) and (euclid_dist <= self.maximum_distance) ):
-            self.flag_publisher.publish(True)
-            rospy.loginfo('Publishing hasArrived = True')
+        if( (self.ego_velocity <= self.maximum_velocity) and (euclid_dist <= self.maximum_distance) and (self.OnlyOneOutputPerGoal == True) ):
+			self.OnlyOneOutputPerGoal = False
+			self.flag_publisher.publish(True)
+			rospy.loginfo('Publishing hasArrived = True')
         else:
             pass  
 

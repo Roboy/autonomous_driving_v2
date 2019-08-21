@@ -21,21 +21,18 @@ void etaCallback(const std_msgs::Int16::ConstPtr& msg)
 {
     eta = msg->data;
     eta_received = true;
-    ROS_INFO("etaCallback");
 }
 
 void errorMessageCallback(const std_msgs::String::ConstPtr& msg)
 {
     error_message.data = msg->data;
     error_message_received = true;
-    ROS_INFO("errorCallback");
 }
 
 void pathFoundMessageCallback(const std_msgs::Bool::ConstPtr& msg)
 {
     pathFound_message.data = msg->data;
     path_found_received = true;
-    ROS_INFO("pathBoolCallback");
 }
 
 
