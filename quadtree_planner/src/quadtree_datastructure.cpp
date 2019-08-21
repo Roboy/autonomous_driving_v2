@@ -11,7 +11,6 @@
 // Lowest level can be determined by checking if topLeftCell == nullptr
 int Quadtree_Cell::buildQuadtree(quadtree_planner::Costmap* costmap, long long * area_)
 {
-
     // We are at a cell of area < 4
     // We do not subdivide this cell further as we cannot define four child cells in this case
     // or we have an uniform area --> no subdivision of this cell required
@@ -21,10 +20,10 @@ int Quadtree_Cell::buildQuadtree(quadtree_planner::Costmap* costmap, long long *
 
     if ( (cell_area < MINIMUM_CELL_AREA) || (isAreaUniform == true) ) {
         *area_ += cell_area;    // Debugging
-     //   ROS_INFO("Create low level cell");
+         // Create lower level cell
         return -1;
     } else {
-
+        // Create upper level cell
         // no uniform area in the current cell and cell size is > 4 --> subdivision required
         Point topL = Point(topLeft.x, topLeft.y);
         Point botR = Point((topLeft.x + botRight.x) / 2, (topLeft.y + botRight.y) / 2);

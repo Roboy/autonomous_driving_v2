@@ -50,11 +50,11 @@ namespace quadtree_planner {
         ROS_INFO("QuadTreePlanner initialized with name '%s' ",
                  name_.c_str());
 
-        // Testing of quadtree data structure
-        Point botR = Point (costmap->getSizeInCellsX(), costmap->getSizeInCellsY());
+        // Creation and testing of quadtree data structure
+        Point botR = Point(costmap->getSizeInCellsX()-1, costmap->getSizeInCellsY()-1);
         QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
         QuadtreeCellObject.printQuadtree();
-        ROS_INFO("testQuadtreeObejct created");
+        ROS_INFO("testQuadtreeObject created");
         QuadtreeCellObject.buildQuadtree(costmap, &area);
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
