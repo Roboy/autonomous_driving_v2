@@ -20,56 +20,11 @@ from math import atan, pi, floor
 from roboy_middleware_msgs.msg import MotorCommand, MotorAngle, MotorConfig
 from roboy_middleware_msgs.srv import MotorConfigService
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Float32
 
 MOTOR_CONTROL_POSITION = 0
 MOTOR_CONTROL_VELOCITY = 1
 MOTOR_CONTROL_DISPLACEMENT = 2
-
-RICKSHAW_MAX_ANGLE = 33
-MOTOR_POS_X = 60
-MOTOR_POS_Y = 25
-MOTOR_POS_Z = 10
-LIFTING_ARM_POS_X = 65
-LIFTING_ARM_POS_Y = 12
-LIFTING_ARM_POS_Z = 0
-LEFT_MOTOR_ID = 9
-RIGHT_MOTOR_ID = 10
-
-def get_compensation(motor_id):
-    left_motor = {}
-    right_motor = {}
-
-    motor_r_static = np.array([MOTOR_POS_X, MOTOR_POS_Y, MOTOR_POS_Z])
-    motor_l_static = np.array([MOTOR_POS_X, -MOTOR_POS_Y, MOTOR_POS_Z])
-    liftingarm_r = np.array([LIFTING_ARM_POS_X, -LIFTING_ARM_POS_Y, LIFTING_ARM_POS_Z])
-    liftingarm_l = np.array([LIFTING_ARM_POS_X, LIFTING_ARM_POS_Y, LIFTING_ARM_POS_Z])
-    max_angle = RICKSHAW_MAX_ANGLE
-
-    for angle in range(-max_angle, max_angle, 1):
-        angle_rad = (angle + 0.5) * np.pi /180
-        c, s = np.cos(angle_rad), np.sin(angle_rad)
-        R = np.array(((c,-s,0),(s,c,0),(0,0,1)))
-        # calc motor rotation postion
-        mot_r = np.matmul(R, motor_r_static)
-        mot_l = np.matmul(R, motor_l_static)
-
-        tendon_r = mot_r - liftingarm_r
-        tendon_l = mot_l - liftingarm_l
-        cross_r = np.cross(liftingarm_r, tendon_r)
-        cross_l = np.cross(liftingarm_l, tendon_l)
-
-        right_motor[str(int(floor(angle)))] = abs(np.divide(np.linalg.norm(tendon_r), cross_r[2]))
-        left_motor[str(int(floor(angle)))] = abs(np.divide(np.linalg.norm(tendon_l), cross_l[2]))
-    if motor_id == LEFT_MOTOR_ID:
-        compensation = right_motor
-    elif motor_id == RIGHT_MOTOR_ID:
-        compensation = left_motor
-    else: print('Wrong motor ID provided')
-    return compensation
-
-def testing_seq():
-    sequence = [(0, 30),(0, -30),(0, 0),(0, 15),(0, -15)]
-    return sequence
 
 def rad_to_deg(val):
     return val / pi * 180
@@ -142,6 +97,16 @@ class AngleSensorListener:
         self.listen_to_angle_sensor()
 
     def listen_to_angle_sensor(self):
+        def angle_receiver(angle):
+            self.actual_angle = float(angle.data)
+            self.smooth_angle = self.smooth_out(float(angle.data))
+            if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:
+                self.last_smooth_angle = self.smooth_angle
+
+        rospy.Subscriber('/roboy/middleware/TrueAngle', Float32,
+                         angle_receiver)
+
+    def old_listen_to_angle_sensor(self):
         def angle_receiver(raw_angle):
             if len(raw_angle.raw_angles) != 1:
                 rospy.logerr('Invalid motor_angle command received')
@@ -188,7 +153,7 @@ class MyoMuscleController:
                                          queue_size=1)
         rospy.logwarn('CAREFUL! Myo-muscle controller is activated, '
                       'rickshaw will start turning if cmd_vel command is set.')
-        self.set_control_mode()
+        #self.set_control_mode()
 
     def set_control_mode(self):
         config_motors_service = rospy.ServiceProxy(

@@ -9,8 +9,7 @@ import rospy
 
 from roboy_navigation.async_pid import AsyncPID
 from roboy_navigation.steering_helper import TargetAngleListener, \
-    AngleSensorListener, MyoMuscleController, rad_to_deg, \
-    get_compensation
+    AngleSensorListener, MyoMuscleController, rad_to_deg
 
 
 class SteeringController:

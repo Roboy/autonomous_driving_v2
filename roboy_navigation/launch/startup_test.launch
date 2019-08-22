@@ -35,6 +35,9 @@
         type="rickshaw_controller.py"
         if="$(eval drive == True)"
         output="screen" />
+  <node name="angle_converter" pkg="roboy_navigation"
+        type="true_angle.py"
+        output="screen" />
   
   <node name="startup_seq" pkg="roboy_navigation"
         type="startup_seq.py"
