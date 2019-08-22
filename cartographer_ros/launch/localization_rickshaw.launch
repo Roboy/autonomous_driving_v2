@@ -37,7 +37,7 @@
   
   <group if="$(arg rviz)">
     <node name="rviz" pkg="rviz" type="rviz" required="true"
-        args="-d $(find cartographer_ros)/configuration_files/testrig3D.rviz" />
+        args="-d $(find cartographer_ros)/configuration_files/rickshaw.rviz" />
   </group>
   
   <group if="$(arg offline)">

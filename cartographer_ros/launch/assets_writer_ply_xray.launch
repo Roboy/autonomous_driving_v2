@@ -18,7 +18,7 @@
   <node name="cartographer_assets_writer" pkg="cartographer_ros" required="true"
       type="cartographer_assets_writer" args="
           -configuration_directory $(find cartographer_ros)/configuration_files
-          -configuration_basename assets_writer_rickshaw.lua
+          -configuration_basename assets_writer_ply_xray.lua
           -urdf_filename $(find cartographer_ros)/urdf/rickshaw.urdf
           -bag_filenames $(arg bag_filenames)
           -pose_graph_filename $(arg pose_graph_filename)"

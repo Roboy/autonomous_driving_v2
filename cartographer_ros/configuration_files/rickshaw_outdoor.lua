@@ -23,7 +23,7 @@ options = {
   published_frame = "base_link",
   odom_frame = "odom",
   provide_odom_frame = true,
-  publish_frame_projected_to_2d = false,
+  publish_frame_projected_to_2d = true,
   --use_pose_extrapolator = true,
   use_odometry = false,
   use_nav_sat = false,
@@ -51,7 +51,7 @@ TRAJECTORY_BUILDER_3D.voxel_filter_size = 0.05
 ----TRAJECTORY_BUILDER_3D.high_resolution_adaptive_voxel_filter.max_length = 1
 ----TRAJECTORY_BUILDER_3D.high_resolution_adaptive_voxel_filter.min_num_points = 70
 
-TRAJECTORY_BUILDER_3D.ceres_scan_matcher.translation_weight = 14 
+TRAJECTORY_BUILDER_3D.ceres_scan_matcher.translation_weight = 14
 TRAJECTORY_BUILDER_3D.ceres_scan_matcher.rotation_weight = 85
 TRAJECTORY_BUILDER_3D.ceres_scan_matcher.occupied_space_weight_0 = 5.
 TRAJECTORY_BUILDER_3D.ceres_scan_matcher.occupied_space_weight_1 = 18.
@@ -65,8 +65,10 @@ POSE_GRAPH.optimize_every_n_nodes = 40 --100
 --POSE_GRAPH.optimization_problem.ceres_solver_options.max_num_iterations = 10
 --POSE_GRAPH.constraint_builder.min_score = 0.8
 --POSE_GRAPH.constraint_builder.global_localization_min_score = 0.66
-POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher_3d.linear_z_search_window = 3. --1.
+POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher_3d.linear_z_search_window = 5. --1.
+POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher_3d.linear_xy_search_window = 10. --5.
 
 
 
 return options
+

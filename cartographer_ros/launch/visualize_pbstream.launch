@@ -15,11 +15,11 @@
 -->
 
 <launch>
-  <arg name="rviz" default="true" />
+  <arg name="rviz" default="false" />
 
   <group if="$(arg rviz)">
   <node name="rviz" pkg="rviz" type="rviz" required="true"
-      args="-d $(find cartographer_ros)/configuration_files/testrig3D.rviz" />
+      args="-d $(find cartographer_ros)/configuration_files/rickshaw.rviz" />
   </group>
 
   <node name="cartographer_offline_node" pkg="cartographer_ros"

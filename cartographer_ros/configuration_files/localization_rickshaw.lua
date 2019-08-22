@@ -18,12 +18,13 @@ TRAJECTORY_BUILDER.pure_localization = true
 
 
 -- TUNE
-POSE_GRAPH.optimize_every_n_nodes = 1 --5 --10 -- decrease
-POSE_GRAPH.global_sampling_ratio = 0.001 --0.001 --0.003 -- decrease
-POSE_GRAPH.constraint_builder.sampling_ratio = 0.3 --0.1 --0.05 --0.3 -- decrease
-
-POSE_GRAPH.global_constraint_search_after_n_seconds = 3 --10. --5.
-POSE_GRAPH.constraint_builder.min_score = 0.75 --0.75
+--POSE_GRAPH.optimize_every_n_nodes = 1 --5 --10 -- decrease
+--POSE_GRAPH.global_sampling_ratio = 0.001 --0.001 --0.003 -- decrease
+POSE_GRAPH.constraint_builder.sampling_ratio = 0.9 --0.1 --0.05 --0.3 -- decrease
+--[[
+POSE_GRAPH.global_constraint_search_after_n_seconds = 1 --10. --5.
+POSE_GRAPH.constraint_builder.min_score = 0.55 --0.75
+]]--
 
 --[[
 -- For lower Latency also consider
@@ -46,3 +47,4 @@ POSE_GRAPH.global_constraint_search_after_n_seconds = 5 --10. -- increase
 --TRAJECTORY_BUILDER_3D.ceres_scan_matcher.rotation_weight = 50 --80
 
 return options
+

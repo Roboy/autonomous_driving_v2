@@ -16,7 +16,7 @@
 
 <launch>
   <arg name="bag_filenames"/>
-  <arg name="no_rviz"/>
+  <arg name="rviz"/>
   <arg name="rviz_config"/>
   <arg name="configuration_directory"/>
   <arg name="configuration_basenames"/>
@@ -25,7 +25,7 @@
 
   <param name="/use_sim_time" value="true" />
 
-  <group unless="$(arg no_rviz)">
+  <group if="$(arg rviz)">
     <node name="rviz"
           pkg="rviz"
           type="rviz"
