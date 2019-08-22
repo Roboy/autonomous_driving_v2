@@ -2,8 +2,9 @@
 Launch the navigation stack to run on a static map published by map server.
 -->
 <launch>
+  <arg name="map_configfile_" default="map.yaml"/>
   <arg name="map_config"
-       default="$(find navigation)/config/map.yaml"/>
+       default="$(find navigation)/config/$(arg map_configfile_)"/>
   <node name="map_server" pkg="map_server" type="map_server"
         args="$(arg map_config)"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
