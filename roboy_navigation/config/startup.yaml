@@ -5,7 +5,7 @@
 - "linear": 0.0
   "angular": -10
   "holdtime": 5
-  "timeout": 30
+  "timeout": 1
 - "linear": 0.0
   "angular": 20
   "holdtime": 5

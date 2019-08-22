@@ -14,36 +14,30 @@ from roboy_navigation.steering_helper import TargetAngleListener, \
 
 class SteeringController:
 
-    def __init__(self,
-                 fpga_id, motor_id, comp,
-                 sample_rate=100, Kp=1, Ki=0, Kd=0,
+    def __init__(self, fpga_id, motor_id, 
+                 comp, sample_rate=100, 
+                 Kp=1, Ki=0, Kd=0,
                  min_displacement=10, max_displacement=300,
-                 max_steering_angle_deg=30,
-                 zero_angle_raw=2190,
-                 right_angle_raw=2570, right_angle=30,
-                 left_angle_raw=1810, left_angle=-30):
-        self.angle_sensor_listener = AngleSensorListener(zero_angle_raw=zero_angle_raw,
-                                                         right_angle_raw=right_angle_raw,
-                                                         right_angle=right_angle,
-                                                         left_angle_raw=left_angle_raw,
-                                                         left_angle=left_angle)
-        self.target_angle_listener = TargetAngleListener()
-        self.muscle_controller = MyoMuscleController(fpga_id=fpga_id, 
-                                                     motor_id=motor_id)
-        self.motor_id = motor_id
-        self.pid = AsyncPID(target_val_provider=self.get_target_angle, 
-                                  actual_val_provider=self.get_actual_angle, 
-                                  control_callback=self.set_spring_displacement, 
-                                  sample_rate=sample_rate, 
-                                  Kp=Kp, Ki=Ki, Kd=Kd, 
-                                  lower_limit=min_displacement, 
-                                  upper_limit=max_displacement)
+                 max_steering_angle_deg=30):
         self.min_displacement = min_displacement
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
         self.max_steering_angle = float(max_steering_angle_deg) / 180 * pi
         self.compensation = comp
         self.update_param =True
+        self.motor_id = motor_id
+        self.angle_sensor_listener = AngleSensorListener()
+        self.target_angle_listener = TargetAngleListener()
+        self.muscle_controller = MyoMuscleController(fpga_id=fpga_id, 
+                                                     motor_id=motor_id)
+        self.pid = AsyncPID(target_val_provider=self.get_target_angle, 
+                            actual_val_provider=self.get_actual_angle, 
+                            control_callback=self.set_spring_displacement, 
+                            sample_rate=sample_rate, 
+                            Kp=Kp, Ki=Ki, Kd=Kd, 
+                            lower_limit=min_displacement, 
+                            upper_limit=max_displacement)
+        
 
     def start(self):
         node_name = 'steering_controller_motor_' + str(self.motor_id)
@@ -103,9 +97,6 @@ if __name__ == '__main__':
     # compensation
     with open(os.path.join(config_path, 'compensation.yaml'), 'r') as ymlfile:
         compensation = yaml.safe_load(ymlfile)
-    # calibration
-    with open(os.path.join(config_path, 'calibration.yaml'), 'r') as ymlfile:
-        calibration = yaml.safe_load(ymlfile)
     # geometry
     with open(os.path.join(config_path, 'geometry.yaml'), 'r') as ymlfile:
         geometry = yaml.safe_load(ymlfile)
@@ -139,10 +130,9 @@ if __name__ == '__main__':
     print('steering_controller config:')
     print(args)
     config_path = os.path.join(rospkg.RosPack().get_path('roboy_navigation'), 'config')
-    SteeringController(
-        args.fpga_id, motor_id, comp,
-        args.sample_rate, args.Kp, args.Ki, args.Kd,
-        args.min_disp, args.max_disp, geometry['max_steering_angle'],
-        calibration['raw']['raw_middle'], calibration['raw']['raw_right'], calibration['angles']['right'], 
-        calibration['raw']['raw_left'], calibration['angles']['left']
-    ).start()
+    SteeringController(args.fpga_id, motor_id, 
+                       comp,
+                       args.sample_rate, 
+                       args.Kp, args.Ki, args.Kd,
+                       args.min_disp, args.max_disp, 
+                       geometry['max_steering_angle'] ).start()

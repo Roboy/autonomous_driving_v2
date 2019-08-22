@@ -27,13 +27,15 @@ class StartUpSequence:
         self.last_smooth_angle = 0
         self.decay = decay
         self.threshold = threshold
-        self.send_true = True
+        self.send_next = False
         #timing
         self.timeout_start = time.time()
-        self.timeout_time = 10
         self.hold_start = time.time()
         self.timing_started = False
-        self.hold_time = 10
+        self.threshold_angle = threshold_angle
+        self.target_angle = self.sequence[0]['angular']*pi/180
+        self.timeout_time = self.sequence[0]['timeout']
+        self.hold_time = self.sequence[0]['holdtime']
         self.counter = 0
         
     def start(self):
@@ -43,6 +45,7 @@ class StartUpSequence:
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=2)
         rospy.init_node('seq_tx', anonymous=True)
         self.listen_to_angle_sensor()
+        print('Sending first message.')
         self.send_msg()
 
     def send_msg(self):
@@ -62,22 +65,21 @@ class StartUpSequence:
                                                                             self.sequence[self.counter]['angular']*pi/180, 
                                                                             self.wheel_base)
                 self.pub.publish(vel_msg)
-                if not self.send_true:
-                    self.send_true = True
+                if self.send_next:
+                    self.send_next = False
                     self.counter += 1
                     if self.counter >= len(self.sequence):
-                        vel_msg.linear.x = 0
-                        vel_msg.linear.y = 0
-                        vel_msg.linear.z = 0
-                        vel_msg.angular.x = 0
-                        vel_msg.angular.y = 0
-                        vel_msg.angular.z = 0
+                        self.default_position()
                         self.pub.publish(vel_msg)
                         print('Finished startup sequence.')
                         rospy.signal_shutdown('Finished Startup')
-                self.target_angle = self.sequence[self.counter]['angular']*pi/180
-                self.timeout_time = self.sequence[self.counter]['timeout']
-                self.hold_time = self.sequence[self.counter]['holdtime']
+                    else:
+                        print('Sending next message: {}'.format(self.counter + 1))
+                        # reset values
+                        self.target_angle = self.sequence[self.counter]['angular']*pi/180
+                        self.timeout_time = self.sequence[self.counter]['timeout']
+                        self.hold_time = self.sequence[self.counter]['holdtime']
+                        self.timeout_start = time.time()
             rate.sleep()  
 
 
@@ -90,13 +92,13 @@ class StartUpSequence:
 
             # check if timeout has occured
             if (not self.timing_started) and ((time.time() - self.timeout_start) > self.timeout_time):
-                vel_msg = default_position()
+                vel_msg = self.default_position()
                 self.pub.publish(vel_msg)
                 print("Couldn't finish startup sequence please check the hardware. Going to default position.")
                 rospy.signal_shutdown('Failed Startup')
                         
             # check if actual angle stays in reach of desired angle for a certain time
-            if abs(self.target_angle - self.last_smooth_angle) < (self.threshold_angle * pi/180) and self.send_true:
+            if abs(self.target_angle - self.last_smooth_angle) < (self.threshold_angle * pi/180) and not self.send_next:
                 # start timer if threshold is frist crossed
                 if not self.timing_started:
                     print('Reached goal position, start timing')
@@ -104,11 +106,12 @@ class StartUpSequence:
                     self.hold_start = time.time()
                 # check if time threshhold has been crossed
                 elif (time.time() - self.hold_start) > self.hold_time:
-                    print('Sending_next message: {}'.format(self.counter + 1))
-                    self.send_true = False
-                    self.timeout_start = time.time()
+                    print('Finished message')
+                    self.send_next = True
+                    self.timing_started = False
             # reset timer if angle leaves threshold again 
             elif self.timing_started:
+                print('Stopped timing.')
                 self.timing_started = False
          
         rospy.Subscriber('/roboy/middleware/TrueAngle', Float32,
@@ -138,9 +141,4 @@ if __name__ == '__main__':
     with open(os.path.join(config_path, 'startup.yaml'), 'r') as ymlfile:
         sequence = yaml.load(ymlfile)
 
-    StartUpSequence(sequence, 
-                    calibration['raw']['raw_middle'], 
-                    calibration['raw']['raw_right'], 
-                    calibration['angles']['right'], 
-                    calibration['raw']['raw_left'], 
-                    calibration['angles']['left']).start()
+    StartUpSequence(sequence).start()
