@@ -10,6 +10,7 @@ Build  the containers like so:
 docker build -t ad-planning -f planning.Dockerfile .
 docker build -t ad-slam -f slam.Dockerfile .
 docker build -t ad-control -f control.Dockerfile .
+docker build -t ad-sensors -f sensors.Dockerfile .
 ```
 
 In general, add `--network=host` to enable network connection via the host PC.\
