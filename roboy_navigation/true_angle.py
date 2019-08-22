@@ -10,18 +10,15 @@ from std_msgs.msg import Float32
 
 class AngleSensorListener:
 
-    def __init__(self, 
-                 zero_angle_raw=2190, 
+    def __init__(self, zero_angle_raw=2190, 
                  right_angle_raw=2570, right_angle=30,
-                 left_angle_raw=1810, left_angle=-30, 
-                 decay=0.95, threshold=0.1 / 180 * pi):
+                 left_angle_raw=1810, left_angle=-30):
         """
         :param zero_angle_raw: sensor value corresponding to zero steering angle.
-        :param decay: smooth_angle is computed as
-                      angle = decay*angle + (1-decay)*new_angle
-        :param threshold: smooth_angle is updated if difference between the new
-                          and the last value is larger than the provided
-                          threshold.
+        :param right_angle_raw:
+        :param left_angle_raw:
+        :param right_angle:
+        :param left_angle: 
 
         """
         self.zero_angle_raw = zero_angle_raw

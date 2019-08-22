@@ -69,12 +69,9 @@ class TargetAngleListener:
 class AngleSensorListener:
 
     def __init__(self, 
-                 zero_angle_raw=2190, 
-                 right_angle_raw=2570, right_angle=30,
-                 left_angle_raw=1810, left_angle=-30, 
-                 decay=0.95, threshold=0.1 / 180 * pi):
+                 decay=0.95, 
+                 threshold=0.1 / 180 * pi):
         """
-        :param zero_angle_raw: sensor value corresponding to zero steering angle.
         :param decay: smooth_angle is computed as
                       angle = decay*angle + (1-decay)*new_angle
         :param threshold: smooth_angle is updated if difference between the new
@@ -87,11 +84,6 @@ class AngleSensorListener:
         self.last_smooth_angle = 0
         self.decay = decay
         self.threshold = threshold
-        self.zero_angle_raw = zero_angle_raw
-        self.right_angle_raw = right_angle_raw
-        self.right_angle = right_angle
-        self.left_angle_raw = left_angle_raw
-        self.left_angle = left_angle
 
     def start(self):
         self.listen_to_angle_sensor()
@@ -104,21 +96,6 @@ class AngleSensorListener:
                 self.last_smooth_angle = self.smooth_angle
 
         rospy.Subscriber('/roboy/middleware/TrueAngle', Float32,
-                         angle_receiver)
-
-    def old_listen_to_angle_sensor(self):
-        def angle_receiver(raw_angle):
-            if len(raw_angle.raw_angles) != 1:
-                rospy.logerr('Invalid motor_angle command received')
-            angle = float(raw_angle.raw_angles[0] - self.zero_angle_raw) \
-                    / (self.right_angle_raw - self.left_angle_raw) \
-                    * (self.right_angle - self.left_angle) * pi / 180
-            self.actual_angle = angle
-            self.smooth_angle = self.smooth_out(angle)
-            if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:
-                self.last_smooth_angle = self.smooth_angle
-
-        rospy.Subscriber('/roboy/middleware/SteeringAngle', MotorAngle,
                          angle_receiver)
 
     def get_latest_actual_angle(self):
