@@ -46,10 +46,9 @@ To stop the container:
 ```
 sudo docker stop docker_name
 ```
-
 ### Useful commands:
-```
-    sudo docker kill docker_name forces shutdwon of docker docker_name
-    sudo docker ps (shows active dockers)
-    sudo docker ps -a (shows all dockers)
-```
+
+``` sudo docker kill docker_name``` forces shutdown of docker docker_name
+``` sudo docker ps``` (shows active dockers)
+``` sudo docker ps -a``` (shows all dockers)
+
