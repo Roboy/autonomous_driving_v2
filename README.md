@@ -18,3 +18,34 @@ For building the sensors Docker add `-d --device=/dev/ttyUSB0` to the docker run
 ```
 sudo docker run -it -d --device=/dev/ttyUSB0 --network=host --name docker_name docker_name:latest bash
 ```
+
+Booting
+Startup
+
+To start the container:
+
+sudo docker start docker_name
+
+Interaction
+
+To enter a docker bash:
+
+sudo docker exec -it docker_name bash
+
+Exiting
+
+To exit the docker, in the docker shell type exit
+
+root@ubuntu:/home/ros# exit
+
+Stopping
+
+To stop the container:
+
+sudo docker stop docker_name
+
+Useful commands:
+
+    sudo docker kill docker_name forces shutdwon of docker docker_name
+    sudo docker ps (shows active dockers)
+    sudo docker ps -a (shows all dockers)
