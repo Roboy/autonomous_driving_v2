@@ -13,10 +13,19 @@ docker build -t ad-control -f control.Dockerfile .
 docker build -t ad-sensors -f sensors.Dockerfile .
 ```
 
-In general, add `--network=host` to enable network connection via the host PC.\
+In general, add `--network=host` to enable network connection via the host PC.
+```
+sudo docker run -it -d --network=host --name docker_name docker_name:latest bash
+```
+
 For building the sensors Docker add `-d --device=/dev/ttyUSB0` to the docker run
 ```
 sudo docker run -it -d --device=/dev/ttyUSB0 --network=host --name docker_name docker_name:latest bash
+```
+
+Currently, data is stored in a volume on the host PC called ad-data. To mount it to the docker container, add `--mount source=ad-data,target=/path/where/you/want/the/data`:
+```
+sudo docker run -it -d --device=/dev/ttyUSB0 --network=host --mount source=ad-data,target=/data --name docker_name docker_name:latest bash
 ```
 
 ## Booting
