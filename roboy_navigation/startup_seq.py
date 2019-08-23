@@ -46,6 +46,7 @@ class StartUpSequence:
         rospy.init_node('seq_tx', anonymous=True)
         self.listen_to_angle_sensor()
         print('Sending first message.')
+        print('Angle: {}, Velocity: {}'.format(self.target_angle, self.sequence[self.counter]['linear']))
         self.send_msg()
 
     def send_msg(self):
@@ -54,9 +55,7 @@ class StartUpSequence:
         rate = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
             if self.counter < len(self.sequence):
-                vel_msg.linear.x = convert_steering_angle_to_trans_rot_vel(lin_vel, 
-                                                                           self.sequence[self.counter]['linear']*pi/180, 
-                                                                           self.wheel_base)
+                vel_msg.linear.x = self.sequence[self.counter]['linear']
                 vel_msg.linear.y = 0
                 vel_msg.linear.z = 0
                 vel_msg.angular.x = 0
@@ -69,12 +68,14 @@ class StartUpSequence:
                     self.send_next = False
                     self.counter += 1
                     if self.counter >= len(self.sequence):
-                        self.default_position()
+                        vel_msg = self.default_position()
                         self.pub.publish(vel_msg)
+                        rospy.sleep(2)
                         print('Finished startup sequence.')
                         rospy.signal_shutdown('Finished Startup')
                     else:
                         print('Sending next message: {}'.format(self.counter + 1))
+                        print('Angle: {}, Velocity: {}'.format(self.target_angle, self.sequence[self.counter]['linear']))
                         # reset values
                         self.target_angle = self.sequence[self.counter]['angular']*pi/180
                         self.timeout_time = self.sequence[self.counter]['timeout']
@@ -94,6 +95,7 @@ class StartUpSequence:
             if (not self.timing_started) and ((time.time() - self.timeout_start) > self.timeout_time):
                 vel_msg = self.default_position()
                 self.pub.publish(vel_msg)
+                rospy.sleep(2)
                 print("Couldn't finish startup sequence please check the hardware. Going to default position.")
                 rospy.signal_shutdown('Failed Startup')
                         

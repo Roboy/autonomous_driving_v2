@@ -42,7 +42,6 @@
         output="screen"/>
   <node name="rick_sim" pkg="roboy_navigation"
         type="rick_sim.py"
-        if="$(eval sim == True)"
-        output="screen"/>
+        if="$(eval sim == True)"/>
 
 </launch>

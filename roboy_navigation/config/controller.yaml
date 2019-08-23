@@ -1,5 +1,5 @@
 gains:
-    k_p: 10000
+    k_p: 20000
     k_i: 0
     k_d: 30
 displacement:

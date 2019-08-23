@@ -20,7 +20,7 @@ class LowPassSim:
         self.goal_angle = 0
         self.angle = MotorAngle()
         self.rate = 5
-        self.time_constant = 0.5
+        self.time_constant = 2
         self.current_angle = 0
         self.wheel_base = 1.6
         self.zero_angle_raw = zero_angle_raw
@@ -53,7 +53,7 @@ class LowPassSim:
             rate.sleep()
 
     def shutdown_msg():
-        print('shutting down node: sending angle')
+        print('Shutting down node: sending angle')
    
     def listen_to_target_angle(self):
         def navigation_commands_receiver(twist):
@@ -66,7 +66,6 @@ class LowPassSim:
                 self.counter = 0
                 self.goal_angle = self.new_goal_angle
                 self.starting_angle = self.current_angle
-                print('angles: ', self.goal_angle, self.starting_angle)
             
         rospy.Subscriber('/cmd_vel', Twist, navigation_commands_receiver)
 
@@ -90,6 +89,6 @@ if __name__ == '__main__':
     # calibration
     with open(os.path.join(config_path, 'calibration.yaml'), 'r') as ymlfile:
         calibration = yaml.load(ymlfile)
-    print('started simulation')
+    print('Started simulation')
     LowPassSim(calibration['raw']['raw_middle'], calibration['raw']['raw_right'], calibration['angles']['right'], 
         calibration['raw']['raw_left'], calibration['angles']['left']).start()
