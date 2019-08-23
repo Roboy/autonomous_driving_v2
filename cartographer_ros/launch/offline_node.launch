@@ -39,7 +39,7 @@
   </group>
 
   <node name="cartographer_offline_node" pkg="cartographer_ros"
-      required="$(arg no_rviz)"
+      required="$(arg rviz)"
       type="cartographer_offline_node" args="
           -configuration_directory $(arg configuration_directory)
           -configuration_basenames $(arg configuration_basenames)
