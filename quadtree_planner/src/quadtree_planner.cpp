@@ -247,12 +247,12 @@ namespace quadtree_planner {
             double q0[] = {path.at(first_index).x, path.at(first_index).y, path.at(first_index).th};
             double q1[] = {path.at(second_index).x, path.at(second_index).y, path.at(second_index).th};
             DubinsPath DubinsPath;
+            Dubins_Poses_temp.clear();
             dubins_shortest_path( &DubinsPath, q0, q1, turning_radius_);
             dubins_path_sample_many(&DubinsPath, 0.05, createDubinsConfiguration, NULL);
 
             // Checking for collisions
-            if(IsTrajectoryCollisionFree(Dubins_Poses_temp) == false) {
-                Dubins_Poses_temp.clear();
+            if(IsTrajectoryCollisionFree(Dubins_Poses_temp) == false) {;
                 refinement_finished = false;
                 if(second_index > first_index+1) {
                     second_index--;
@@ -270,7 +270,6 @@ namespace quadtree_planner {
             }
             else {  // Path is collision free
                 Dubins_Poses_final.insert(Dubins_Poses_final.end(),Dubins_Poses_temp.begin(),Dubins_Poses_temp.end());
-                Dubins_Poses_temp.clear();
                 if(second_index == (path.size() -1)) {  // goal index is reached
                     refinement_finished = true;
                 } else {
