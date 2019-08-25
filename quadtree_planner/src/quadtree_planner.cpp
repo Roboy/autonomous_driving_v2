@@ -256,6 +256,8 @@ namespace quadtree_planner {
                 refinement_finished = false;
                 if(second_index > first_index+1) {
                     second_index--;
+                    // Use orientation of final goal as heuristic for a meaningful orientation
+                    path.at(second_index).th = path.at(path.size()-1).th;
                 } else {
                     ROS_INFO("No path refinement possible!");
                     ROS_INFO("Quadtree cell based search did find a path but it is not feasible due to the non-holonomic constraints");
@@ -266,13 +268,16 @@ namespace quadtree_planner {
                     refinement_finished = true;
                 }
             }
-            else {
+            else {  // Path is collision free
                 Dubins_Poses_final.insert(Dubins_Poses_final.end(),Dubins_Poses_temp.begin(),Dubins_Poses_temp.end());
                 Dubins_Poses_temp.clear();
-                if(second_index == (path.size() -1)) {
+                if(second_index == (path.size() -1)) {  // goal index is reached
                     refinement_finished = true;
                 } else {
                     first_index = second_index;
+                    path.at(first_index).th = q1[2];    // holonomic path does not contain valid theta values --> correct theta value
+                                                        // (orientation at end of Dubin's curve) must be set here in order to calculate
+                                                        // correct subsequent Dubin's curve
                     second_index = path.size()-1;
                 }
             }
@@ -286,10 +291,6 @@ namespace quadtree_planner {
     }
 
     void QuadTreePlanner::visualizeNonHolonomicPoses(std::vector<Pose> &path) {
-        // Debugging (display theta angles of non-holonomic path poses)
-        for (auto position: path) {
-            ROS_INFO("Path position x:%f, y:%f, th:%f", position.x, position.y, position.th);
-        }
         // Publish poses for debugging
         std::vector<geometry_msgs::Pose> nonHolonomicPoses;
         for (int i = 0; i < path.size(); i+=10) {
@@ -360,6 +361,8 @@ namespace quadtree_planner {
             curr_pose = search->second;
         }
         reverse(path.begin(), path.end());
+        // Use correct start position (real start position instead of center of start quad cell)
+        path.erase(path.begin());
         path.insert(path.begin(),start_pos);
     }
 
