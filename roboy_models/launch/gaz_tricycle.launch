@@ -1,0 +1,37 @@
+<!--
+A launch file to instantiate a tricycle model, start gazebo simulation and
+run all controllers required to control the tricycle over /cmd_vel topic.
+-->
+<launch>
+  <arg name="model_urdf"
+       default="$(find roboy_models)/tricycle/model.urdf"/>
+  <!-- include the file that loads urdf description of the robot -->
+  <include file="$(find roboy_models)/launch/model.launch">
+    <arg name="model_urdf" value="$(arg model_urdf)"/>
+  </include>
+ <!-- include the file that starts gazebo simulation -->
+  <include file="$(find roboy_models)/launch/gazebo.launch">
+    <arg name="model_urdf" value="$(arg model_urdf)"/>
+  </include>
+
+  <!-- Start a node that will allow us to control simulation via ROS topics -->
+  <rosparam command="load"
+            file="$(find roboy_models)/tricycle/config/joints_state.yaml"
+            ns="tricycle_joint_state_controller"/>
+  <rosparam command="load"
+            file="$(find roboy_models)/tricycle/config/steering_controller.yaml"
+            ns="tricycle_steering_controller"/>
+  <rosparam command="load"
+            file="$(find roboy_models)/tricycle/config/wheels_controller.yaml"
+            ns="tricycle_wheels_controller"/>
+  <node name="trycicle_controller_spawner" pkg="controller_manager"
+        type="spawner"
+        args="tricycle_joint_state_controller
+          tricycle_steering_controller
+          tricycle_wheels_controller
+          --shutdown-timeout 3"/>
+   <!-- Start a node that will forward navigation stack commands to the
+  simulation -->
+  <node name="tricycle_controller" pkg="roboy_models"
+        type="tricycle_controller.py"/>
+</launch>

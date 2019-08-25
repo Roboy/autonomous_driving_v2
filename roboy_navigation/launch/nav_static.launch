@@ -2,9 +2,9 @@
 Launch the navigation stack to run on a static map published by map server.
 -->
 <launch>
-  <arg name="map_configfile_" default="Interims.yaml"/>
+  <arg name="map_configfile" default="Interims.yaml"/>
   <arg name="map_config"
-       default="$(find roboy_navigation)/config/$(arg map_configfile_)"/>
+       default="$(find roboy_navigation)/config/$(arg map_configfile)"/>
   <node name="map_server" pkg="map_server" type="map_server"
         args="$(arg map_config)" output="screen"/>
   <node pkg="move_base" type="move_base" respawn="false" name="move_base"
@@ -12,7 +12,7 @@ Launch the navigation stack to run on a static map published by map server.
 
     <rosparam file="$(find roboy_navigation)/config/base_local_planner.yaml"
               command="load"/>
-    <rosparam file="$(find roboy_navigation)/config/astar_planner.yaml"
+    <rosparam file="$(find roboy_navigation)/config/quadtree_planner.yaml"
               command="load"/>
     <rosparam file="$(find roboy_navigation)/config/global_costmap.yaml"
               command="load"/>

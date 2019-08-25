@@ -1,0 +1,10 @@
+<launch>
+  <arg name="model_urdf"
+       default="$(find roboy_models)/tricycle/model.urdf"/>
+  <param name="robot_description"
+         command="$(find xacro)/xacro --inorder $(arg model_urdf)"/>
+  <node pkg="robot_state_publisher" type="robot_state_publisher"
+        name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="30.0"/>
+  </node>
+</launch>

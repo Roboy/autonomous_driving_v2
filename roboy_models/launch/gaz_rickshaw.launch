@@ -1,0 +1,43 @@
+<!--
+A launch file to instantiate a rickshaw model, start gazebo simulation and
+run all controllers required to control the rickshaw over /cmd_vel topic.
+-->
+<launch>
+  <arg name="model_urdf"
+       default="$(find roboy_models)/rickshaw/model.urdf"/>
+  <arg name="model_name" default="rickshaw"/>
+  <arg name="model_frame" default="base_link"/>
+  <!-- include the file that loads urdf description of the robot -->
+  <include file="$(find roboy_models)/launch/model.launch">
+    <arg name="model_urdf" value="$(arg model_urdf)"/>
+  </include>
+
+  <include file="$(find roboy_models)/launch/gazebo.launch">
+    <arg name="model_urdf" value="$(arg model_urdf)"/>
+    <arg name="model_name" value="$(arg model_name)"/>
+    <arg name="model_frame" value="$(arg model_frame)"/>
+  </include>
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher"
+        type="joint_state_publisher" /> -->
+  <rosparam command="load"
+            file="$(find roboy_models)/rickshaw/config/joints_state.yaml"
+            ns="rickshaw_joint_state_controller"/>
+  <rosparam command="load"
+            file="$(find roboy_models)/rickshaw/config/front_part_controller.yaml"
+            ns="rickshaw_front_part_controller"/>
+  <rosparam command="load"
+            file="$(find roboy_models)/rickshaw/config/wheels_controller.yaml"
+            ns="rickshaw_wheels_controller"/>
+  <rosparam command="load"
+            file="$(find roboy_models)/rickshaw/config/ros_control.yaml"
+            ns="/gazebo_ros_control"/>
+  <node name="rickshaw_controller_spawner" pkg="controller_manager"
+        type="spawner"
+        args="rickshaw_joint_state_controller
+        rickshaw_front_part_controller
+        rickshaw_wheels_controller
+          --shutdown-timeout 3"/>
+  <node name="rickshaw_controller" pkg="roboy_models"
+        type="rickshaw_controller.py"/>
+
+</launch>

@@ -1,0 +1,17 @@
+<!--
+A launch file to instatiate a urdf model and get it ready to be visualized in
+rviz.
+-->
+<launch>
+  <group ns="roboy">
+      <arg name="model_urdf"
+         default="$(find roboy_models)/rickshaw/model.urdf"/>
+
+    <!-- include the file that loads urdf description of the robot -->
+      <include file="$(find roboy_models)/launch/model.launch">
+        <arg name="model_urdf" value="$(arg model_urdf)"/>
+      </include>
+  </group>
+  <node name="rickshaw_joint_state_publisher" pkg="roboy_models"
+        type="rickshaw_joint_state_publisher.py" output="screen"/>
+</launch>

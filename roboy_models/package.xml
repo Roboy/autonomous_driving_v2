@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>roboy_models</name>
+  <version>1.0.0</version>
+  <description>Package contains different models that can be simulated in Gazebo
+    and controlled by the ROS Navigation Stack
+  </description>
+
+  <maintainer email="sasha.melkonyan@gmail.com">Alex Melkonyan</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <build_depend>velocity_controllers</build_depend>
+  <build_depend>position_controllers</build_depend>
+  <build_depend>joint_state_controllers</build_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>gazebo_ros_control</exec_depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <exec_depend>velocity_controllers</exec_depend>
+</package>
