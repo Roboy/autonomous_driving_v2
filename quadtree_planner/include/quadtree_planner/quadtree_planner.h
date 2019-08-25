@@ -22,6 +22,7 @@
 #include <visualization_msgs/Marker.h>
 
 #include "../include/quadtree_planner/quadtree_datastructure.h"
+#include "../include/quadtree_planner/dubins.h"
 
 namespace quadtree_planner {
 
@@ -114,9 +115,15 @@ namespace quadtree_planner {
         void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale);
 
         // Path Refinement (Dubin's car)
-        void pathRefinement(bool &reached_goal_quad,  std::vector<Pose> &path);
+        void pathRefinementGreedy(bool &reached_goal_quad,  std::vector<Pose> &path);
+        void pathRefinementExhaustive(bool &reached_goal_quad,  std::vector<Pose> &path);
+        void SampleThetaAnglesQ1(DubinsPath *DubinsPath, double q0[], double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles);
         bool IsTrajectoryCollisionFree(std::vector<Pose> pathVector);
+        void VisualizeSampledPosesQ1(double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles);
         void visualizeNonHolonomicPoses(std::vector<Pose> &path);
+        void CheckCompletenessOfIntermediatePathsVector(std::vector<IntermediatePaths> &intermediatePathsVector, int &first_index, int &second_index,
+                bool &intermediatePathVectorComplete, std::vector<Pose> &path, bool &reached_goal_quad, bool &pathPossible);
+        void ConnectSubpaths(DubinsPath *DubinsPath, std::vector<IntermediatePaths> &intermediatePathsVector, bool &reached_goal_quad, std::vector<Pose> &path);
 
 
     private:
@@ -127,6 +134,7 @@ namespace quadtree_planner {
         ros::Publisher holonomic_plan_publisher_;
         ros::Publisher HolonomicPathPoses_publisher_;
         ros::Publisher nonHolonomicPathPoses_publisher_;
+        ros::Publisher sampledPosesQ1publisher_;
         int max_allowed_time_;
 
         double turning_radius_;

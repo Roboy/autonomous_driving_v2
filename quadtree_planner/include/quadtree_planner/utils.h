@@ -37,6 +37,40 @@ namespace quadtree_planner {
     };
 
     /**
+ * Container for storing valid angle combinations
+ */
+    struct IntermediatePathAngles {
+        double first_theta;
+        double second_theta;
+        double pathLength;
+
+        IntermediatePathAngles();
+
+        IntermediatePathAngles(double first_theta, double second_theta, double pathLength);
+
+        bool operator==(const IntermediatePathAngles &other) const;
+
+        friend std::ostream& operator<<(std::ostream &out, const IntermediatePathAngles &intermediatePathAngles);
+    };
+
+    /**
+    * Container for storing intermediate paths (possible angle combinations for each index combination)
+    */
+    struct IntermediatePaths {
+        int first_index;
+        int second_index;
+        std::vector<IntermediatePathAngles> intermediatePathAngles;
+
+        IntermediatePaths();
+
+        IntermediatePaths(int first_index, int second_index, std::vector<IntermediatePathAngles> intermediatePathAngles);
+
+        bool operator==(const IntermediatePaths &other) const;
+
+        friend std::ostream& operator<<(std::ostream &out, const IntermediatePaths &intermediatePaths);
+    };
+
+    /**
      * Container for storing object position and associated cost.
      */
     struct PoseWithDist {
