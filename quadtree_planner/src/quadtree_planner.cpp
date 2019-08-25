@@ -379,8 +379,8 @@ namespace quadtree_planner {
                          (int) intermediatePathsVector.at(i).intermediatePathAngles.size());
                 for (int j = 0; j < intermediatePathsVector.at(i).intermediatePathAngles.size(); j++) {
               //      ROS_INFO("Angle pair:%i with first_theta:%f and second_theta:%f", j,
-                             intermediatePathsVector.at(i).intermediatePathAngles.at(j).first_theta,
-                             intermediatePathsVector.at(i).intermediatePathAngles.at(j).second_theta);
+              //               intermediatePathsVector.at(i).intermediatePathAngles.at(j).first_theta,
+              //               intermediatePathsVector.at(i).intermediatePathAngles.at(j).second_theta);
                 }
             }
 
@@ -413,7 +413,7 @@ namespace quadtree_planner {
                 } else {
                     ROS_INFO("No path refinement with exhaustive approach possible!");
                     ROS_INFO(
-                            "Quadtree cell based search did find a path but it is not feasible when performing greedy pathRefinement");
+                            "Quadtree cell based search did find a path but it is not feasible when performing exhaustive pathRefinement");
                     reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints
                     // the reason for this is usually that the final orientation is not feasible.
                     // depening on the requirements regarding correct orientation of the final position some adaptions might be possible
@@ -464,6 +464,7 @@ namespace quadtree_planner {
                     }
                 }
             }
+            ROS_INFO("Delete angles with i:%i",i);
         }
 
         for(int i = 0; i < intermediatePathsVector.size(); i++) { // Connect two subpaths
@@ -493,14 +494,19 @@ namespace quadtree_planner {
                 Pose correctPose(q1[0], q1[1], q1[2]);
                 correct_poses.push_back(correctPose);
             }
+            ROS_INFO("Connect two subpaths with i:%i", i);
         }
 
         ROS_INFO("counter_succesful_connections: %i",counter_succesful_connections);
+        ROS_INFO("correct_poses.size():%i", (int)correct_poses.size());
 
         if (counter_succesful_connections == intermediatePathsVector.size()) {
-            for(int i = 0; i < correct_poses.size()-1; i++) { // Connect two subpaths
+            Dubins_Poses_final.clear();
+            for(int i = 0; i < (int)(correct_poses.size()-1); i++) { // Connect two subpaths
                 double q0[] = {correct_poses.at(i).x, correct_poses.at(i).y, correct_poses.at(i).th};
                 double q1[] = {correct_poses.at(i + 1).x, correct_poses.at(i + 1).y, correct_poses.at(i + 1).th};
+                ROS_INFO("q0 x:%f y:%f, theta:%f", q0[0], q0[1], q0[2]);
+                ROS_INFO("q1 x:%f y:%f, theta:%f", q1[0], q1[1], q1[2]);
                 Dubins_Poses_temp.clear();
                 dubins_shortest_path(DubinsPath, q0, q1, turning_radius_);
                 dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
