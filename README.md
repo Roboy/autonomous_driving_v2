@@ -4,4 +4,4 @@ This is [Roboy's](https://roboy.org) Autonomous Driving Team's main repository f
 
 ## Devel
 
-This is the devel branch which will be deployed in the docker container. Check out the docker [docker branch](https://github.com/Roboy/autonomous_driving_v2/tree/docker) for more info.
+This is the devel branch for planning which will be deployed in the docker container. Check out the docker [docker branch](https://github.com/Roboy/autonomous_driving_v2/tree/docker) for more info.
