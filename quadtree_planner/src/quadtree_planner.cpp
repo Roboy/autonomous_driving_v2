@@ -29,7 +29,7 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
+        name_(""), costmap_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), enable_pathRefinement_(true), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
@@ -42,6 +42,9 @@ namespace quadtree_planner {
         costmap_ = costmap;
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
+        holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
+        HolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/HolonomicPlanPoses", 1);
+        nonHolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/nonHolonomicPlanPoses", 1);
         marker_publisher_ = n.advertise<visualization_msgs::Marker>(name + "/visualization_marker", 1);
         eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 100, true);
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
@@ -74,6 +77,7 @@ namespace quadtree_planner {
         nh.param<int>("max_allowed_time", max_allowed_time_, 20);
         nh.param<double>("goal_tolerance", goal_tolerance_, 0.5);
         nh.param<double>("rickshaw_speed", rickshaw_speed_, 1.0);
+        nh.param<bool>("enable_pathRefinement", enable_pathRefinement_, true);
     }
 
     bool QuadTreePlanner::makePlan(const geometry_msgs::PoseStamped &start,
@@ -114,11 +118,12 @@ namespace quadtree_planner {
             pose.header.frame_id = global_frame_;
             plan.push_back(pose);
         }
-        publishPlan(plan);
+        publishPlan(plan, plan_publisher_);
+
         return true;
     }
 
-    void QuadTreePlanner::publishPlan(std::vector<geometry_msgs::PoseStamped> &path) {
+    void QuadTreePlanner::publishPlan(std::vector<geometry_msgs::PoseStamped> &path, ros::Publisher &plan_publisher_) {
         nav_msgs::Path gui_path;
         gui_path.header.frame_id = global_frame_;
         gui_path.header.stamp = ros::Time::now();
@@ -213,54 +218,11 @@ namespace quadtree_planner {
             ROS_INFO("The distance of the reached goal position to the real goal is %f m", distanceGoalQuadRealGoal);
             getPath(parentsQuadsPoses, goal_quad_pose, start, path);
 
-            // Path Refinement (Dubin's car)
-            // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path
-            bool refinement_finished = false;
-            int first_index = 0;
-            int second_index = path.size()-1;
-            // In the loop, we try to connect the first position with a collision-free smooth path to the last position
-            // If this does not work, we use the cell next to the goal position
-            // the second index is decremented until we find a possible connection
-            // then the loop continues with the remaining not yet connected cells
-            while(!refinement_finished) {
-                double q0[] = {path.at(first_index).x, path.at(first_index).y, path.at(first_index).th};
-                double q1[] = {path.at(second_index).x, path.at(second_index).y, path.at(second_index).th};
-                DubinsPath DubinsPath;
-                dubins_shortest_path( &DubinsPath, q0, q1, turning_radius_);
-                dubins_path_sample_many(&DubinsPath, 0.05, printDubinsConfiguration, NULL);
-
-                // Checking for collisions
-                if(IsTrajectoryCollisionFree(Dubins_Poses_temp) == false) {
-                    Dubins_Poses_temp.clear();
-                    refinement_finished = false;
-                    if(second_index > first_index+1) {
-                        second_index--;
-                    } else {
-                        ROS_INFO("No path refinement possible!");
-                        ROS_INFO("Quadtree cell based search did find a path but it is not feasible due to the non-holonomic constraints");
-                        reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints
-                        // the reason for this is usually that the final orientation is not feasible.
-                        // depening on the requirements regarding correct orientation of the final position some adaptions might be possible
-                        // in order to ignore the orientation at the final position
-                        refinement_finished = true;
-                    }
-                }
-                else {
-                    Dubins_Poses_final.insert(Dubins_Poses_final.end(),Dubins_Poses_temp.begin(),Dubins_Poses_temp.end());
-                    Dubins_Poses_temp.clear();
-                    if(second_index == (path.size() -1)) {
-                        refinement_finished = true;
-                    } else {
-                        first_index = second_index;
-                        second_index = path.size()-1;
-                    }
-                }
+            // Publish holonomic plan for debugging purposes
+            publishHolonomicPlan(path);
+            if(enable_pathRefinement_) {
+                pathRefinement(reached_goal_quad, path);
             }
-            // Refined path via Dubin's car
-            path = Dubins_Poses_final;
-            Dubins_Poses_final.clear();
-
-
         } else {
             ROS_INFO("Quadtree cell based search did not reach the goal cell");
         }
@@ -269,6 +231,102 @@ namespace quadtree_planner {
                  difftime(time(NULL), start_time), num_nodes_visited, reached_goal_quad ? "true" : "false");
 
         return reached_goal_quad;
+    }
+
+    void QuadTreePlanner::pathRefinement(bool &reached_goal_quad, std::vector<quadtree_planner::Pose> &path){
+        // Path Refinement (Dubin's car)
+        // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path
+        bool refinement_finished = false;
+        int first_index = 0;
+        int second_index = path.size()-1;
+        // In the loop, we try to connect the first position with a collision-free smooth path to the last position
+        // If this does not work, we use the cell next to the goal position
+        // the second index is decremented until we find a possible connection
+        // then the loop continues with the remaining not yet connected cells
+        while(!refinement_finished) {
+            double q0[] = {path.at(first_index).x, path.at(first_index).y, path.at(first_index).th};
+            double q1[] = {path.at(second_index).x, path.at(second_index).y, path.at(second_index).th};
+            DubinsPath DubinsPath;
+            dubins_shortest_path( &DubinsPath, q0, q1, turning_radius_);
+            dubins_path_sample_many(&DubinsPath, 0.05, createDubinsConfiguration, NULL);
+
+            // Checking for collisions
+            if(IsTrajectoryCollisionFree(Dubins_Poses_temp) == false) {
+                Dubins_Poses_temp.clear();
+                refinement_finished = false;
+                if(second_index > first_index+1) {
+                    second_index--;
+                } else {
+                    ROS_INFO("No path refinement possible!");
+                    ROS_INFO("Quadtree cell based search did find a path but it is not feasible due to the non-holonomic constraints");
+                    reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints
+                    // the reason for this is usually that the final orientation is not feasible.
+                    // depening on the requirements regarding correct orientation of the final position some adaptions might be possible
+                    // in order to ignore the orientation at the final position
+                    refinement_finished = true;
+                }
+            }
+            else {
+                Dubins_Poses_final.insert(Dubins_Poses_final.end(),Dubins_Poses_temp.begin(),Dubins_Poses_temp.end());
+                Dubins_Poses_temp.clear();
+                if(second_index == (path.size() -1)) {
+                    refinement_finished = true;
+                } else {
+                    first_index = second_index;
+                    second_index = path.size()-1;
+                }
+            }
+        }
+        // Refined path via Dubin's car
+        path = Dubins_Poses_final;
+        Dubins_Poses_final.clear();
+
+        visualizeNonHolonomicPoses(path);
+
+    }
+
+    void QuadTreePlanner::visualizeNonHolonomicPoses(std::vector<Pose> &path) {
+        // Debugging (display theta angles of non-holonomic path poses)
+        for (auto position: path) {
+            ROS_INFO("Path position x:%f, y:%f, th:%f", position.x, position.y, position.th);
+        }
+        // Publish poses for debugging
+        std::vector<geometry_msgs::Pose> nonHolonomicPoses;
+        for (int i = 0; i < path.size(); i+=10) {
+            auto pose = path.at(i).toPose();
+            nonHolonomicPoses.push_back(pose);
+        }
+        geometry_msgs::PoseArray poseArray;
+        poseArray.header.frame_id = global_frame_;
+        poseArray.header.stamp = ros::Time::now();
+        poseArray.poses.resize(nonHolonomicPoses.size());
+        std::copy(nonHolonomicPoses.begin(), nonHolonomicPoses.end(), poseArray.poses.begin());
+        nonHolonomicPathPoses_publisher_.publish(poseArray);
+    }
+
+    void QuadTreePlanner::publishHolonomicPlan(std::vector<Pose> &path) {
+        ros::Time plan_time = ros::Time::now();
+        std::vector<geometry_msgs::PoseStamped> holonomicPlan;
+        for (auto position : path) {
+            auto pose = position.toPoseStamped();
+            pose.header.stamp = plan_time;
+            pose.header.frame_id = global_frame_;
+            holonomicPlan.push_back(pose);
+        }
+        publishPlan(holonomicPlan, holonomic_plan_publisher_);
+
+        // Publish poses for debugging
+        std::vector<geometry_msgs::Pose> holonomicPoses;
+        for (auto position : path) {
+            auto pose = position.toPose();
+            holonomicPoses.push_back(pose);
+        }
+        geometry_msgs::PoseArray poseArray;
+        poseArray.header.frame_id = global_frame_;
+        poseArray.header.stamp = ros::Time::now();
+        poseArray.poses.resize(holonomicPoses.size());
+        std::copy(holonomicPoses.begin(), holonomicPoses.end(), poseArray.poses.begin());
+        HolonomicPathPoses_publisher_.publish(poseArray);
     }
 
     bool QuadTreePlanner::validateParameters() const {
@@ -474,7 +532,7 @@ namespace quadtree_planner {
 }
 
 // Dubin's car
-int printDubinsConfiguration(double q[3], double x, void* user_data) {
+int createDubinsConfiguration(double q[3], double x, void* user_data) {
 //    ROS_INFO("%f, %f, %f, %f\n", q[0], q[1], q[2], x);
     quadtree_planner::Pose current_pos;
     current_pos.x = q[0];

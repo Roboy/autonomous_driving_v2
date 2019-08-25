@@ -32,6 +32,16 @@ namespace quadtree_planner {
         return pose;
     }
 
+    geometry_msgs::Pose Pose::toPose(){
+        tf2::Quaternion quat;
+        quat.setRPY(0, 0, th);
+        auto pose = geometry_msgs::Pose();
+        pose.orientation = tf2::toMsg(quat);
+        pose.position.x = x;
+        pose.position.y = y;
+        return pose;
+    }
+
     bool Pose::operator==(const quadtree_planner::Pose &other) const {
         return x == other.x && y == other.y && th == other.th;
 

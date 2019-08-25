@@ -1,6 +1,6 @@
 <launch>
   <arg name="rviz" default="false" doc="bool, whether or not to start rviz on the host"/>
-  <arg name="map_configfile" default="map.yaml" doc="string that names the map_config file that should be used (i.e. specifies the scenario)"/>
+  <arg name="map_configfile" default="Interims.yaml" doc="string that names the map_config file that should be used (i.e. specifies the scenario)"/>
   <include file="$(find simulation)/launch/tricycle.launch"/>
   <include file="$(find navigation)/launch/navigation.launch">
     <arg name="map_configfile_" value="$(arg map_configfile)"/>

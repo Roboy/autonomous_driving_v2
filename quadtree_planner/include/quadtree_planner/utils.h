@@ -28,6 +28,8 @@ namespace quadtree_planner {
 
         geometry_msgs::PoseStamped toPoseStamped();
 
+        geometry_msgs::Pose toPose();
+
         bool operator==(const Pose &other) const;
 
         friend std::ostream& operator<<(std::ostream &out, const Pose &pos);

@@ -7,6 +7,7 @@
 
 #include <ros/ros.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/PoseArray.h>
 // Costmap used for the map representation
 #include <costmap_2d/costmap_2d_ros.h>
 // Abstract global planner from move_base
@@ -76,7 +77,9 @@ namespace quadtree_planner {
                      const Pose &goal_pos, const Pose &start_pos,
                      std::vector<Pose> &path) const;
 
-        void publishPlan(std::vector<geometry_msgs::PoseStamped> &path);
+        void publishPlan(std::vector<geometry_msgs::PoseStamped> &path, ros::Publisher &plan_publisher_);
+
+        void publishHolonomicPlan(std::vector<Pose> &path);
 
         /**
          * Estimated distance between two poses.
@@ -111,7 +114,9 @@ namespace quadtree_planner {
         void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale);
 
         // Path Refinement (Dubin's car)
+        void pathRefinement(bool &reached_goal_quad,  std::vector<Pose> &path);
         bool IsTrajectoryCollisionFree(std::vector<Pose> pathVector);
+        void visualizeNonHolonomicPoses(std::vector<Pose> &path);
 
 
     private:
@@ -119,11 +124,15 @@ namespace quadtree_planner {
         Costmap *costmap_;
         std::string global_frame_;
         ros::Publisher plan_publisher_;
+        ros::Publisher holonomic_plan_publisher_;
+        ros::Publisher HolonomicPathPoses_publisher_;
+        ros::Publisher nonHolonomicPathPoses_publisher_;
         int max_allowed_time_;
 
         double turning_radius_;
         double goal_tolerance_;
         double rickshaw_speed_;
+        bool enable_pathRefinement_;
 
         // Visualization
         ros::Publisher marker_publisher_;
@@ -145,7 +154,7 @@ namespace quadtree_planner {
 }
 
 // Path refinement via Dubin's car
-int printDubinsConfiguration(double q[3], double x, void* user_data);
+int createDubinsConfiguration(double q[3], double x, void* user_data);
 std::vector<quadtree_planner::Pose> Dubins_Poses_temp;
 std::vector<quadtree_planner::Pose> Dubins_Poses_final;
 
