@@ -62,31 +62,35 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     ActionGoal.goal.target_pose.header.stamp = ros::Time::now();
     // IMPORTANT: Positions are just mock positions as map is not avaible yet
     // ToDo: Replace positions by correct values once the maps are available
-    if(destination == "test_location") {
+    if(destination == "MidnightSurprise") {
         ActionGoal.goal.target_pose.pose.position.x = 17.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "mensa") {
+    } else if (destination == "InterimsFront") {
         ActionGoal.goal.target_pose.pose.position.x = 19.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "mi") {
+    } else if (destination == "InterimsSideMensa") {
         ActionGoal.goal.target_pose.pose.position.x = 21.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "mw") {
+    } else if (destination == "InterimsSideUTUM") {
         ActionGoal.goal.target_pose.pose.position.x = 23.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "ubahn") {
+    } else if (destination == "MWChicco") {
         ActionGoal.goal.target_pose.pose.position.x = 25.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "unreachable_test_location") {
+    } else if (destination == "MWStuCafe") {
         ActionGoal.goal.target_pose.pose.position.x = 45.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else {
+    } else if (destination == "MWFachschaft") {
+        ActionGoal.goal.target_pose.pose.position.x = 27.0;
+        ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+    }  else {
         location_unknown = true;
     }
 
