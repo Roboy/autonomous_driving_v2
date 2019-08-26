@@ -286,7 +286,6 @@ namespace quadtree_planner {
         Dubins_Poses_final.clear();
 
         visualizeNonHolonomicPoses(path);
-
     }
 
     void QuadTreePlanner::visualizeNonHolonomicPoses(std::vector<Pose> &path) {
