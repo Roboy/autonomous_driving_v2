@@ -472,7 +472,7 @@ namespace quadtree_planner {
                 }
             }
             // Delete all angles from second path that don't have an equivalent in first path
-            auto itSecondPath_ = intermediatePathsVector.at(i+1).intermediatePathAngles.begin();
+         /*   auto itSecondPath_ = intermediatePathsVector.at(i+1).intermediatePathAngles.begin();
             while (itSecondPath_ != intermediatePathsVector.at(i+1).intermediatePathAngles.end()) {
                 bool toDeleteInSecondPath = true;
                 auto itFirstPath_ = intermediatePathsVector.at(i).intermediatePathAngles.begin();
@@ -488,7 +488,7 @@ namespace quadtree_planner {
                 } else {
                     itSecondPath_++;
                 }
-            }
+            }   */
             ROS_INFO("Delete angles with i:%i",i);
         }
 
