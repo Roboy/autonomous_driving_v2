@@ -62,31 +62,31 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     ActionGoal.goal.target_pose.header.stamp = ros::Time::now();
     // IMPORTANT: Positions are just mock positions as map is not avaible yet
     // ToDo: Replace positions by correct values once the maps are available
-    if(destination == "MidnightSurprise") {
+    if(destination == "midnightsurprise") {
         ActionGoal.goal.target_pose.pose.position.x = 17.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "InterimsFront") {
+    } else if (destination == "interimsfront") {
         ActionGoal.goal.target_pose.pose.position.x = 19.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "InterimsSideMensa") {
+    } else if (destination == "interimssidemensa") {
         ActionGoal.goal.target_pose.pose.position.x = 21.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "InterimsSideUTUM") {
+    } else if (destination == "interimssideutum") {
         ActionGoal.goal.target_pose.pose.position.x = 23.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "MWChicco") {
+    } else if (destination == "mwchicco") {
         ActionGoal.goal.target_pose.pose.position.x = 25.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "MWStuCafe") {
+    } else if (destination == "mwstucafe") {
         ActionGoal.goal.target_pose.pose.position.x = 45.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "MWFachschaft") {
+    } else if (destination == "mwfachschaft") {
         ActionGoal.goal.target_pose.pose.position.x = 27.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
