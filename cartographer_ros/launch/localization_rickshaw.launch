@@ -17,7 +17,9 @@
 <launch>
   <arg name="rviz" default="false" />
   <arg name="offline" default="false"/>
-
+  
+  <remap from="/map" to="/map_loc" />
+  
   <param name="robot_description"
     textfile="$(find cartographer_ros)/urdf/rickshaw.urdf" />
 
