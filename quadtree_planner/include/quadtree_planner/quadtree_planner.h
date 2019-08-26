@@ -118,6 +118,7 @@ namespace quadtree_planner {
         void pathRefinementGreedy(bool &reached_goal_quad,  std::vector<Pose> &path);
         void pathRefinementExhaustive(bool &reached_goal_quad,  std::vector<Pose> &path);
         void SampleThetaAnglesQ1(DubinsPath *DubinsPath, double q0[], double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles);
+        void SampleAllDubinsPaths(DubinsPath *DubinsPath, double q0[], double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles);
         bool IsTrajectoryCollisionFree(std::vector<Pose> pathVector);
         void VisualizeSampledPosesQ1(double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles);
         void visualizeNonHolonomicPoses(std::vector<Pose> &path);

@@ -42,9 +42,10 @@ namespace quadtree_planner {
         return pose;
     }
 
-    IntermediatePathAngles::IntermediatePathAngles(): IntermediatePathAngles(0.0,0.0,0.0) {}
+    IntermediatePathAngles::IntermediatePathAngles(): IntermediatePathAngles(0.0,0.0,0.0, LSL) {}
 
-    IntermediatePathAngles::IntermediatePathAngles(double first_theta, double second_theta, double pathLength): first_theta(first_theta), second_theta(second_theta), pathLength(pathLength)  {}
+    IntermediatePathAngles::IntermediatePathAngles(double first_theta, double second_theta, double pathLength, DubinsPathType dubinsPathType):
+    first_theta(first_theta), second_theta(second_theta), pathLength(pathLength), dubinsPathType(dubinsPathType)  {}
 
     bool IntermediatePathAngles::operator==(const quadtree_planner::IntermediatePathAngles &other) const {
         return first_theta == other.first_theta && second_theta == other.second_theta && pathLength == other.pathLength;
@@ -64,6 +65,11 @@ namespace quadtree_planner {
         return first_index == other.first_index && second_index == other.second_index;
 
     }
+
+    DubinsSubpath::DubinsSubpath(): DubinsSubpath(Pose(), Pose(), 0, LSL) {}
+
+    DubinsSubpath::DubinsSubpath(Pose q0, Pose q1, double turning_radius, DubinsPathType dubinsPathType):
+    q0(q0), q1(q1), turning_radius(turning_radius), dubinsPathType(dubinsPathType) {}
 
     std::ostream& operator<<(std::ostream &out, const IntermediatePaths &intermediatePaths) {
         out << std::setprecision(3) << "IntermediatedPaths(" <<  ", " << intermediatePaths.first_index << ", " << intermediatePaths.second_index;

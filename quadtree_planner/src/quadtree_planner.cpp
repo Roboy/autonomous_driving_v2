@@ -342,7 +342,6 @@ namespace quadtree_planner {
                 intermediatePathAngles.clear();
                 for (int i = 0; i < intermediatePathAnglesOld.size(); i++) {
                     q0[2] = intermediatePathAnglesOld.at(i).second_theta;
-              //      ROS_INFO("Sampling q0 theta:%f", q0[2]);
                     SampleThetaAnglesQ1(&DubinsPath, q0, q1, intermediatePathAngles);
                     VisualizeSampledPosesQ1(q1, intermediatePathAngles);
                 }
@@ -350,19 +349,17 @@ namespace quadtree_planner {
                     IntermediatePaths intermediatePath(first_index, second_index, intermediatePathAngles);
                     intermediatePathsVector.push_back(intermediatePath);
                 }
+                else {  // no new intermediate path was found --> we have to copy back the old path angles
+                    intermediatePathAngles.resize(intermediatePathAnglesOld.size());
+                    std::copy(intermediatePathAnglesOld.begin(), intermediatePathAnglesOld.end(),
+                              intermediatePathAngles.begin());
+                }
             } else { // Sample only q0 as we want to connect an intermediate position with the global goal
                 ROS_INFO("Connecting intermediate start with global goal");
                 std::vector<IntermediatePathAngles> intermediatePathAnglesNew;
                 for (int i = 0; i < intermediatePathAngles.size(); i++) {
                     q0[2] = intermediatePathAngles.at(i).second_theta;
-                    Dubins_Poses_temp.clear();
-                    dubins_shortest_path(&DubinsPath, q0, q1, turning_radius_);
-                    dubins_path_sample_many(&DubinsPath, 0.05, createDubinsConfiguration, NULL);
-                    if (IsTrajectoryCollisionFree(Dubins_Poses_temp)) {
-                        IntermediatePathAngles anglePair = {q0[2], q1[2],
-                                                            0};   // Set path length to 0 as it is not used yet
-                        intermediatePathAnglesNew.push_back(anglePair);
-                    }
+                    SampleAllDubinsPaths(&DubinsPath, q0, q1, intermediatePathAnglesNew);
                 }
                 if (intermediatePathAnglesNew.size() > 0) {
                     IntermediatePaths intermediatePath(first_index, second_index, intermediatePathAnglesNew);
@@ -377,11 +374,12 @@ namespace quadtree_planner {
                          (int) intermediatePathsVector.at(i).first_index,
                          (int) intermediatePathsVector.at(i).second_index,
                          (int) intermediatePathsVector.at(i).intermediatePathAngles.size());
-                for (int j = 0; j < intermediatePathsVector.at(i).intermediatePathAngles.size(); j++) {
-              //      ROS_INFO("Angle pair:%i with first_theta:%f and second_theta:%f", j,
-              //               intermediatePathsVector.at(i).intermediatePathAngles.at(j).first_theta,
-              //               intermediatePathsVector.at(i).intermediatePathAngles.at(j).second_theta);
-                }
+              /*  for (int j = 0; j < intermediatePathsVector.at(i).intermediatePathAngles.size(); j++) {
+                    ROS_INFO("Angle pair:%i with first_theta:%f and second_theta:%f and DubinsPathType: %i", j,
+                             intermediatePathsVector.at(i).intermediatePathAngles.at(j).first_theta,
+                             intermediatePathsVector.at(i).intermediatePathAngles.at(j).second_theta,
+                             (int)intermediatePathsVector.at(i).intermediatePathAngles.at(j).dubinsPathType);
+                } */
             }
 
             // Check if intermediatePathsVector is already complete
@@ -451,22 +449,66 @@ namespace quadtree_planner {
         ROS_INFO("Connect subpaths");
         int counter_succesful_connections = 0;
         const float angle_tolerance = 2*M_PI/360;
-        std::vector<Pose> correct_poses;
+        std::vector<DubinsSubpath> correct_subpaths;
+
+        // Delete invalid angle combinations
         for (int i = 0; i < intermediatePathsVector.size()-1; i++) {
-            // Delete invalid angle combinations
-            std::vector<IntermediatePathAngles> anglesFirstPath = intermediatePathsVector.at(i).intermediatePathAngles;
-            std::vector<IntermediatePathAngles> anglesSecondPath = intermediatePathsVector.at(i + 1).intermediatePathAngles;
-            for (int j = 0; j < anglesFirstPath.size(); j++) {
-                for (int k = 0; k < anglesSecondPath.size(); k++) {
-                    if ((std::abs(anglesFirstPath.at(j).second_theta - anglesSecondPath.at(k).first_theta)) > angle_tolerance) {
-                        anglesFirstPath.erase(anglesFirstPath.begin()+j);
-                        anglesSecondPath.erase(anglesSecondPath.begin()+k);
+            // Delete all angles from first path that don't have an equivalent in second path
+            auto itFirstPath = intermediatePathsVector.at(i).intermediatePathAngles.begin();
+            while (itFirstPath != intermediatePathsVector.at(i).intermediatePathAngles.end()) {
+                bool toDeleteInFirstPath = true;
+                auto itSecondPath = intermediatePathsVector.at(i + 1).intermediatePathAngles.begin();
+                while (itSecondPath != intermediatePathsVector.at(i + 1).intermediatePathAngles.end()
+                        && (toDeleteInFirstPath == true)) {
+                    if ((std::abs(itFirstPath->second_theta - itSecondPath->first_theta)) < angle_tolerance) {
+                        toDeleteInFirstPath = false;
                     }
+                    itSecondPath++;
+                }
+                if(toDeleteInFirstPath) {
+                    itFirstPath = intermediatePathsVector.at(i).intermediatePathAngles.erase(itFirstPath);
+                } else {
+                    itFirstPath++;
+                }
+            }
+            // Delete all angles from second path that don't have an equivalent in first path
+            auto itSecondPath_ = intermediatePathsVector.at(i+1).intermediatePathAngles.begin();
+            while (itSecondPath_ != intermediatePathsVector.at(i+1).intermediatePathAngles.end()) {
+                bool toDeleteInSecondPath = true;
+                auto itFirstPath_ = intermediatePathsVector.at(i).intermediatePathAngles.begin();
+                while (itFirstPath_ != intermediatePathsVector.at(i).intermediatePathAngles.end()
+                       && (toDeleteInSecondPath == true)) {
+                    if ((std::abs(itFirstPath_->second_theta - itSecondPath_->first_theta)) < angle_tolerance) {
+                        toDeleteInSecondPath = false;
+                    }
+                    itFirstPath_++;
+                }
+                if(toDeleteInSecondPath) {
+                    itSecondPath_ = intermediatePathsVector.at(i+1).intermediatePathAngles.erase(itSecondPath_);
+                } else {
+                    itSecondPath_++;
                 }
             }
             ROS_INFO("Delete angles with i:%i",i);
         }
 
+
+        // Debugging
+        ROS_INFO("intermediatePathsVector.size() : %i", (int) intermediatePathsVector.size());
+        for (int i = 0; i < intermediatePathsVector.size(); i++) {
+            ROS_INFO("first index: %i, second index: %i, number of anglePairs: %i",
+                     (int) intermediatePathsVector.at(i).first_index,
+                     (int) intermediatePathsVector.at(i).second_index,
+                     (int) intermediatePathsVector.at(i).intermediatePathAngles.size());
+               /*   for (int j = 0; j < intermediatePathsVector.at(i).intermediatePathAngles.size(); j++) {
+                      ROS_INFO("Angle pair:%i with first_theta:%f and second_theta:%f and DubinsPathType: %i", j,
+                               intermediatePathsVector.at(i).intermediatePathAngles.at(j).first_theta,
+                               intermediatePathsVector.at(i).intermediatePathAngles.at(j).second_theta,
+                               (int)intermediatePathsVector.at(i).intermediatePathAngles.at(j).dubinsPathType);
+                  } */
+        }
+
+        // ToDo: Maybe prioritize shorter paths for subpaths where there is more than one potential solution
         for(int i = 0; i < intermediatePathsVector.size(); i++) { // Connect two subpaths
             double q0[] = {path.at(intermediatePathsVector.at(i).first_index).x, path.at(intermediatePathsVector.at(i).first_index).y,
                          path.at(intermediatePathsVector.at(i).first_index).th};
@@ -474,11 +516,13 @@ namespace quadtree_planner {
                          path.at(intermediatePathsVector.at(i).second_index).th};
             std::vector<IntermediatePathAngles> anglesPath = intermediatePathsVector.at(i).intermediatePathAngles;
             bool succesful_subconnection = false;
+            DubinsPathType dubinsPathType;
             for (int j = 0; j < anglesPath.size(); j++) {
                     q0[2] = anglesPath.at(j).first_theta;
                     q1[2] = anglesPath.at(j).second_theta;
+                    dubinsPathType = anglesPath.at(j).dubinsPathType;
                     Dubins_Poses_temp.clear();
-                    dubins_shortest_path(DubinsPath, q0, q1, turning_radius_);
+                    dubins_path(DubinsPath, q0, q1, turning_radius_, dubinsPathType);
                     dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
                     if (IsTrajectoryCollisionFree(Dubins_Poses_temp)) {
                         succesful_subconnection = true;
@@ -486,29 +530,28 @@ namespace quadtree_planner {
                     }
                 }
             if(succesful_subconnection) {
-                Pose correctPose(q0[0], q0[1], q0[2]);
-                correct_poses.push_back(correctPose);
+                Pose correctPose1(q0[0], q0[1], q0[2]);
+                Pose correctPose2(q1[0], q1[1], q1[2]);
+                DubinsSubpath correctSubpath(correctPose1, correctPose2, turning_radius_, dubinsPathType);
+
+                correct_subpaths.push_back(correctSubpath);
                 counter_succesful_connections++;
-            }
-            if(i == intermediatePathsVector.size()-1) {
-                Pose correctPose(q1[0], q1[1], q1[2]);
-                correct_poses.push_back(correctPose);
             }
             ROS_INFO("Connect two subpaths with i:%i", i);
         }
 
         ROS_INFO("counter_succesful_connections: %i",counter_succesful_connections);
-        ROS_INFO("correct_poses.size():%i", (int)correct_poses.size());
+        ROS_INFO("correct_subpaths.size():%i", (int)correct_subpaths.size());
 
         if (counter_succesful_connections == intermediatePathsVector.size()) {
             Dubins_Poses_final.clear();
-            for(int i = 0; i < (int)(correct_poses.size()-1); i++) { // Connect two subpaths
-                double q0[] = {correct_poses.at(i).x, correct_poses.at(i).y, correct_poses.at(i).th};
-                double q1[] = {correct_poses.at(i + 1).x, correct_poses.at(i + 1).y, correct_poses.at(i + 1).th};
+            for(int i = 0; i < (int)(correct_subpaths.size()); i++) { // Connect two subpaths
+                double q0[] = {correct_subpaths.at(i).q0.x, correct_subpaths.at(i).q0.y, correct_subpaths.at(i).q0.th};
+                double q1[] = {correct_subpaths.at(i).q1.x, correct_subpaths.at(i).q1.y, correct_subpaths.at(i).q1.th};
                 ROS_INFO("q0 x:%f y:%f, theta:%f", q0[0], q0[1], q0[2]);
                 ROS_INFO("q1 x:%f y:%f, theta:%f", q1[0], q1[1], q1[2]);
                 Dubins_Poses_temp.clear();
-                dubins_shortest_path(DubinsPath, q0, q1, turning_radius_);
+                dubins_path(DubinsPath, q0, q1, turning_radius_, correct_subpaths.at(i).dubinsPathType);
                 dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
                 Dubins_Poses_final.insert(Dubins_Poses_final.end(), Dubins_Poses_temp.begin(), Dubins_Poses_temp.end());
             }
@@ -528,13 +571,19 @@ namespace quadtree_planner {
                  theta_sample -= (2 * M_PI);
              }
              q1[2] = theta_sample;
-             Dubins_Poses_temp.clear();
-             dubins_shortest_path(DubinsPath, q0, q1, turning_radius_);
-             dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
-             if (IsTrajectoryCollisionFree(Dubins_Poses_temp) == true) {
-                 IntermediatePathAngles anglePair(q0[2], q1[2], 0); // pathLength not used yet; set to 0 for now
-                 intermediatePathAngles.push_back(anglePair);
-             }
+             SampleAllDubinsPaths(DubinsPath, q0, q1, intermediatePathAngles);
+        }
+    }
+
+    void QuadTreePlanner::SampleAllDubinsPaths(DubinsPath *DubinsPath, double q0[], double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles) {
+        for(int i=0; i < 6; i++) {  // 6 types of Dubin's curves available
+            Dubins_Poses_temp.clear();
+            dubins_path(DubinsPath, q0, q1, turning_radius_, (DubinsPathType)i);
+            dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
+            if (IsTrajectoryCollisionFree(Dubins_Poses_temp) == true) {
+                IntermediatePathAngles anglePair(q0[2], q1[2], 0, (DubinsPathType)i); // pathLength not used yet; set to 0 for now
+                intermediatePathAngles.push_back(anglePair);
+            }
         }
     }
 

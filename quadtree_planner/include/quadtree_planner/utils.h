@@ -8,6 +8,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <ostream>
 #include "../include/quadtree_planner/quadtree_datastructure.h"
+#include "../include/quadtree_planner/dubins.h"
 
 
 namespace quadtree_planner {
@@ -43,14 +44,29 @@ namespace quadtree_planner {
         double first_theta;
         double second_theta;
         double pathLength;
+        DubinsPathType dubinsPathType;
 
         IntermediatePathAngles();
 
-        IntermediatePathAngles(double first_theta, double second_theta, double pathLength);
+        IntermediatePathAngles(double first_theta, double second_theta, double pathLength, DubinsPathType dubinsPathType);
 
         bool operator==(const IntermediatePathAngles &other) const;
 
         friend std::ostream& operator<<(std::ostream &out, const IntermediatePathAngles &intermediatePathAngles);
+    };
+
+    /**
+     * Container for storing DubinsSubpath
+     */
+    struct DubinsSubpath {
+        Pose q0;
+        Pose q1;
+        double turning_radius;
+        DubinsPathType dubinsPathType;
+
+        DubinsSubpath();
+
+        DubinsSubpath(Pose q0, Pose q1, double turning_radius, DubinsPathType dubinsPathType);
     };
 
     /**

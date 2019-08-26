@@ -16,7 +16,7 @@ int Quadtree_Cell::buildQuadtree(quadtree_planner::Costmap* costmap, long long *
     // or we have an uniform area --> no subdivision of this cell required
     int cell_area = (botRight.x - topLeft.x + 1) * (botRight.y - topLeft.y + 1);
     bool isAreaUniform = isCostOfAreaUniform(topLeft, botRight, costmap);
-    const int MINIMUM_CELL_AREA = 100;
+    const int MINIMUM_CELL_AREA = 16;
 
     if ( (cell_area < MINIMUM_CELL_AREA) || (isAreaUniform == true) ) {
         *area_ += cell_area;    // Debugging
