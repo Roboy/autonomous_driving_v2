@@ -68,6 +68,10 @@ namespace quadtree_planner {
     }
 
 
+    Coordinates::Coordinates(): Coordinates(0, 0){}
+
+    Coordinates::Coordinates(int x, int y) :  x(x), y(y) {}
+
     // ToDo Maximilian Kempa: Analyze if correct euclidean distance is required or if squared
     //  euclidean distance can be used to get rid of the potentially expensive sqrt operation
     double euclid_dist(const Pose &pose1, const Pose &pose2) {

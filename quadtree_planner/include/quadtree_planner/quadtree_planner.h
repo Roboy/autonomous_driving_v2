@@ -125,7 +125,7 @@ namespace quadtree_planner {
     private:
         std::string name_;
         Costmap *costmap_;
-        Costmap *costmap_inf;
+        CostmapAdapter *costmap_inf;
         std::string global_frame_;
         ros::Publisher plan_publisher_;
         ros::Publisher holonomic_plan_publisher_;

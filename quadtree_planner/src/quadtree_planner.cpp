@@ -41,6 +41,7 @@ namespace quadtree_planner {
         name_ = name;
         costmap_ = costmap;
         // inflated costmap initialisieren
+        costmap_2d::Costmap2D costmap_inf = costmap_2d::Costmap2D(costmap_->getSizeInCellsX(), costmap_->getSizeInCellsY(), costmap_->getResolution(), 0, 0);
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
@@ -532,10 +533,6 @@ namespace quadtree_planner {
     }
 
     void QuadTreePlanner::inflateCostmap(double inflate_radius) {
-        struct Coordinates {
-            int x;
-            int y;
-        };
         vector<Coordinates> mask;
         Coordinates coor;
         int discrete_radius = (int) ceil(inflate_radius / costmap_->getResolution());
@@ -546,8 +543,8 @@ namespace quadtree_planner {
         int y_inf;
 
         // create mask to inflate the obstacles
-        for(x=-discrete_radius; x<=discrete_radius; x++){
-            for(y=-discrete_radius; y<=discrete_radius; y++){
+        for(int x=-discrete_radius; x<=discrete_radius; x++){
+            for(int y=-discrete_radius; y<=discrete_radius; y++){
                 if(((abs(x)-1)*(abs(x)-1) + y*y <= discrete_radius*discrete_radius) || ((abs(y)-1)*(abs(y)-1) + x*x <= discrete_radius*discrete_radius)){
                     coor.x = x;
                     coor.y = y;
@@ -559,10 +556,13 @@ namespace quadtree_planner {
         for(unsigned int x=0; x<max_x; x++){
             for(unsigned int y=0; y<max_y; y++){
                 int cost = costmap_->getCost(x,y);
+                if(cost > 255){
+                    cost = 255;
+                }
                 if(cost > 0){
-                    for(std::vector<T>::iterator it = mask.begin(); it != mask.end(); ++it) {
-                        x_inf = ((int) x) + *it.x;
-                        y_inf = ((int) y) + *it.y;
+                    for(std::vector<Coordinates>::iterator it = mask.begin(); it != mask.end(); ++it) {
+                        x_inf = ((int) x) + it->x;
+                        y_inf = ((int) y) + it->y;
                         if(not((x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y))){
                             if(costmap_inf->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost){
                                 costmap_inf->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
