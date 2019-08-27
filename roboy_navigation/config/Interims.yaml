@@ -1,4 +1,4 @@
-image: ../data/Interims.pgm
+image: ../data/Interims_mod.pgm
 resolution: 0.050000
 origin: [-25.850000, -57.250000, 0.0]
 negate: 0

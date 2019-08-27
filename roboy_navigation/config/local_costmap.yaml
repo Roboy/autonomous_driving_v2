@@ -1,8 +1,8 @@
 local_costmap:
-  global_frame: map
+  global_frame: odom
   robot_base_frame: base_link
-  update_frequency: 10.0
-  publish_frequency: 10.0
+  update_frequency: 5.0
+  publish_frequency: 2.0
   transform_tolerance: 2.0
   rolling_window: true
   width: 10.0
@@ -15,7 +15,7 @@ local_costmap:
     livox: {
       sensor_frame: livox_frame,
       data_type: PointCloud2,
-      topic: /points2,
+      topic: points2,
       marking: true,
       clearing: true
     }
