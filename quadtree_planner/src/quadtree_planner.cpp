@@ -34,15 +34,24 @@ namespace quadtree_planner {
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
         global_frame_ = costmap_ros->getGlobalFrameID();
+        costmap_2d::Costmap2D costmap2D = costmap_2d::Costmap2D(*(costmap_ros->getCostmap()));
+        costmap_inf_ = new CostmapAdapter(&costmap2D);
         initialize(name, new CostmapAdapter(costmap_ros->getCostmap()));
     }
 
     void QuadTreePlanner::initialize(std::string name, quadtree_planner::Costmap *costmap) {
         name_ = name;
-        costmap_old = costmap;
-        // inflated costmap initialisieren
-        costmap_2d::Costmap2D costmap_ = costmap_2d::Costmap2D(costmap_old->getSizeInCellsX(), costmap_old->getSizeInCellsY(), costmap_old->getResolution(), 0, 0);
+        costmap_ = costmap;
         inflateCostmap(0.2);
+        // Debugging
+        bool savedFile = costmap_->saveMap("/home/maximilian/OldCostmap.pgm");
+        bool savedFileInf = costmap_inf_->saveMap("/home/maximilian/Inflated_Costmap.pgm");
+        if(savedFile == true) {
+            ROS_INFO("Saved file");
+        } else {
+            ROS_INFO("FIle save failed");
+        }
+
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
@@ -62,7 +71,7 @@ namespace quadtree_planner {
         QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
         QuadtreeCellObject.printQuadtree();
         ROS_INFO("testQuadtreeObject created");
-        QuadtreeCellObject.buildQuadtree(costmap, &area);
+        QuadtreeCellObject.buildQuadtree(costmap_inf_, &area);
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
    //     ROS_INFO("Starting visualization of quadtree!");
@@ -824,12 +833,18 @@ namespace quadtree_planner {
     void QuadTreePlanner::inflateCostmap(double inflate_radius) {
         vector<Coordinates> mask;
         Coordinates coor;
-        int discrete_radius = (int) ceil(inflate_radius / costmap_old->getResolution());
-        unsigned int max_x = costmap_old->getSizeInCellsX();
-        unsigned int max_y = costmap_old->getSizeInCellsY();
-        unsigned int cost;
+        int discrete_radius = (int) ceil(inflate_radius / costmap_->getResolution());
+        ROS_INFO("Discrete radius: %i", discrete_radius);
+        unsigned int max_x = costmap_->getSizeInCellsX();
+        unsigned int max_y = costmap_->getSizeInCellsY();
         int x_inf;
         int y_inf;
+
+        for(int x = 0; x < max_x; x++) {
+            for(int y = 0; y < max_y; y++) {
+                costmap_inf_->setCost(x, y, costmap_->getCost(x,y));
+            }
+        }
 
         // create mask to inflate the obstacles
         for(int x=-discrete_radius; x<=discrete_radius; x++){
@@ -841,10 +856,11 @@ namespace quadtree_planner {
                 }
             }
         }
+        ROS_INFO("Created mask with size: %i", (int)mask.size());
 
         for(unsigned int x=0; x<max_x; x++){
             for(unsigned int y=0; y<max_y; y++){
-                int cost = costmap_old->getCost(x,y);
+                unsigned int cost = costmap_->getCost(x,y);
                 if(cost > 255){
                     cost = 255;
                 }
@@ -852,15 +868,16 @@ namespace quadtree_planner {
                     for(std::vector<Coordinates>::iterator it = mask.begin(); it != mask.end(); ++it) {
                         x_inf = ((int) x) + it->x;
                         y_inf = ((int) y) + it->y;
-                        if(not((x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y))){
-                            if(costmap_->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost){
-                                costmap_->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
+                        if(not( (x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y) )){
+                            if(costmap_inf_->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost){
+                                costmap_inf_->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
                             }
                         }
                     }
                 }
             }
         }
+        ROS_INFO("Costmap manipulation done");
 
     }
 
@@ -878,4 +895,4 @@ int createDubinsConfiguration(double q[3], double x, void* user_data) {
 }
 
 
-PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner,quadtree_planner::QuadTreePlanner);
+// PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner,quadtree_planner::QuadTreePlanner);
