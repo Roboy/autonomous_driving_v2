@@ -31,6 +31,8 @@ namespace quadtree_planner {
 
         virtual unsigned int getSizeInCellsY() const = 0;
 
+        virtual void setCost(unsigned int mx, unsigned int my, unsigned char cost) const = 0;
+
         /**
          * @brief  Get resolution of the costmap, in meters per cell.
          */
@@ -47,6 +49,8 @@ namespace quadtree_planner {
         virtual bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const = 0;
 
         virtual void mapToWorld(unsigned int mx, unsigned int my, double &wx, double &wy) const = 0;
+
+        virtual bool saveMap(std::string file_name) const = 0;
 
         virtual ~Costmap() = default;
     };
@@ -100,9 +104,13 @@ namespace quadtree_planner {
 
         double getResolution() const override;
 
+        void setCost(unsigned int mx, unsigned int my, unsigned char cost) const override;
+
         bool worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const override;
 
         void mapToWorld(unsigned int mx, unsigned int my, double &wx, double &wy) const override;
+
+        bool saveMap(std::string file_name) const override;
 
         ~CostmapAdapter() override;
     };
