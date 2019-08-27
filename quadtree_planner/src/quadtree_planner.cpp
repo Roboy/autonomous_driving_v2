@@ -35,11 +35,14 @@ namespace quadtree_planner {
                                   costmap_2d::Costmap2DROS *costmap_ros) {
         global_frame_ = costmap_ros->getGlobalFrameID();
         initialize(name, new CostmapAdapter(costmap_ros->getCostmap()));
-    };
+    }
 
     void QuadTreePlanner::initialize(std::string name, quadtree_planner::Costmap *costmap) {
         name_ = name;
-        costmap_ = costmap;
+        costmap_old = costmap;
+        // inflated costmap initialisieren
+        costmap_2d::Costmap2D costmap_ = costmap_2d::Costmap2D(costmap_old->getSizeInCellsX(), costmap_old->getSizeInCellsY(), costmap_old->getResolution(), 0, 0);
+        inflateCostmap(0.2);
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
@@ -818,6 +821,49 @@ namespace quadtree_planner {
         return true;
     }
 
+    void QuadTreePlanner::inflateCostmap(double inflate_radius) {
+        vector<Coordinates> mask;
+        Coordinates coor;
+        int discrete_radius = (int) ceil(inflate_radius / costmap_old->getResolution());
+        unsigned int max_x = costmap_old->getSizeInCellsX();
+        unsigned int max_y = costmap_old->getSizeInCellsY();
+        unsigned int cost;
+        int x_inf;
+        int y_inf;
+
+        // create mask to inflate the obstacles
+        for(int x=-discrete_radius; x<=discrete_radius; x++){
+            for(int y=-discrete_radius; y<=discrete_radius; y++){
+                if(((abs(x)-1)*(abs(x)-1) + y*y <= discrete_radius*discrete_radius) || ((abs(y)-1)*(abs(y)-1) + x*x <= discrete_radius*discrete_radius)){
+                    coor.x = x;
+                    coor.y = y;
+                    mask.push_back(coor);
+                }
+            }
+        }
+
+        for(unsigned int x=0; x<max_x; x++){
+            for(unsigned int y=0; y<max_y; y++){
+                int cost = costmap_old->getCost(x,y);
+                if(cost > 255){
+                    cost = 255;
+                }
+                if(cost > 0){
+                    for(std::vector<Coordinates>::iterator it = mask.begin(); it != mask.end(); ++it) {
+                        x_inf = ((int) x) + it->x;
+                        y_inf = ((int) y) + it->y;
+                        if(not((x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y))){
+                            if(costmap_->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost){
+                                costmap_->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
 }
 
 // Dubin's car
@@ -832,4 +878,4 @@ int createDubinsConfiguration(double q[3], double x, void* user_data) {
 }
 
 
-
+PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner,quadtree_planner::QuadTreePlanner);

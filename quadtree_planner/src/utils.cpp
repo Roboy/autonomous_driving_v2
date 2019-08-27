@@ -100,6 +100,10 @@ namespace quadtree_planner {
         return dist < other.dist;
     }
 
+    Coordinates::Coordinates(): Coordinates(0, 0){}
+
+    Coordinates::Coordinates(int x, int y) :  x(x), y(y) {}
+    
     double euclid_dist(const Pose &pose1, const Pose &pose2) {
         return sqrt(pow(pose1.x - pose2.x, 2)+ pow(pose1.y - pose2.y, 2));
     }
