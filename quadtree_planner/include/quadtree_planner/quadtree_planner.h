@@ -122,6 +122,7 @@ namespace quadtree_planner {
         bool IsTrajectoryCollisionFree(std::vector<Pose> pathVector);
         void VisualizeSampledPosesQ1(double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles);
         void visualizeNonHolonomicPoses(std::vector<Pose> &path);
+        void printIntermediatePathVector(std::vector<IntermediatePaths> &intermediatePathsVector);
         void CheckCompletenessOfIntermediatePathsVector(std::vector<IntermediatePaths> &intermediatePathsVector, int &first_index, int &second_index,
                 bool &intermediatePathVectorComplete, std::vector<Pose> &path, bool &reached_goal_quad, bool &pathPossible);
         void ConnectSubpaths(DubinsPath *DubinsPath, std::vector<IntermediatePaths> &intermediatePathsVector, bool &reached_goal_quad, std::vector<Pose> &path);
