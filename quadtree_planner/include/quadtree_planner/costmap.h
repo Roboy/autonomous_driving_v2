@@ -23,8 +23,6 @@ namespace quadtree_planner {
          */
         virtual unsigned getCost(unsigned int x, unsigned int y) const = 0;
 
-        virtual void setCost(unsigned int mx, unsigned int my, unsigned char cost);
-
         virtual double getSizeInMetersX() const = 0;
 
         virtual double getSizeInMetersY() const = 0;
