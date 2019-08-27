@@ -113,15 +113,19 @@ namespace quadtree_planner {
 
         void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale);
 
+        void inflateCostmap(double inflate_radius);
+
         // Path Refinement (Dubin's car)
         void pathRefinement(bool &reached_goal_quad,  std::vector<Pose> &path);
         bool IsTrajectoryCollisionFree(std::vector<Pose> pathVector);
         void visualizeNonHolonomicPoses(std::vector<Pose> &path);
 
 
+
     private:
         std::string name_;
         Costmap *costmap_;
+        Costmap *costmap_inf;
         std::string global_frame_;
         ros::Publisher plan_publisher_;
         ros::Publisher holonomic_plan_publisher_;
