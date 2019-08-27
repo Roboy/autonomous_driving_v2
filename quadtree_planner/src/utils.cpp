@@ -42,6 +42,39 @@ namespace quadtree_planner {
         return pose;
     }
 
+    IntermediatePathAngles::IntermediatePathAngles(): IntermediatePathAngles(0.0,0.0,0.0, LSL) {}
+
+    IntermediatePathAngles::IntermediatePathAngles(double first_theta, double second_theta, double pathLength, DubinsPathType dubinsPathType):
+    first_theta(first_theta), second_theta(second_theta), pathLength(pathLength), dubinsPathType(dubinsPathType)  {}
+
+    bool IntermediatePathAngles::operator==(const quadtree_planner::IntermediatePathAngles &other) const {
+        return first_theta == other.first_theta && second_theta == other.second_theta && pathLength == other.pathLength;
+    }
+
+    IntermediatePaths::IntermediatePaths(){
+        first_index = 0;
+        second_index = 0;
+        std::vector<IntermediatePathAngles> intermediatePathAngles_;
+        intermediatePathAngles = intermediatePathAngles_;
+    }
+
+    IntermediatePaths::IntermediatePaths(int first_index, int second_index,
+                                         std::vector<IntermediatePathAngles> intermediatePathAngles): first_index(first_index), second_index(second_index), intermediatePathAngles(intermediatePathAngles) {}
+
+    bool IntermediatePaths::operator==(const quadtree_planner::IntermediatePaths &other) const {
+        return first_index == other.first_index && second_index == other.second_index;
+
+    }
+
+    DubinsSubpath::DubinsSubpath(): DubinsSubpath(Pose(), Pose(), 0, LSL) {}
+
+    DubinsSubpath::DubinsSubpath(Pose q0, Pose q1, double turning_radius, DubinsPathType dubinsPathType):
+    q0(q0), q1(q1), turning_radius(turning_radius), dubinsPathType(dubinsPathType) {}
+
+    std::ostream& operator<<(std::ostream &out, const IntermediatePaths &intermediatePaths) {
+        out << std::setprecision(3) << "IntermediatedPaths(" <<  ", " << intermediatePaths.first_index << ", " << intermediatePaths.second_index;
+    }
+
     bool Pose::operator==(const quadtree_planner::Pose &other) const {
         return x == other.x && y == other.y && th == other.th;
 
@@ -67,9 +100,6 @@ namespace quadtree_planner {
         return dist < other.dist;
     }
 
-
-    // ToDo Maximilian Kempa: Analyze if correct euclidean distance is required or if squared
-    //  euclidean distance can be used to get rid of the potentially expensive sqrt operation
     double euclid_dist(const Pose &pose1, const Pose &pose2) {
         return sqrt(pow(pose1.x - pose2.x, 2)+ pow(pose1.y - pose2.y, 2));
     }

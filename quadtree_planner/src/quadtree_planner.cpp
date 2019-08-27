@@ -45,6 +45,7 @@ namespace quadtree_planner {
         holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
         HolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/HolonomicPlanPoses", 1);
         nonHolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/nonHolonomicPlanPoses", 1);
+        sampledPosesQ1publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/sampledPosesQ1", 1);
         marker_publisher_ = n.advertise<visualization_msgs::Marker>(name + "/visualization_marker", 1);
         eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 100, true);
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
@@ -221,7 +222,17 @@ namespace quadtree_planner {
             // Publish holonomic plan for debugging purposes
             publishHolonomicPlan(path);
             if(enable_pathRefinement_) {
-                pathRefinement(reached_goal_quad, path);
+                pathRefinementGreedy(reached_goal_quad, path);
+                // Perform exhaustive search in case greedy search is unsuccesful
+                if(reached_goal_quad == false) {
+                    Dubins_Poses_final.clear();
+                    ROS_INFO("Starting exhaustive path refinement search");
+                    pathRefinementExhaustive(reached_goal_quad, path);
+                }
+                // Refined path via Dubin's car
+                path = Dubins_Poses_final;
+                Dubins_Poses_final.clear();
+                visualizeNonHolonomicPoses(path);
             }
         } else {
             ROS_INFO("Quadtree cell based search did not reach the goal cell");
@@ -233,7 +244,7 @@ namespace quadtree_planner {
         return reached_goal_quad;
     }
 
-    void QuadTreePlanner::pathRefinement(bool &reached_goal_quad, std::vector<quadtree_planner::Pose> &path){
+    void QuadTreePlanner::pathRefinementGreedy(bool &reached_goal_quad, std::vector<quadtree_planner::Pose> &path){
         // Path Refinement (Dubin's car)
         // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path
         bool refinement_finished = false;
@@ -259,8 +270,8 @@ namespace quadtree_planner {
                     // Use orientation of final goal as heuristic for a meaningful orientation
                     path.at(second_index).th = path.at(path.size()-1).th;
                 } else {
-                    ROS_INFO("No path refinement possible!");
-                    ROS_INFO("Quadtree cell based search did find a path but it is not feasible due to the non-holonomic constraints");
+                    ROS_INFO("No path refinement with greedy approach possible!");
+                    ROS_INFO("Quadtree cell based search did find a path but it is not feasible when performing greedy pathRefinement");
                     reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints
                     // the reason for this is usually that the final orientation is not feasible.
                     // depening on the requirements regarding correct orientation of the final position some adaptions might be possible
@@ -275,17 +286,294 @@ namespace quadtree_planner {
                 } else {
                     first_index = second_index;
                     path.at(first_index).th = q1[2];    // holonomic path does not contain valid theta values --> correct theta value
-                                                        // (orientation at end of Dubin's curve) must be set here in order to calculate
-                                                        // correct subsequent Dubin's curve
+                    // (orientation at end of Dubin's curve) must be set here in order to calculate
+                    // correct subsequent Dubin's curve
                     second_index = path.size()-1;
                 }
             }
         }
-        // Refined path via Dubin's car
-        path = Dubins_Poses_final;
-        Dubins_Poses_final.clear();
+    }
 
-        visualizeNonHolonomicPoses(path);
+    void QuadTreePlanner::pathRefinementExhaustive(bool &reached_goal_quad, std::vector<quadtree_planner::Pose> &path){
+        // Path Refinement (Dubin's car)
+        // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path with a more exhaustive search
+        // than in the greedy approach
+        bool intermediatePathVectorComplete = false;
+        bool pathPossible = true;
+        int first_index = 0;
+        int second_index = path.size()-1;
+        // ToDo: Describe algorithm
+        std::vector<IntermediatePathAngles> intermediatePathAngles;
+        std::vector<IntermediatePaths> intermediatePathsVector;
+
+        DubinsPath DubinsPath;
+
+        ROS_INFO("path.size(): %i", (int)path.size());
+
+        while(!intermediatePathVectorComplete) {
+            double q0[] = {path.at(first_index).x, path.at(first_index).y, path.at(first_index).th};
+            double q1[] = {path.at(second_index).x, path.at(second_index).y, path.at(second_index).th};
+
+                // Sample q1 theta angles in case we want to connect the global start position with an intermediate position
+             if ((first_index == 0) && (second_index != path.size() - 1)) {
+                ROS_INFO("Connecting global start with intermediate goal");
+                intermediatePathAngles.clear();
+                SampleThetaAnglesQ1(&DubinsPath, q0, q1, intermediatePathAngles);
+                VisualizeSampledPosesQ1(q1, intermediatePathAngles);
+                if (intermediatePathAngles.size() > 0) {
+                    IntermediatePaths intermediatePath(first_index, second_index, intermediatePathAngles);
+                    intermediatePathsVector.push_back(intermediatePath);
+                }
+            }
+                // Sample q1 angles for all possible q0 angles in case we want to connect two intermediate positions with each other
+            else if ((first_index != 0) && (second_index != path.size() - 1)) {
+                ROS_INFO("Connecting intermediate start with intermediate goal");
+                std::vector<IntermediatePathAngles> intermediatePathAnglesOld;
+                std::copy(intermediatePathAngles.begin(), intermediatePathAngles.end(),
+                          back_inserter(intermediatePathAnglesOld));
+                intermediatePathAngles.clear();
+                for (int i = 0; i < intermediatePathAnglesOld.size(); i++) {
+                    q0[2] = intermediatePathAnglesOld.at(i).second_theta;
+                    SampleThetaAnglesQ1(&DubinsPath, q0, q1, intermediatePathAngles);
+                    VisualizeSampledPosesQ1(q1, intermediatePathAngles);
+                }
+                if (intermediatePathAngles.size() > 0) {
+                    IntermediatePaths intermediatePath(first_index, second_index, intermediatePathAngles);
+                    intermediatePathsVector.push_back(intermediatePath);
+                }
+                else {  // no new intermediate path was found --> we have to copy back the old path angles
+                    std::copy(intermediatePathAnglesOld.begin(), intermediatePathAnglesOld.end(),
+                              back_inserter(intermediatePathAngles));
+                }
+            } else { // Sample only q0 as we want to connect an intermediate position with the global goal
+                ROS_INFO("Connecting intermediate start with global goal");
+                std::vector<IntermediatePathAngles> intermediatePathAnglesNew;
+                for (int i = 0; i < intermediatePathAngles.size(); i++) {
+                    q0[2] = intermediatePathAngles.at(i).second_theta;
+                    SampleAllDubinsPaths(&DubinsPath, q0, q1, intermediatePathAnglesNew);
+                }
+                if (intermediatePathAnglesNew.size() > 0) {
+                    IntermediatePaths intermediatePath(first_index, second_index, intermediatePathAnglesNew);
+                    intermediatePathsVector.push_back(intermediatePath);
+                }
+            }
+
+            // Debugging
+            printIntermediatePathVector(intermediatePathsVector);
+
+            // Check if intermediatePathsVector is already complete
+            CheckCompletenessOfIntermediatePathsVector(intermediatePathsVector, first_index, second_index,
+                    intermediatePathVectorComplete, path, reached_goal_quad, pathPossible);
+        }
+
+        if(pathPossible) {
+            ConnectSubpaths(&DubinsPath, intermediatePathsVector, reached_goal_quad, path);
+        }
+    }
+
+    void QuadTreePlanner::printIntermediatePathVector(std::vector<IntermediatePaths> &intermediatePathsVector) {
+        ROS_INFO("intermediatePathsVector.size() : %i", (int) intermediatePathsVector.size());
+        for (int i = 0; i < intermediatePathsVector.size(); i++) {
+            ROS_INFO("first index: %i, second index: %i, number of anglePairs: %i",
+                     (int) intermediatePathsVector.at(i).first_index,
+                     (int) intermediatePathsVector.at(i).second_index,
+                     (int) intermediatePathsVector.at(i).intermediatePathAngles.size());
+              for (int j = 0; j < intermediatePathsVector.at(i).intermediatePathAngles.size(); j++) {
+                  ROS_INFO("Angle pair:%i with first_theta:%f and second_theta:%f and DubinsPathType: %i", j,
+                           intermediatePathsVector.at(i).intermediatePathAngles.at(j).first_theta,
+                           intermediatePathsVector.at(i).intermediatePathAngles.at(j).second_theta,
+                           (int)intermediatePathsVector.at(i).intermediatePathAngles.at(j).dubinsPathType);
+              }
+        }
+    }
+
+    void QuadTreePlanner::CheckCompletenessOfIntermediatePathsVector(std::vector<IntermediatePaths> &intermediatePathsVector,
+            int &first_index, int &second_index,bool &intermediatePathVectorComplete, std::vector<Pose> &path,
+            bool &reached_goal_quad, bool &pathPossible) {
+        if(intermediatePathsVector.size() != 0) {
+            // current second index is contained in intermediatePathsVector
+            if (intermediatePathsVector.at(intermediatePathsVector.size() - 1).second_index == second_index) {
+                first_index = second_index;
+                second_index = path.size() - 1;
+            }
+            else {
+                intermediatePathVectorComplete = false;
+                if (second_index > first_index + 1) {
+                    // Split path into two halfes
+                    second_index = first_index + (second_index - first_index) / 2;
+                } else {
+                    ROS_INFO("No path refinement with exhaustive approach possible!");
+                    ROS_INFO(
+                            "Quadtree cell based search did find a path but it is not feasible when performing exhaustive pathRefinement");
+                    reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints by exhaustive search
+                    intermediatePathVectorComplete = true;
+                    pathPossible = false;
+                }
+            }
+            if (intermediatePathsVector.at(intermediatePathsVector.size() - 1).second_index == path.size() - 1) {
+                intermediatePathVectorComplete = true;
+            }
+        } else {
+            intermediatePathVectorComplete = false;
+            if (second_index > first_index + 1) {
+                // Split path into two halfes
+                second_index = first_index + (second_index - first_index) / 2;
+            } else {
+                ROS_INFO("No path refinement with exhaustive approach possible!");
+                ROS_INFO(
+                        "Quadtree cell based search did find a path but it is not feasible when performing exhaustive pathRefinement");
+                reached_goal_quad = false;  // goal is not reachable considering the non-holonomic constraints by exhaustive search
+                intermediatePathVectorComplete = true;
+                pathPossible = false;
+            }
+        }
+    }
+
+    void QuadTreePlanner::ConnectSubpaths(DubinsPath *DubinsPath, std::vector<IntermediatePaths> &intermediatePathsVector,
+            bool &reached_goal_quad, std::vector<Pose> &path) {
+        // Connect subpaths
+        ROS_INFO("Connect subpaths");
+        int counter_succesful_connections = 0;
+        const float angle_tolerance = 2*M_PI/360;
+        std::vector<DubinsSubpath> correct_subpaths;
+
+        // Delete invalid angle combinations
+        for (int i = 0; i < intermediatePathsVector.size()-1; i++) {
+            // Delete all angles from first path that don't have an equivalent in second path
+            auto itFirstPath = intermediatePathsVector.at(i).intermediatePathAngles.begin();
+            while (itFirstPath != intermediatePathsVector.at(i).intermediatePathAngles.end()) {
+                bool toDeleteInFirstPath = true;
+                auto itSecondPath = intermediatePathsVector.at(i + 1).intermediatePathAngles.begin();
+                while (itSecondPath != intermediatePathsVector.at(i + 1).intermediatePathAngles.end()
+                        && (toDeleteInFirstPath == true)) {
+                    if ((std::abs(itFirstPath->second_theta - itSecondPath->first_theta)) < angle_tolerance) {
+                        toDeleteInFirstPath = false;
+                    }
+                    itSecondPath++;
+                }
+                if(toDeleteInFirstPath) {
+                    itFirstPath = intermediatePathsVector.at(i).intermediatePathAngles.erase(itFirstPath);
+                } else {
+                    itFirstPath++;
+                }
+            }
+            ROS_INFO("Delete angles with i:%i",i);
+        }
+
+        // Debugging
+        printIntermediatePathVector(intermediatePathsVector);
+
+        // ToDo: Maybe prioritize shorter paths for subpaths where there is more than one potential solution
+        // ToDo: Ensure that only valid q1 -> q0 combinations are used!
+        for(int i = 0; i < intermediatePathsVector.size(); i++) { // Connect two subpaths
+            double q0[] = {path.at(intermediatePathsVector.at(i).first_index).x, path.at(intermediatePathsVector.at(i).first_index).y,
+                         path.at(intermediatePathsVector.at(i).first_index).th};
+            double q1[] = {path.at(intermediatePathsVector.at(i).second_index).x, path.at(intermediatePathsVector.at(i).second_index).y,
+                         path.at(intermediatePathsVector.at(i).second_index).th};
+            std::vector<IntermediatePathAngles> anglesPath = intermediatePathsVector.at(i).intermediatePathAngles;
+            bool succesful_subconnection = false;
+            DubinsPathType dubinsPathType;
+            for (int j = 0; j < anglesPath.size(); j++) {
+                    q0[2] = anglesPath.at(j).first_theta;
+                    q1[2] = anglesPath.at(j).second_theta;
+                    dubinsPathType = anglesPath.at(j).dubinsPathType;
+                    Dubins_Poses_temp.clear();
+                    dubins_path(DubinsPath, q0, q1, turning_radius_, dubinsPathType);
+                    dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
+                    // Check that trajectory is collision free  and that the currently selected q0 theta is consistent with the q1 theta of the
+                    // previous subpath
+                    bool OrientationConsistency = false;
+                    if(counter_succesful_connections > 0) {
+                        const float angle_tolerance = 2*M_PI/360;
+                        if ( std::abs(correct_subpaths.at(counter_succesful_connections-1).q1.th - q0[2]) < angle_tolerance ) {
+                            OrientationConsistency = true;
+                        } else {
+                            OrientationConsistency = false;
+                        }
+                    } else {
+                        OrientationConsistency = true;
+                    }
+                    if (IsTrajectoryCollisionFree(Dubins_Poses_temp) && OrientationConsistency) {
+                        succesful_subconnection = true;
+                        break;
+                    }
+                }
+            if(succesful_subconnection) {
+                Pose correctPose1(q0[0], q0[1], q0[2]);
+                Pose correctPose2(q1[0], q1[1], q1[2]);
+                DubinsSubpath correctSubpath(correctPose1, correctPose2, turning_radius_, dubinsPathType);
+
+                correct_subpaths.push_back(correctSubpath);
+                counter_succesful_connections++;
+            }
+            ROS_INFO("Connect two subpaths with i:%i", i);
+        }
+
+        ROS_INFO("counter_succesful_connections: %i",counter_succesful_connections);
+        ROS_INFO("correct_subpaths.size():%i", (int)correct_subpaths.size());
+
+        if (counter_succesful_connections == intermediatePathsVector.size()) {
+            Dubins_Poses_final.clear();
+            for(int i = 0; i < (int)(correct_subpaths.size()); i++) { // Connect two subpaths
+                double q0[] = {correct_subpaths.at(i).q0.x, correct_subpaths.at(i).q0.y, correct_subpaths.at(i).q0.th};
+                double q1[] = {correct_subpaths.at(i).q1.x, correct_subpaths.at(i).q1.y, correct_subpaths.at(i).q1.th};
+                ROS_INFO("q0 x:%f y:%f, theta:%f", q0[0], q0[1], q0[2]);
+                ROS_INFO("q1 x:%f y:%f, theta:%f", q1[0], q1[1], q1[2]);
+                Dubins_Poses_temp.clear();
+                dubins_path(DubinsPath, q0, q1, turning_radius_, correct_subpaths.at(i).dubinsPathType);
+                dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
+                Dubins_Poses_final.insert(Dubins_Poses_final.end(), Dubins_Poses_temp.begin(), Dubins_Poses_temp.end());
+            }
+            reached_goal_quad = true;
+        } else {
+            reached_goal_quad = false;
+        }
+    }
+
+    void QuadTreePlanner::SampleThetaAnglesQ1(DubinsPath *DubinsPath, double q0[], double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles) {
+        int thetas_to_try = 18;
+        double theta_start = q0[2]; // Use angle of start configuration as first value
+
+        for (int iterator_theta = 0; iterator_theta < thetas_to_try; iterator_theta++) {
+             double theta_sample = theta_start + ((2 * M_PI) / thetas_to_try) * iterator_theta;
+             if (theta_sample > M_PI) {
+                 theta_sample -= (2 * M_PI);
+             }
+             q1[2] = theta_sample;
+             SampleAllDubinsPaths(DubinsPath, q0, q1, intermediatePathAngles);
+        }
+    }
+
+    void QuadTreePlanner::SampleAllDubinsPaths(DubinsPath *DubinsPath, double q0[], double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles) {
+        for(int i=0; i < 6; i++) {  // 6 types of Dubin's curves available
+            Dubins_Poses_temp.clear();
+            dubins_path(DubinsPath, q0, q1, turning_radius_, (DubinsPathType)i);
+            dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);
+            if (IsTrajectoryCollisionFree(Dubins_Poses_temp) == true) {
+                IntermediatePathAngles anglePair(q0[2], q1[2], 0, (DubinsPathType)i); // pathLength not used yet; set to 0 for now
+                intermediatePathAngles.push_back(anglePair);
+            }
+        }
+    }
+
+    void QuadTreePlanner::VisualizeSampledPosesQ1(double q1[], std::vector<IntermediatePathAngles> &intermediatePathAngles) {
+        std::vector<geometry_msgs::Pose> sampledPoses;
+        for (int i = 0; i < intermediatePathAngles.size(); i++) {
+            quadtree_planner::Pose pose;
+            pose.x = q1[0];
+            pose.y = q1[1];
+            pose.th = intermediatePathAngles.at(i).second_theta;
+            geometry_msgs::Pose geometryPose = pose.toPose();
+            sampledPoses.push_back(geometryPose);
+        }
+        if(intermediatePathAngles.size() > 0) {
+            geometry_msgs::PoseArray poseArray;
+            poseArray.header.frame_id = global_frame_;
+            poseArray.header.stamp = ros::Time::now();
+            poseArray.poses.resize(sampledPoses.size());
+            std::copy(sampledPoses.begin(), sampledPoses.end(), poseArray.poses.begin());
+            sampledPosesQ1publisher_.publish(poseArray);
+        }
     }
 
     void QuadTreePlanner::visualizeNonHolonomicPoses(std::vector<Pose> &path) {
