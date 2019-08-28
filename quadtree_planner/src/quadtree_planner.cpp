@@ -58,11 +58,11 @@ namespace quadtree_planner {
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
         path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
         inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1);
-        publishInflation();
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' and planner_inflation_radius: %f ",
                  name_.c_str(), planner_inflation_radius_);
         inflateCostmap(planner_inflation_radius_);  // Create costmap_inf_ based on cost values of costmap_
+        publishInflation();
         // Creation and testing of quadtree data structure
         Point botR = Point(costmap_->getSizeInCellsX()-1, costmap_->getSizeInCellsY()-1);
         QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
@@ -884,23 +884,23 @@ namespace quadtree_planner {
 
         //occupancy_grid.header
 
-        unsigned int width = costmap_inf_->getSizeInCellsX();
-        unsigned int height = costmap_inf_->getSizeInCellsY();
+        unsigned int width = costmap_->getSizeInCellsX();
+        unsigned int height = costmap_->getSizeInCellsY();
 
         occupancy_grid.info.map_load_time = time_stamp;
-        occupancy_grid.header.seq = 42;
+   //     occupancy_grid.header.seq = 42;
         occupancy_grid.header.stamp = time_stamp;
         occupancy_grid.header.frame_id = global_frame_;
-        occupancy_grid.info.resolution = (float) costmap_inf_->getResolution();
+        occupancy_grid.info.resolution = (float) costmap_->getResolution();
         occupancy_grid.info.width = width;
         occupancy_grid.info.height = height;
-        occupancy_grid.info.origin.position.x = costmap_inf_->getOriginX();
-        occupancy_grid.info.origin.position.y = costmap_inf_->getOriginY();
+        occupancy_grid.info.origin.position.x = costmap_->getOriginX();
+        occupancy_grid.info.origin.position.y = costmap_->getOriginY();
         occupancy_grid.info.origin.position.z = 0.0;
-        occupancy_grid.info.origin.orientation.x = costmap_inf_->getOriginX();
-        occupancy_grid.info.origin.orientation.y = costmap_inf_->getOriginY();
+        occupancy_grid.info.origin.orientation.x = 0.0;
+        occupancy_grid.info.origin.orientation.y = 0.0;
         occupancy_grid.info.origin.orientation.z = 0.0;
-        occupancy_grid.info.origin.orientation.w = 0.0;
+        occupancy_grid.info.origin.orientation.w = 1.0;
 
 
         for(unsigned int y = 0; y<height; y++){
