@@ -464,7 +464,6 @@ namespace quadtree_planner {
         printIntermediatePathVector(intermediatePathsVector);
 
         // ToDo: Maybe prioritize shorter paths for subpaths where there is more than one potential solution
-        // ToDo: Ensure that only valid q1 -> q0 combinations are used!
         for(int i = 0; i < intermediatePathsVector.size(); i++) { // Connect two subpaths
             double q0[] = {path.at(intermediatePathsVector.at(i).first_index).x, path.at(intermediatePathsVector.at(i).first_index).y,
                          path.at(intermediatePathsVector.at(i).first_index).th};
