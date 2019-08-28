@@ -42,7 +42,7 @@ namespace quadtree_planner {
     void QuadTreePlanner::initialize(std::string name, quadtree_planner::Costmap *costmap) {
         name_ = name;
         costmap_ = costmap;
-        inflateCostmap(0.2);
+        inflateCostmap(0.4);
         // Debugging
         bool savedFile = costmap_->saveMap("/home/maximilian/OldCostmap.pgm");
         bool savedFileInf = costmap_inf_->saveMap("/home/maximilian/Inflated_Costmap.pgm");
