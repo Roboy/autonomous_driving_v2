@@ -52,6 +52,10 @@ namespace quadtree_planner {
 
         virtual bool saveMap(std::string file_name) const = 0;
 
+        virtual double getOriginX() const = 0;
+
+        virtual double getOriginY() const = 0;
+
         virtual ~Costmap() = default;
     };
 
@@ -111,6 +115,10 @@ namespace quadtree_planner {
         void mapToWorld(unsigned int mx, unsigned int my, double &wx, double &wy) const override;
 
         bool saveMap(std::string file_name) const override;
+
+        double getOriginX() const override;
+
+        double getOriginY() const override;
 
         ~CostmapAdapter() override;
     };

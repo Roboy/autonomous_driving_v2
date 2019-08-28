@@ -75,6 +75,14 @@ namespace quadtree_planner {
         costmap_->saveMap(file_name);
     }
 
+    double CostmapAdapter::getOriginX() const {
+        costmap_->getOriginX();
+    }
+
+    double CostmapAdapter::getOriginY() const {
+        costmap_->getOriginY();
+    }
+
     bool CostmapAdapter::worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const {
         return costmap_->worldToMap(wx, wy, mx, my);
     }

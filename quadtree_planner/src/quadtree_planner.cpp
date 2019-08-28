@@ -12,6 +12,7 @@
 
 #include <ros/console.h>
 #include <nav_msgs/Path.h>
+#include <time.h>
 #include "../include/quadtree_planner/quadtree_planner.h"
 #include "../include/quadtree_planner/utils.h"
 #include "../include/quadtree_planner/costmap.h"
@@ -48,13 +49,13 @@ namespace quadtree_planner {
         costmap_ = costmap;
         inflateCostmap(0.4);
         // Debugging
-        bool savedFile = costmap_->saveMap("/home/maximilian/OldCostmap.pgm");
-        bool savedFileInf = costmap_inf_->saveMap("/home/maximilian/Inflated_Costmap.pgm");
-        if(savedFile == true) {
-            ROS_INFO("Saved file");
-        } else {
-            ROS_INFO("FIle save failed");
-        }
+        //bool savedFile = costmap_->saveMap("/home/maximilian/OldCostmap.pgm");
+        //bool savedFileInf = costmap_inf_->saveMap("/home/maximilian/Inflated_Costmap.pgm");
+        //if(savedFile == true) {
+        //    ROS_INFO("Saved file");
+        //} else {
+        //    ROS_INFO("FIle save failed");
+        //}
 
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
@@ -67,6 +68,7 @@ namespace quadtree_planner {
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
         path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
         inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1);
+        publishInflation();
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' ",
                  name_.c_str());
@@ -887,6 +889,7 @@ namespace quadtree_planner {
     }
 
     void QuadTreePlanner::publishInflation(){
+        ros::Time time_stamp = ros::Time::now();
         nav_msgs::OccupancyGrid occupancy_grid;
 
         //occupancy_grid.header
@@ -894,18 +897,18 @@ namespace quadtree_planner {
         unsigned int width = costmap_inf_->getSizeInCellsX();
         unsigned int height = costmap_inf_->getSizeInCellsY();
 
-        //occupancy_grid.info.map_load_time = ;
-        occupancy_grid.header.seq = 0;
-        //occupancy_grid.header.stamp = ;
-        occupancy_grid.header.frame_id = "0";
+        occupancy_grid.info.map_load_time = time_stamp;
+        occupancy_grid.header.seq = 42;
+        occupancy_grid.header.stamp = time_stamp;
+        occupancy_grid.header.frame_id = global_frame_;
         occupancy_grid.info.resolution = (float) costmap_inf_->getResolution();
         occupancy_grid.info.width = width;
         occupancy_grid.info.height = height;
-        occupancy_grid.info.origin.position.x = 0.0;
-        occupancy_grid.info.origin.position.y = 0.0;
+        occupancy_grid.info.origin.position.x = costmap_inf_->getOriginX();
+        occupancy_grid.info.origin.position.y = costmap_inf_->getOriginY();
         occupancy_grid.info.origin.position.z = 0.0;
-        occupancy_grid.info.origin.orientation.x = 0.0;
-        occupancy_grid.info.origin.orientation.y = 0.0;
+        occupancy_grid.info.origin.orientation.x = costmap_inf_->getOriginX();
+        occupancy_grid.info.origin.orientation.y = costmap_inf_->getOriginY();
         occupancy_grid.info.origin.orientation.z = 0.0;
         occupancy_grid.info.origin.orientation.w = 0.0;
 
@@ -920,6 +923,8 @@ namespace quadtree_planner {
                 }
             }
         }
+
+        inflated_map_publisher_.publish(occupancy_grid);
 
     }
 
