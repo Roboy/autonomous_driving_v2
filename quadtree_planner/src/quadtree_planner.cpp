@@ -12,6 +12,7 @@
 
 #include <ros/console.h>
 #include <nav_msgs/Path.h>
+#include <time.h>
 #include "../include/quadtree_planner/quadtree_planner.h"
 #include "../include/quadtree_planner/utils.h"
 #include "../include/quadtree_planner/costmap.h"
@@ -21,6 +22,10 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Int16.h"
 #include "std_msgs/Bool.h"
+#include "std_msgs/Header.h"
+#include "nav_msgs/OccupancyGrid.h"
+#include "nav_msgs/MapMetaData.h"
+#include "geometry_msgs/Pose.h"
 
 PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner, nav_core::BaseGlobalPlanner)
 
@@ -29,13 +34,15 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), enable_pathRefinement_(true), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
+        name_(""), costmap_(nullptr), costmap_inf_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), enable_pathRefinement_(true), planner_inflation_radius_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
         global_frame_ = costmap_ros->getGlobalFrameID();
+        costmap_2d::Costmap2D costmap2D = costmap_2d::Costmap2D(*(costmap_ros->getCostmap()));
+        costmap_inf_ = new CostmapAdapter(&costmap2D);
         initialize(name, new CostmapAdapter(costmap_ros->getCostmap()));
-    };
+    }
 
     void QuadTreePlanner::initialize(std::string name, quadtree_planner::Costmap *costmap) {
         name_ = name;
@@ -50,20 +57,22 @@ namespace quadtree_planner {
         eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 100, true);
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
         path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
+        inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1);
         loadParameters();
-        ROS_INFO("QuadTreePlanner initialized with name '%s' ",
-                 name_.c_str());
-
+        ROS_INFO("QuadTreePlanner initialized with name '%s' and planner_inflation_radius: %f ",
+                 name_.c_str(), planner_inflation_radius_);
+        inflateCostmap(planner_inflation_radius_);  // Create costmap_inf_ based on cost values of costmap_
+        publishInflation();
         // Creation and testing of quadtree data structure
-        Point botR = Point(costmap->getSizeInCellsX()-1, costmap->getSizeInCellsY()-1);
+        Point botR = Point(costmap_->getSizeInCellsX()-1, costmap_->getSizeInCellsY()-1);
         QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
         QuadtreeCellObject.printQuadtree();
         ROS_INFO("testQuadtreeObject created");
-        QuadtreeCellObject.buildQuadtree(costmap, &area);
+        QuadtreeCellObject.buildQuadtree(costmap_inf_, &area);
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
    //     ROS_INFO("Starting visualization of quadtree!");
-   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
+   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true);
    //     ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
         ROS_INFO("Creation of QuadtreeSearchCellVector was succesful");
@@ -79,6 +88,7 @@ namespace quadtree_planner {
         nh.param<double>("goal_tolerance", goal_tolerance_, 0.5);
         nh.param<double>("rickshaw_speed", rickshaw_speed_, 1.0);
         nh.param<bool>("enable_pathRefinement", enable_pathRefinement_, true);
+        nh.param<double>("planner_inflation_radius", planner_inflation_radius_, 0.0);
     }
 
     bool QuadTreePlanner::makePlan(const geometry_msgs::PoseStamped &start,
@@ -140,13 +150,10 @@ namespace quadtree_planner {
         }
 
         // Quadtree based search
-        // Quadtree based search
         ROS_INFO("Starting instantiation of data structures");
 
-        Quadtree_SearchCell quad_start = Quadtree_SearchCell();
-        quad_start = Quadtree_SearchCell(getQuad(start, QuadtreeSearchCellVector));
-        Quadtree_SearchCell quad_goal = Quadtree_SearchCell();
-        quad_goal = Quadtree_SearchCell(getQuad(goal, QuadtreeSearchCellVector));
+        Quadtree_SearchCell quad_start = Quadtree_SearchCell(getQuad(start, QuadtreeSearchCellVector));
+        Quadtree_SearchCell quad_goal = Quadtree_SearchCell(getQuad(goal, QuadtreeSearchCellVector));
         ROS_INFO("quadStart Top Left x: %i y: %i, Bottom Right x: %i, y:%i, cost: %i", quad_start.topLeft.x, quad_start.topLeft.y, quad_start.botRight.x, quad_start.botRight.y, quad_start.cost);
         set<QuadtreeCellWithDist> candidateQuads = {QuadtreeCellWithDist(0.0, quad_start)};
         unordered_map<Quadtree_SearchCell, Quadtree_SearchCell> parentsQuads;
@@ -740,6 +747,7 @@ namespace quadtree_planner {
 
     QuadTreePlanner::~QuadTreePlanner(){
         delete costmap_;
+        delete costmap_inf_;
     }
 
     // Visualization
@@ -817,6 +825,99 @@ namespace quadtree_planner {
         return true;
     }
 
+    void QuadTreePlanner::inflateCostmap(double inflate_radius) {
+        vector<Coordinates> mask;
+        Coordinates coor;
+        int discrete_radius = (int) ceil(inflate_radius / costmap_->getResolution());
+        ROS_INFO("Discrete radius: %i", discrete_radius);
+        unsigned int max_x = costmap_->getSizeInCellsX();
+        unsigned int max_y = costmap_->getSizeInCellsY();
+        int x_inf;
+        int y_inf;
+
+        for(int x = 0; x < max_x; x++) {
+            for(int y = 0; y < max_y; y++) {
+                costmap_inf_->setCost(x, y, costmap_->getCost(x,y));
+            }
+        }
+
+        // create mask to inflate the obstacles
+        for(int x=-discrete_radius; x<=discrete_radius; x++){
+            for(int y=-discrete_radius; y<=discrete_radius; y++){
+                if(((abs(x)-1)*(abs(x)-1) + y*y <= discrete_radius*discrete_radius) || ((abs(y)-1)*(abs(y)-1) + x*x <= discrete_radius*discrete_radius)){
+                    coor.x = x;
+                    coor.y = y;
+                    mask.push_back(coor);
+                }
+            }
+        }
+        ROS_INFO("Created mask with size: %i", (int)mask.size());
+
+        if(inflate_radius > 0) {
+            for (unsigned int x = 0; x < max_x; x++) {
+                for (unsigned int y = 0; y < max_y; y++) {
+                    unsigned int cost = costmap_->getCost(x, y);
+                    if (cost > 255) {
+                        cost = 255;
+                    }
+                    if (cost > 0) {
+                        for (std::vector<Coordinates>::iterator it = mask.begin(); it != mask.end(); ++it) {
+                            x_inf = ((int) x) + it->x;
+                            y_inf = ((int) y) + it->y;
+                            if (not((x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y))) {
+                                if (costmap_inf_->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost) {
+                                    costmap_inf_->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        ROS_INFO("Costmap manipulation done");
+
+    }
+
+    void QuadTreePlanner::publishInflation(){
+        ros::Time time_stamp = ros::Time::now();
+        nav_msgs::OccupancyGrid occupancy_grid;
+
+        //occupancy_grid.header
+
+        unsigned int width = costmap_->getSizeInCellsX();
+        unsigned int height = costmap_->getSizeInCellsY();
+
+        occupancy_grid.info.map_load_time = time_stamp;
+   //     occupancy_grid.header.seq = 42;
+        occupancy_grid.header.stamp = time_stamp;
+        occupancy_grid.header.frame_id = global_frame_;
+        occupancy_grid.info.resolution = (float) costmap_->getResolution();
+        occupancy_grid.info.width = width;
+        occupancy_grid.info.height = height;
+        occupancy_grid.info.origin.position.x = costmap_->getOriginX();
+        occupancy_grid.info.origin.position.y = costmap_->getOriginY();
+        occupancy_grid.info.origin.position.z = 0.0;
+        occupancy_grid.info.origin.orientation.x = 0.0;
+        occupancy_grid.info.origin.orientation.y = 0.0;
+        occupancy_grid.info.origin.orientation.z = 0.0;
+        occupancy_grid.info.origin.orientation.w = 1.0;
+
+
+        for(unsigned int y = 0; y<height; y++){
+            for(unsigned int x = 0; x<width; x++){
+                unsigned int cost = costmap_inf_->getCost(x, y);
+                if(cost > 0){
+                    occupancy_grid.data.push_back(255);
+                }else{
+                    occupancy_grid.data.push_back(0);
+                }
+            }
+        }
+
+        inflated_map_publisher_.publish(occupancy_grid);
+
+    }
+
 }
 
 // Dubin's car
@@ -831,4 +932,4 @@ int createDubinsConfiguration(double q[3], double x, void* user_data) {
 }
 
 
-
+// PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner,quadtree_planner::QuadTreePlanner);

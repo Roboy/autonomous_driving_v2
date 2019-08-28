@@ -114,6 +114,10 @@ namespace quadtree_planner {
 
         void publishVisualization(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale);
 
+        void inflateCostmap(double inflate_radius);
+
+        void publishInflation();
+
         // Path Refinement (Dubin's car)
         void pathRefinementGreedy(bool &reached_goal_quad,  std::vector<Pose> &path);
         void pathRefinementExhaustive(bool &reached_goal_quad,  std::vector<Pose> &path);
@@ -128,21 +132,25 @@ namespace quadtree_planner {
         void ConnectSubpaths(DubinsPath *DubinsPath, std::vector<IntermediatePaths> &intermediatePathsVector, bool &reached_goal_quad, std::vector<Pose> &path);
 
 
+
     private:
         std::string name_;
         Costmap *costmap_;
+        Costmap *costmap_inf_;
         std::string global_frame_;
         ros::Publisher plan_publisher_;
         ros::Publisher holonomic_plan_publisher_;
         ros::Publisher HolonomicPathPoses_publisher_;
         ros::Publisher nonHolonomicPathPoses_publisher_;
         ros::Publisher sampledPosesQ1publisher_;
+        ros::Publisher inflated_map_publisher_;
         int max_allowed_time_;
 
         double turning_radius_;
         double goal_tolerance_;
         double rickshaw_speed_;
         bool enable_pathRefinement_;
+        double planner_inflation_radius_;
 
         // Visualization
         ros::Publisher marker_publisher_;

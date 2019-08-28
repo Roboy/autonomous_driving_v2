@@ -67,6 +67,22 @@ namespace quadtree_planner {
         return costmap_->getResolution();
     }
 
+    void CostmapAdapter::setCost(unsigned int mx, unsigned int my, unsigned char cost) const {
+        costmap_->setCost(mx, my, cost);
+    }
+
+    bool CostmapAdapter::saveMap(std::string file_name) const {
+        costmap_->saveMap(file_name);
+    }
+
+    double CostmapAdapter::getOriginX() const {
+        costmap_->getOriginX();
+    }
+
+    double CostmapAdapter::getOriginY() const {
+        costmap_->getOriginY();
+    }
+
     bool CostmapAdapter::worldToMap(double wx, double wy, unsigned int &mx, unsigned int &my) const {
         return costmap_->worldToMap(wx, wy, mx, my);
     }

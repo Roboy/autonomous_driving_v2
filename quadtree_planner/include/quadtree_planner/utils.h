@@ -114,6 +114,14 @@ namespace quadtree_planner {
          bool operator==(const QuadtreeCellWithDist &other) const;
      };
 
+    struct Coordinates {
+        int x;
+        int y;
+
+        Coordinates();
+
+        Coordinates(int x, int y);
+    };
 
     /**
      * Compute Euclidean distance between two positions.

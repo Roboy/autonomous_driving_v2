@@ -22,6 +22,8 @@ Launch the navigation stack to run on a static map published by map server.
               command="load" ns="global_costmap"/>
     <rosparam file="$(find roboy_navigation)/config/common_costmap.yaml"
               command="load" ns="local_costmap"/>
+    <rosparam file="$(find navigation)/config/$(arg map_configfile_)"
+              command="load" ns="QuadTreePlanner"/>
     <param name="base_local_planner"
            value="base_local_planner/TrajectoryPlannerROS"/>
     <param name="base_global_planner" value="quadtree_planner::QuadTreePlanner"/>
