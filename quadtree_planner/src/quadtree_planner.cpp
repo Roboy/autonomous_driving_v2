@@ -54,9 +54,9 @@ namespace quadtree_planner {
         nonHolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/nonHolonomicPlanPoses", 1);
         sampledPosesQ1publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/sampledPosesQ1", 1);
         marker_publisher_ = n.advertise<visualization_msgs::Marker>(name + "/visualization_marker", 1);
-        eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 100, true);
-        error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
-        path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
+        eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 1, false);
+        error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 1, false);
+        path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 1, false);
         inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1);
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' and planner_inflation_radius: %f ",

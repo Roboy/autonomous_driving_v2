@@ -50,12 +50,11 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     error_message_received = false;
     path_found_received = false;
     bool location_unknown = false;
-    // Send 2D nav goal according to received coordinates(string) from Luigi
+    // Send 2D nav goal according to received destination (string) from Luigi
     // Publish simple 2D nav goal
     move_base_msgs::MoveBaseActionGoal ActionGoal;
     move_base_msgs::MoveBaseGoal goal;
 
-    //we'll send a goal to the robot to move 1 meter forward
     ActionGoal.header.frame_id = "";
     ActionGoal.header.stamp = ros::Time::now();
     ActionGoal.goal.target_pose.header.frame_id = "map";
