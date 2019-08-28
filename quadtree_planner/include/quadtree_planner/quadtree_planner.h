@@ -116,6 +116,8 @@ namespace quadtree_planner {
 
         void inflateCostmap(double inflate_radius);
 
+        void publishInflation();
+
         // Path Refinement (Dubin's car)
         void pathRefinementGreedy(bool &reached_goal_quad,  std::vector<Pose> &path);
         void pathRefinementExhaustive(bool &reached_goal_quad,  std::vector<Pose> &path);
@@ -141,6 +143,7 @@ namespace quadtree_planner {
         ros::Publisher HolonomicPathPoses_publisher_;
         ros::Publisher nonHolonomicPathPoses_publisher_;
         ros::Publisher sampledPosesQ1publisher_;
+        ros::Publisher inflated_map_publisher_;
         int max_allowed_time_;
 
         double turning_radius_;

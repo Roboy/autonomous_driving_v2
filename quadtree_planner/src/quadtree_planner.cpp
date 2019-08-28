@@ -21,6 +21,10 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Int16.h"
 #include "std_msgs/Bool.h"
+#include "std_msgs/Header.h"
+#include "nav_msgs/OccupancyGrid.h"
+#include "nav_msgs/MapMetaData.h"
+#include "geometry_msgs/Pose.h"
 
 PLUGINLIB_EXPORT_CLASS(quadtree_planner::QuadTreePlanner, nav_core::BaseGlobalPlanner)
 
@@ -62,6 +66,7 @@ namespace quadtree_planner {
         eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 100, true);
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
         path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
+        inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1);
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' ",
                  name_.c_str());
@@ -878,6 +883,43 @@ namespace quadtree_planner {
             }
         }
         ROS_INFO("Costmap manipulation done");
+
+    }
+
+    void QuadTreePlanner::publishInflation(){
+        nav_msgs::OccupancyGrid occupancy_grid;
+
+        //occupancy_grid.header
+
+        unsigned int width = costmap_inf_->getSizeInCellsX();
+        unsigned int height = costmap_inf_->getSizeInCellsY();
+
+        //occupancy_grid.info.map_load_time = ;
+        occupancy_grid.header.seq = 0;
+        //occupancy_grid.header.stamp = ;
+        occupancy_grid.header.frame_id = "0";
+        occupancy_grid.info.resolution = (float) costmap_inf_->getResolution();
+        occupancy_grid.info.width = width;
+        occupancy_grid.info.height = height;
+        occupancy_grid.info.origin.position.x = 0.0;
+        occupancy_grid.info.origin.position.y = 0.0;
+        occupancy_grid.info.origin.position.z = 0.0;
+        occupancy_grid.info.origin.orientation.x = 0.0;
+        occupancy_grid.info.origin.orientation.y = 0.0;
+        occupancy_grid.info.origin.orientation.z = 0.0;
+        occupancy_grid.info.origin.orientation.w = 0.0;
+
+
+        for(unsigned int y = 0; y<height; y++){
+            for(unsigned int x = 0; x<width; x++){
+                unsigned int cost = costmap_inf_->getCost(x, y);
+                if(cost > 0){
+                    occupancy_grid.data.push_back(255);
+                }else{
+                    occupancy_grid.data.push_back(0);
+                }
+            }
+        }
 
     }
 
