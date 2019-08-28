@@ -16,4 +16,4 @@ def ad_communication(location):
     # return 42, ""
 
 if __name__ == "__main__":
-    ad_communication("mensa")
+    ad_communication("midnightsurprise")

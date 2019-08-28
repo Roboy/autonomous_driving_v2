@@ -4,3 +4,4 @@ QuadTreePlanner:
   max_allowed_time: 120
   rickshaw_speed: 1.0
   enable_pathRefinement: true
+

@@ -29,7 +29,7 @@ using namespace std;
 namespace quadtree_planner {
 
     QuadTreePlanner::QuadTreePlanner() :
-        name_(""), costmap_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), enable_pathRefinement_(true), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
+        name_(""), costmap_(nullptr), costmap_inf_(nullptr), turning_radius_(0.0), rickshaw_speed_(0.0), enable_pathRefinement_(true), planner_inflation_radius_(0.0), global_frame_(""), area(0), QuadtreeCellObject(), QuadtreeSearchCellVector() {}
 
     void QuadTreePlanner::initialize(std::string name,
                                   costmap_2d::Costmap2DROS *costmap_ros) {
@@ -42,16 +42,6 @@ namespace quadtree_planner {
     void QuadTreePlanner::initialize(std::string name, quadtree_planner::Costmap *costmap) {
         name_ = name;
         costmap_ = costmap;
-        inflateCostmap(0.4);
-        // Debugging
-        bool savedFile = costmap_->saveMap("/home/maximilian/OldCostmap.pgm");
-        bool savedFileInf = costmap_inf_->saveMap("/home/maximilian/Inflated_Costmap.pgm");
-        if(savedFile == true) {
-            ROS_INFO("Saved file");
-        } else {
-            ROS_INFO("FIle save failed");
-        }
-
         ros::NodeHandle n;
         plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
         holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
@@ -63,11 +53,11 @@ namespace quadtree_planner {
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 100, true);
         path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 100, true);
         loadParameters();
-        ROS_INFO("QuadTreePlanner initialized with name '%s' ",
-                 name_.c_str());
-
+        ROS_INFO("QuadTreePlanner initialized with name '%s' and planner_inflation_radius: %f ",
+                 name_.c_str(), planner_inflation_radius_);
+        inflateCostmap(planner_inflation_radius_);  // Create costmap_inf_ based on cost values of costmap_
         // Creation and testing of quadtree data structure
-        Point botR = Point(costmap->getSizeInCellsX()-1, costmap->getSizeInCellsY()-1);
+        Point botR = Point(costmap_->getSizeInCellsX()-1, costmap_->getSizeInCellsY()-1);
         QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
         QuadtreeCellObject.printQuadtree();
         ROS_INFO("testQuadtreeObject created");
@@ -75,7 +65,7 @@ namespace quadtree_planner {
         ROS_INFO("Quadtree built successfully");
         ROS_INFO("Total area of quadtree is %lli", area);
    //     ROS_INFO("Starting visualization of quadtree!");
-   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap->getResolution(), true);
+   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true);
    //     ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
         ROS_INFO("Creation of QuadtreeSearchCellVector was succesful");
@@ -91,6 +81,7 @@ namespace quadtree_planner {
         nh.param<double>("goal_tolerance", goal_tolerance_, 0.5);
         nh.param<double>("rickshaw_speed", rickshaw_speed_, 1.0);
         nh.param<bool>("enable_pathRefinement", enable_pathRefinement_, true);
+        nh.param<double>("planner_inflation_radius", planner_inflation_radius_, 0.0);
     }
 
     bool QuadTreePlanner::makePlan(const geometry_msgs::PoseStamped &start,
@@ -152,13 +143,10 @@ namespace quadtree_planner {
         }
 
         // Quadtree based search
-        // Quadtree based search
         ROS_INFO("Starting instantiation of data structures");
 
-        Quadtree_SearchCell quad_start = Quadtree_SearchCell();
-        quad_start = Quadtree_SearchCell(getQuad(start, QuadtreeSearchCellVector));
-        Quadtree_SearchCell quad_goal = Quadtree_SearchCell();
-        quad_goal = Quadtree_SearchCell(getQuad(goal, QuadtreeSearchCellVector));
+        Quadtree_SearchCell quad_start = Quadtree_SearchCell(getQuad(start, QuadtreeSearchCellVector));
+        Quadtree_SearchCell quad_goal = Quadtree_SearchCell(getQuad(goal, QuadtreeSearchCellVector));
         ROS_INFO("quadStart Top Left x: %i y: %i, Bottom Right x: %i, y:%i, cost: %i", quad_start.topLeft.x, quad_start.topLeft.y, quad_start.botRight.x, quad_start.botRight.y, quad_start.cost);
         set<QuadtreeCellWithDist> candidateQuads = {QuadtreeCellWithDist(0.0, quad_start)};
         unordered_map<Quadtree_SearchCell, Quadtree_SearchCell> parentsQuads;
@@ -476,7 +464,6 @@ namespace quadtree_planner {
         printIntermediatePathVector(intermediatePathsVector);
 
         // ToDo: Maybe prioritize shorter paths for subpaths where there is more than one potential solution
-        // ToDo: Ensure that only valid q1 -> q0 combinations are used!
         for(int i = 0; i < intermediatePathsVector.size(); i++) { // Connect two subpaths
             double q0[] = {path.at(intermediatePathsVector.at(i).first_index).x, path.at(intermediatePathsVector.at(i).first_index).y,
                          path.at(intermediatePathsVector.at(i).first_index).th};
@@ -753,6 +740,7 @@ namespace quadtree_planner {
 
     QuadTreePlanner::~QuadTreePlanner(){
         delete costmap_;
+        delete costmap_inf_;
     }
 
     // Visualization
@@ -858,19 +846,21 @@ namespace quadtree_planner {
         }
         ROS_INFO("Created mask with size: %i", (int)mask.size());
 
-        for(unsigned int x=0; x<max_x; x++){
-            for(unsigned int y=0; y<max_y; y++){
-                unsigned int cost = costmap_->getCost(x,y);
-                if(cost > 255){
-                    cost = 255;
-                }
-                if(cost > 0){
-                    for(std::vector<Coordinates>::iterator it = mask.begin(); it != mask.end(); ++it) {
-                        x_inf = ((int) x) + it->x;
-                        y_inf = ((int) y) + it->y;
-                        if(not( (x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y) )){
-                            if(costmap_inf_->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost){
-                                costmap_inf_->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
+        if(inflate_radius > 0) {
+            for (unsigned int x = 0; x < max_x; x++) {
+                for (unsigned int y = 0; y < max_y; y++) {
+                    unsigned int cost = costmap_->getCost(x, y);
+                    if (cost > 255) {
+                        cost = 255;
+                    }
+                    if (cost > 0) {
+                        for (std::vector<Coordinates>::iterator it = mask.begin(); it != mask.end(); ++it) {
+                            x_inf = ((int) x) + it->x;
+                            y_inf = ((int) y) + it->y;
+                            if (not((x_inf < 0) || (x_inf >= max_x) || (y_inf < 0) || (y_inf >= max_y))) {
+                                if (costmap_inf_->getCost((unsigned int) x_inf, (unsigned int) y_inf) < cost) {
+                                    costmap_inf_->setCost((unsigned int) x_inf, (unsigned int) y_inf, cost);
+                                }
                             }
                         }
                     }

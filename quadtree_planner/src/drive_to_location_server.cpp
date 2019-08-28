@@ -41,9 +41,9 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
          roboy_cognition_msgs::DriveToLocation::Response &res)
 {
     ros::NodeHandle n;
-    ros::Subscriber sub = n.subscribe("/QuadTreePlanner/eta", 100, etaCallback);
-    ros::Subscriber sub2 = n.subscribe("/QuadTreePlanner/error_message", 100, errorMessageCallback);
-    ros::Subscriber sub3 = n.subscribe("/QuadTreePlanner/path_found", 100, pathFoundMessageCallback);
+    ros::Subscriber sub = n.subscribe("/QuadTreePlanner/eta", 1, etaCallback);
+    ros::Subscriber sub2 = n.subscribe("/QuadTreePlanner/error_message", 1, errorMessageCallback);
+    ros::Subscriber sub3 = n.subscribe("/QuadTreePlanner/path_found", 1, pathFoundMessageCallback);
     ROS_INFO("request: %s", req.destination.c_str());
     std::string destination = req.destination.c_str();
     eta_received = false;
@@ -63,32 +63,39 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     // IMPORTANT: Positions are just mock positions as map is not avaible yet
     // ToDo: Replace positions by correct values once the maps are available
     if(destination == "midnightsurprise") {
-        ActionGoal.goal.target_pose.pose.position.x = 17.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
-    } else if (destination == "interimsfront") {
-        ActionGoal.goal.target_pose.pose.position.x = 19.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        ActionGoal.goal.target_pose.pose.position.x = 25.7466831207;
+        ActionGoal.goal.target_pose.pose.position.y = -163.38621521;
+        ActionGoal.goal.target_pose.pose.orientation.z = -0.529101508046;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.848558539044;
+    } else if (destination == "interimsfront") {        // When starting from InterimsSideMensa
+        ActionGoal.goal.target_pose.pose.position.x = 46.3632125854;
+        ActionGoal.goal.target_pose.pose.position.y = -4.0682258606;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.789524533964;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.613718999436;
     } else if (destination == "interimssidemensa") {
         ActionGoal.goal.target_pose.pose.position.x = 21.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "interimssideutum") {
         ActionGoal.goal.target_pose.pose.position.x = 23.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "mwchicco") {
         ActionGoal.goal.target_pose.pose.position.x = 25.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "mwstucafe") {
         ActionGoal.goal.target_pose.pose.position.x = 45.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "mwfachschaft") {
         ActionGoal.goal.target_pose.pose.position.x = 27.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     }  else {
         location_unknown = true;

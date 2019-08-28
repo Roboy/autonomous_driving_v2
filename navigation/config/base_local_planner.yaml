@@ -11,8 +11,8 @@ TrajectoryPlannerROS:
   meter_scoring: true
 
   # Allowed deviation from the goal point
-  #yaw_goal_tolerance: 6.28 # 2*pi, ignore orientation
-  #xy_goal_tolerance: 0.5
+  yaw_goal_tolerance: 6.28 # 2*pi, ignore orientation
+  xy_goal_tolerance: 0.5
 
   # Debugging
   publish_cost_grid_pc: true

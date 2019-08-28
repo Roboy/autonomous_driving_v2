@@ -147,6 +147,7 @@ namespace quadtree_planner {
         double goal_tolerance_;
         double rickshaw_speed_;
         bool enable_pathRefinement_;
+        double planner_inflation_radius_;
 
         // Visualization
         ros::Publisher marker_publisher_;
