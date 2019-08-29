@@ -66,7 +66,9 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.position.y = -163.38621521;
         ActionGoal.goal.target_pose.pose.orientation.z = -0.529101508046;
         ActionGoal.goal.target_pose.pose.orientation.w = 0.848558539044;
-    } else if (destination == "interimsfront") {        // When starting from InterimsSideMensa
+    } else if (destination == "interimsfront") {
+        // ToDo: Maybe define different orientation depending on rickshaw start position
+        // When starting from InterimsSideMensa
         ActionGoal.goal.target_pose.pose.position.x = 46.3632125854;
         ActionGoal.goal.target_pose.pose.position.y = -4.0682258606;
         ActionGoal.goal.target_pose.pose.orientation.z = 0.789524533964;
@@ -82,6 +84,7 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "mwchicco") {
+        // ToDo: Define different orientation depending on rickshaw start position
         ActionGoal.goal.target_pose.pose.position.x = 25.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
         ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
@@ -92,10 +95,10 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "mwfachschaft") {
-        ActionGoal.goal.target_pose.pose.position.x = 27.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        ActionGoal.goal.target_pose.pose.position.x = -45.2332038879;
+        ActionGoal.goal.target_pose.pose.position.y = -39.2914505005;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.892010303234;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.45201506493;
     }  else {
         location_unknown = true;
     }

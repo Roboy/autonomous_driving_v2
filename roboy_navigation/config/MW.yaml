@@ -5,4 +5,4 @@ negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
 
-planner_inflation_radius: 0.2
+planner_inflation_radius: 0.8

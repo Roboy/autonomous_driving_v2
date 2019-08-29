@@ -75,10 +75,11 @@ namespace quadtree_planner {
    //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true);
    //     ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
-        ROS_INFO("Creation of QuadtreeSearchCellVector was succesful");
+        ROS_INFO("Creation of QuadtreeSearchCellVector was succesful but Planner is not ready yet");
         QuadtreeCellObject.findNeighborsInSearchCellVector(QuadtreeSearchCellVector);
         Quadtree_SearchCell* test = QuadtreeSearchCellVector.front().getNeighbors().front();
         ROS_INFO("Neighbor Search of QuadtreeSearchCellVector was succesful");
+        ROS_INFO("Path Planner is ready");
     }
 
     void QuadTreePlanner::loadParameters() {
@@ -305,11 +306,11 @@ namespace quadtree_planner {
         // Path Refinement (Dubin's car)
         // Considering the non-holonomic constraints of the rickshaw and calculating a smooth path with a more exhaustive search
         // than in the greedy approach
+        // This search approach samples different orientation angles for the intermediate positions of the path
         bool intermediatePathVectorComplete = false;
         bool pathPossible = true;
         int first_index = 0;
         int second_index = path.size()-1;
-        // ToDo: Describe algorithm
         std::vector<IntermediatePathAngles> intermediatePathAngles;
         std::vector<IntermediatePaths> intermediatePathsVector;
 
@@ -470,7 +471,6 @@ namespace quadtree_planner {
         // Debugging
         printIntermediatePathVector(intermediatePathsVector);
 
-        // ToDo: Maybe prioritize shorter paths for subpaths where there is more than one potential solution
         for(int i = 0; i < intermediatePathsVector.size(); i++) { // Connect two subpaths
             double q0[] = {path.at(intermediatePathsVector.at(i).first_index).x, path.at(intermediatePathsVector.at(i).first_index).y,
                          path.at(intermediatePathsVector.at(i).first_index).th};
@@ -479,6 +479,10 @@ namespace quadtree_planner {
             std::vector<IntermediatePathAngles> anglesPath = intermediatePathsVector.at(i).intermediatePathAngles;
             bool succesful_subconnection = false;
             DubinsPathType dubinsPathType;
+            DubinsPathType selectedDubinsPathType;
+            Pose correctPose1;
+            Pose correctPose2;
+            double pathLength = 1000000000; // set to a very large value as we want to find the shortest valid path
             for (int j = 0; j < anglesPath.size(); j++) {
                     q0[2] = anglesPath.at(j).first_theta;
                     q1[2] = anglesPath.at(j).second_theta;
@@ -500,15 +504,17 @@ namespace quadtree_planner {
                         OrientationConsistency = true;
                     }
                     if (IsTrajectoryCollisionFree(Dubins_Poses_temp) && OrientationConsistency) {
-                        succesful_subconnection = true;
-                        break;
+                        if(dubins_path_length(DubinsPath) < pathLength) {
+                            pathLength = dubins_path_length(DubinsPath);
+                            selectedDubinsPathType = dubinsPathType;
+                            succesful_subconnection = true;
+                            correctPose1 = Pose(q0[0], q0[1], q0[2]);
+                            correctPose2 = Pose(q1[0], q1[1], q1[2]);
+                        }
                     }
                 }
             if(succesful_subconnection) {
-                Pose correctPose1(q0[0], q0[1], q0[2]);
-                Pose correctPose2(q1[0], q1[1], q1[2]);
-                DubinsSubpath correctSubpath(correctPose1, correctPose2, turning_radius_, dubinsPathType);
-
+                DubinsSubpath correctSubpath(correctPose1, correctPose2, turning_radius_, selectedDubinsPathType);
                 correct_subpaths.push_back(correctSubpath);
                 counter_succesful_connections++;
             }
