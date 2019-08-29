@@ -95,7 +95,7 @@ class AngleSensorListener:
             if abs(self.smooth_angle - self.last_smooth_angle) > self.threshold:
                 self.last_smooth_angle = self.smooth_angle
 
-        rospy.Subscriber('/roboy/middleware/TrueAngle', Float32,
+        rospy.Subscriber('/roboy/middleware/RickshawAngle', Float32,
                          angle_receiver)
 
     def get_latest_actual_angle(self):
@@ -130,7 +130,7 @@ class MyoMuscleController:
                                          queue_size=1)
         rospy.logwarn('CAREFUL! Myo-muscle controller is activated, '
                       'rickshaw will start turning if cmd_vel command is set.')
-        #self.set_control_mode()
+        self.set_control_mode()
 
     def set_control_mode(self):
         config_motors_service = rospy.ServiceProxy(
