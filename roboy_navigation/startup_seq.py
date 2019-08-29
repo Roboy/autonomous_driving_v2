@@ -116,7 +116,7 @@ class StartUpSequence:
                 print('Stopped timing.')
                 self.timing_started = False
          
-        rospy.Subscriber('/roboy/middleware/TrueAngle', Float32,
+        rospy.Subscriber('/roboy/middleware/RickshawAngle', Float32,
                          angle_receiver)
 
 
