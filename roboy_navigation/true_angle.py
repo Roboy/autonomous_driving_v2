@@ -28,7 +28,7 @@ class AngleSensorListener:
         self.left_angle = left_angle
 
     def start(self):
-        self.pub = rospy.Publisher('/roboy/middleware/TrueAngle', Float32, queue_size=1)
+        self.pub = rospy.Publisher('/roboy/middleware/RickshawAngle', Float32, queue_size=1)
         rospy.init_node('true_angle_publisher', anonymous=True)
         self.listen_to_angle_sensor()
 
