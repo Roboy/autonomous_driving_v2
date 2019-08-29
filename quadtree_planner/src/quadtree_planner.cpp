@@ -57,7 +57,7 @@ namespace quadtree_planner {
         eta_publisher_ = n.advertise<std_msgs::Int16>(name + "/eta", 1, false);
         error_message_publisher_ = n.advertise<std_msgs::String>(name + "/error_message", 1, false);
         path_found_publisher_ = n.advertise<std_msgs::Bool>(name + "/path_found", 1, false);
-        inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1);
+        inflated_map_publisher_ = n.advertise<nav_msgs::OccupancyGrid>(name + "/inflated_map", 1, true);  // Latching because rviz might later than the point in time when the message is published
         loadParameters();
         ROS_INFO("QuadTreePlanner initialized with name '%s' and planner_inflation_radius: %f ",
                  name_.c_str(), planner_inflation_radius_);
@@ -915,7 +915,6 @@ namespace quadtree_planner {
         }
 
         inflated_map_publisher_.publish(occupancy_grid);
-
     }
 
 }
