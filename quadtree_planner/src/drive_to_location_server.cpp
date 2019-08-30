@@ -63,11 +63,15 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     geometry_msgs::TransformStamped transformStamped;
     double base_link_x = 0.0;
     double base_link_y = 0.0;
+    double base_link_orientation_w = 0.0;
+    double base_link_orientation_z = 0.0;
     try{
         transformStamped = tfBuffer.lookupTransform("map", "base_link", ros::Time(0), ros::Duration(10));
         base_link_x = transformStamped.transform.translation.x;
         base_link_y = transformStamped.transform.translation.y;
-        ROS_INFO("Base Link x: %f y: %f", base_link_x, base_link_y);
+        base_link_orientation_z = transformStamped.transform.rotation.z;
+        base_link_orientation_w = transformStamped.transform.rotation.w;
+        ROS_INFO("Base Link x: %f y: %f orientation: z:%f w:%f", base_link_x, base_link_y, base_link_orientation_z, base_link_orientation_w);
     }
     catch (tf::TransformException &ex) {
         ROS_ERROR("%s",ex.what());
