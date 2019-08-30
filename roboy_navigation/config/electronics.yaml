@@ -1,4 +1,4 @@
 IDs:
-    left_motor_id: 9
-    right_motor_id: 10
-    fpga_id: 4
+    left_motor_id: 15
+    right_motor_id: 16
+    fpga_id: 2
