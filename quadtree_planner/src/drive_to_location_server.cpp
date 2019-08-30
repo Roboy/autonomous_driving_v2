@@ -8,6 +8,10 @@
 #include "std_msgs/Bool.h"
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
+#include <tf/transform_listener.h>
+#include <geometry_msgs/TransformStamped.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2/LinearMath/Transform.h>
 
 int eta = 0;
 std_msgs::String error_message;
@@ -35,8 +39,6 @@ void pathFoundMessageCallback(const std_msgs::Bool::ConstPtr& msg)
     path_found_received = true;
 }
 
-
-
 bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
          roboy_cognition_msgs::DriveToLocation::Response &res)
 {
@@ -55,6 +57,23 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     move_base_msgs::MoveBaseActionGoal ActionGoal;
     move_base_msgs::MoveBaseGoal goal;
 
+    tf2_ros::Buffer tfBuffer;
+    tf2_ros::TransformListener tfListener(tfBuffer);
+    geometry_msgs::TransformStamped transformStamped;
+    double base_link_x = 0.0;
+    double base_link_y = 0.0;
+    try{
+        transformStamped = tfBuffer.lookupTransform("map", "base_link", ros::Time(0), ros::Duration(10));
+        base_link_x = transformStamped.transform.translation.x;
+        base_link_y = transformStamped.transform.translation.y;
+        ROS_INFO("Base Link x: %f y: %f", base_link_x, base_link_y);
+    }
+    catch (tf::TransformException &ex) {
+        ROS_ERROR("%s",ex.what());
+        ros::Duration(1.0).sleep();
+    }
+
+
     ActionGoal.header.frame_id = "";
     ActionGoal.header.stamp = ros::Time::now();
     ActionGoal.goal.target_pose.header.frame_id = "map";
@@ -67,12 +86,18 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.orientation.z = -0.529101508046;
         ActionGoal.goal.target_pose.pose.orientation.w = 0.848558539044;
     } else if (destination == "interimsfront") {
-        // ToDo: Maybe define different orientation depending on rickshaw start position
+        // ToDo: Define different orientation depending on rickshaw start position
         // When starting from InterimsSideMensa
         ActionGoal.goal.target_pose.pose.position.x = 46.3632125854;
         ActionGoal.goal.target_pose.pose.position.y = -4.0682258606;
         ActionGoal.goal.target_pose.pose.orientation.z = 0.789524533964;
         ActionGoal.goal.target_pose.pose.orientation.w = 0.613718999436;
+        // When starting from interimssideutum
+        ActionGoal.goal.target_pose.pose.position.x = 21.0;
+        ActionGoal.goal.target_pose.pose.position.y = 1.0;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
+        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        // When starting from interimssideutum
     } else if (destination == "interimssidemensa") {
         ActionGoal.goal.target_pose.pose.position.x = 21.0;
         ActionGoal.goal.target_pose.pose.position.y = 1.0;
@@ -84,16 +109,24 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "mwchicco") {
-        // ToDo: Define different orientation depending on rickshaw start position
-        ActionGoal.goal.target_pose.pose.position.x = 25.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        // Starting from mwfachschaft
+        if(base_link_y < -base_link_x) {
+            ActionGoal.goal.target_pose.pose.position.x = 1.74308013916;
+            ActionGoal.goal.target_pose.pose.position.y = -9.9398727417;
+            ActionGoal.goal.target_pose.pose.orientation.z = 0.346074328657;
+            ActionGoal.goal.target_pose.pose.orientation.w = 0.938207098164;
+        } else {
+            // Starting from mwstucafe
+            ActionGoal.goal.target_pose.pose.position.x = 7.88451004028;
+            ActionGoal.goal.target_pose.pose.position.y = -5.58188390732;
+            ActionGoal.goal.target_pose.pose.orientation.z = 0.945949866243;
+            ActionGoal.goal.target_pose.pose.orientation.w = -0.3243128899;
+        }
     } else if (destination == "mwstucafe") {
-        ActionGoal.goal.target_pose.pose.position.x = 45.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        ActionGoal.goal.target_pose.pose.position.x = 76.2451324463;
+        ActionGoal.goal.target_pose.pose.position.y = 37.1527862549;
+        ActionGoal.goal.target_pose.pose.orientation.z = -0.463249795557;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.886227751154;
     } else if (destination == "mwfachschaft") {
         ActionGoal.goal.target_pose.pose.position.x = -45.2332038879;
         ActionGoal.goal.target_pose.pose.position.y = -39.2914505005;
