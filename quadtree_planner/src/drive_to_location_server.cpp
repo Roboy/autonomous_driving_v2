@@ -57,6 +57,7 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     move_base_msgs::MoveBaseActionGoal ActionGoal;
     move_base_msgs::MoveBaseGoal goal;
 
+    // Get Base Link coordinates
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener(tfBuffer);
     geometry_msgs::TransformStamped transformStamped;
@@ -73,7 +74,6 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ros::Duration(1.0).sleep();
     }
 
-
     ActionGoal.header.frame_id = "";
     ActionGoal.header.stamp = ros::Time::now();
     ActionGoal.goal.target_pose.header.frame_id = "map";
@@ -86,17 +86,19 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.orientation.z = -0.529101508046;
         ActionGoal.goal.target_pose.pose.orientation.w = 0.848558539044;
     } else if (destination == "interimsfront") {
-        // ToDo: Define different orientation depending on rickshaw start position
-        // When starting from InterimsSideMensa
-        ActionGoal.goal.target_pose.pose.position.x = 46.3632125854;
-        ActionGoal.goal.target_pose.pose.position.y = -4.0682258606;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.789524533964;
-        ActionGoal.goal.target_pose.pose.orientation.w = 0.613718999436;
-        // When starting from interimssideutum
-        ActionGoal.goal.target_pose.pose.position.x = 21.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        if(base_link_y > ((1.0/3.5)*base_link_x - 18.5) ) {
+            // When starting from interimssideutum
+            ActionGoal.goal.target_pose.pose.position.x = 47.3372039795;
+            ActionGoal.goal.target_pose.pose.position.y = -7.63010787964;
+            ActionGoal.goal.target_pose.pose.orientation.z = -0.611320751869;
+            ActionGoal.goal.target_pose.pose.orientation.w = 0.79138292775;
+        } else {
+            // When starting from InterimsSideMensa
+            ActionGoal.goal.target_pose.pose.position.x = 46.3632125854;
+            ActionGoal.goal.target_pose.pose.position.y = -4.0682258606;
+            ActionGoal.goal.target_pose.pose.orientation.z = 0.789524533964;
+            ActionGoal.goal.target_pose.pose.orientation.w = 0.613718999436;
+        }
         // When starting from interimssideutum
     } else if (destination == "interimssidemensa") {
         ActionGoal.goal.target_pose.pose.position.x = 21.0;

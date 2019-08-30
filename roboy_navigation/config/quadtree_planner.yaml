@@ -1,6 +1,6 @@
 QuadTreePlanner:
   default_tolerance: 0.5
-  turning_radius: 4.0
+  turning_radius: 5.0
   max_allowed_time: 120
   rickshaw_speed: 1.0
   enable_pathRefinement: true

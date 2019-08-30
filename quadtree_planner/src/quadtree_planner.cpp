@@ -67,10 +67,8 @@ namespace quadtree_planner {
         Point botR = Point(costmap_->getSizeInCellsX()-1, costmap_->getSizeInCellsY()-1);
         QuadtreeCellObject = Quadtree_Cell(Point(0,0), botR, 255);
         QuadtreeCellObject.printQuadtree();
-        ROS_INFO("testQuadtreeObject created");
         QuadtreeCellObject.buildQuadtree(costmap_inf_, &area);
-        ROS_INFO("Quadtree built successfully");
-        ROS_INFO("Total area of quadtree is %lli", area);
+        ROS_INFO("Quadtree built successfully but Planner is not ready yet");
    //     ROS_INFO("Starting visualization of quadtree!");
    //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true);
    //     ROS_INFO("Quadtree test was run. Visualization finished.");
