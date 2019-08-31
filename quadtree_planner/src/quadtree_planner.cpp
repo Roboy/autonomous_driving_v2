@@ -527,8 +527,8 @@ namespace quadtree_planner {
             for(int i = 0; i < (int)(correct_subpaths.size()); i++) { // Connect two subpaths
                 double q0[] = {correct_subpaths.at(i).q0.x, correct_subpaths.at(i).q0.y, correct_subpaths.at(i).q0.th};
                 double q1[] = {correct_subpaths.at(i).q1.x, correct_subpaths.at(i).q1.y, correct_subpaths.at(i).q1.th};
-                ROS_INFO("q0 x:%f y:%f, theta:%f", q0[0], q0[1], q0[2]);
-                ROS_INFO("q1 x:%f y:%f, theta:%f", q1[0], q1[1], q1[2]);
+            //    ROS_INFO("q0 x:%f y:%f, theta:%f", q0[0], q0[1], q0[2]);  // Debugging
+            //    ROS_INFO("q1 x:%f y:%f, theta:%f", q1[0], q1[1], q1[2]);  // Debugging
                 Dubins_Poses_temp.clear();
                 dubins_path(DubinsPath, q0, q1, turning_radius_, correct_subpaths.at(i).dubinsPathType);
                 dubins_path_sample_many(DubinsPath, 0.05, createDubinsConfiguration, NULL);

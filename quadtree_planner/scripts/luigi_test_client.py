@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import rospy
+import argparse
 from roboy_cognition_msgs.srv import DriveToLocation
 
 # This script is supposed to be used only as test script for the communication between Luigi and autononomous driving via the service DriveToLocation (located in roboy_cognition_msgs)
@@ -16,4 +17,7 @@ def ad_communication(location):
     # return 42, ""
 
 if __name__ == "__main__":
-    ad_communication("midnightsurprise")
+    parser = argparse.ArgumentParser("Define goal location from datatype string")
+    parser.add_argument('--destination', '-d', default = 'midnightsurprise', help ='string that is sent as destination to the service DriveToLocation')
+    args = parser.parse_args(rospy.myargv()[1:])
+    ad_communication(args.destination)
