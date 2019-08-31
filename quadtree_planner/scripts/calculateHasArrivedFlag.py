@@ -2,6 +2,7 @@
 import sys
 import rospy
 import numpy as np
+import argparse
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import PoseStamped
 from move_base_msgs.msg import MoveBaseActionGoal
@@ -10,21 +11,22 @@ from std_msgs.msg import Bool
 
 # This script calculates and publishes the hasArrivedFlag
 class CalculateHasArrivedFlag:
-    def __init__(self):
+    def __init__(self, maximum_distance_):
         self.goal_x = 0
         self.goal_y = 0
         self.OnlyOneOutputPerGoal = True
+        self.maximum_distance = maximum_distance_        
+        self.maximum_velocity = 0.0
         
     def start(self):
         rospy.init_node('calculateHasArrivedFlag')
         self.tf = TransformListener()
         rospy.loginfo('Node calculateHasArrived is started!')
-        self.maximum_distance = 1.0
-        self.maximum_velocity = 0.0
         self.flag_publisher = rospy.Publisher('/roboy/autonomousdriving/arrival', Bool, queue_size=10)
         rospy.Subscriber('move_base/goal', MoveBaseActionGoal,  self.handle_goal_position, queue_size=1)
         rospy.Subscriber('cmd_vel', Twist, self.handle_ego_velocity, queue_size=1)
         rospy.loginfo('Publishers and subscribers have been created')
+        rospy.loginfo("Maximum distance for luigi has the value " +str(self.maximum_distance))
         rospy.spin()
 
     def handle_goal_position(self, goal_pos):
@@ -49,4 +51,7 @@ class CalculateHasArrivedFlag:
             pass  
 
 if __name__ == "__main__":
-    CalculateHasArrivedFlag().start()
+    parser = argparse.ArgumentParser("Define maximum allowed distance to goal for sending has arrived flag")
+    parser.add_argument('--maximum_distance', '-d', default = 1.0, type=float, help ='maximum allowed distance to goal for sending has arrived flag')
+    args = parser.parse_args(rospy.myargv()[1:])
+    CalculateHasArrivedFlag(maximum_distance_=float(args.maximum_distance)).start()

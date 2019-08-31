@@ -1,9 +1,11 @@
 <launch>
   <arg name="rviz" default="false" doc="bool, whether or not to start rviz on the host"/>
   <arg name="map_configfile" default="Interims.yaml" doc="string that names the map_config file that should be used (i.e. specifies the scenario)"/>
+  <arg name="goal_tolerance_local_planner" default="0.5" doc="maximum allowed distance to goal for local planner"/>
   <include file="$(find simulation)/launch/tricycle.launch"/>
   <include file="$(find navigation)/launch/navigation.launch">
     <arg name="map_configfile_" value="$(arg map_configfile)"/>
+    <arg name="goal_tolerance_local_planner" value="$(arg goal_tolerance_local_planner)"/>
   </include> 
   <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find navigation)/nav.rviz" if="$(arg rviz)" />

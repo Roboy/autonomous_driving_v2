@@ -3,6 +3,8 @@ Launch the navigation stack to run on a static map published by map server.
 -->
 <launch>
   <arg name="map_configfile_" default="map.yaml"/>
+  <arg name="goal_tolerance_local_planner" default="0.5"/>
+  <arg name="maximum_distance_luigi" value="$(eval 1.2*arg('goal_tolerance_local_planner'))"/>
   <arg name="map_config"
        default="$(find navigation)/config/$(arg map_configfile_)"/>
   <node name="map_server" pkg="map_server" type="map_server"
@@ -28,11 +30,13 @@ Launch the navigation stack to run on a static map published by map server.
     <param name="base_global_planner" value="quadtree_planner::QuadTreePlanner"/>
     <param name="recovery_behavior_enabled" value="false" />
     <param name="max_planning_retries" value="0" />
+    <rosparam param="/move_base/TrajectoryPlannerROS/xy_goal_tolerance" subst_value="True">$(arg goal_tolerance_local_planner)</rosparam>
   </node>
   <node pkg="navigation" type="tf_to_odom.py" respawn="false"
         name="fake_odom" output="screen"/>
   <node pkg="quadtree_planner" type="autonomous_driving" respawn="false"
         name="autonomous_driving" output="screen"/>
   <node pkg="quadtree_planner" type="calculateHasArrivedFlag.py" respawn="false"
-        name="calculateFlag" output="screen"/>
+        name="calculateFlag" output="screen"
+        args="-d $(arg maximum_distance_luigi)"/>
 </launch>
