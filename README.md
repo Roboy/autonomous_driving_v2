@@ -23,9 +23,9 @@ source devel/setup.bash
 ### Navigation
 This package is used to test the navigation stack in simulation with rviz visualization.
 If you want to run the simulation, use the following command:
-```
-roslaunch navigation demo_quadtree.launch rviz:=true map_configfile:="MapConfigfile.yaml" [goal_tolerance_local_planner:=xx]
-```
+<pre>
+roslaunch navigation demo_quadtree.launch rviz:=true map_configfile:="<i>MapConfigfile.yaml</i>" [goal_tolerance_local_planner:=xx]
+</pre>
 The following maps are available:
 - MW.yaml (Maschinenwesen building of TUM indoor)
 - Interims.yaml (area around Interims II lecture hall of TUM)
