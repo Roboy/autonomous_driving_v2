@@ -8,20 +8,20 @@ This is the devel branch for planning which will be deployed in the docker conta
 
 ## Packages of the ad-planning docker:
 
-# Navigation
+### Navigation
 This package is used to test the navigation stack in simulation with rviz visualization.
 
-# Quadtreeplanner
+### Quadtreeplanner
 This package contains the custom implementation of a quadtree cell decomposition based planner with path refinement to meet the non-holonomic constraints of the rickshaw. Details about the implementation of the planning algorithm can be found in our wiki at ToDo:Link to WIKI page.
 
-# Roboy_communication
+### Roboy_communication
 This submodule contains the roboy_communication package which includes all Roboy specific ROS message types and ROS service types.
 
-# Roboy_models
+### Roboy_models
 This package is required to run the simulation of the navigation stack. It contains a .urdf model of the rickshaw.
 
-# Roboy_navigation
+### Roboy_navigation
 This package contains the launch-files, config-files and data (static maps of the environment) to run the navigation stack with the real HW (i.e. roboy rickshaw).
 
-# Simulation
+### Simulation
 This package is required to run the simulation of the navigation stack. It contains scripts that are used in the simulation mode.
