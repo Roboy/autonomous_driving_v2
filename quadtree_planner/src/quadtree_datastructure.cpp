@@ -88,10 +88,11 @@ bool Quadtree_Cell::isCostOfAreaUniform(Point topL, Point botR, quadtree_planner
 }
 
 // This method is used only for testing purposes - not required for the actual path planning!
-void Quadtree_Cell::testQuadtree(ros::Publisher marker_publisher_, double resolution, bool showOnlyLowestLevel) {
+void Quadtree_Cell::testQuadtree(ros::Publisher marker_publisher_, double resolution, bool showOnlyLowestLevel, double origin_x,
+                                 double origin_y) {
     // origin: [-30.133392, -47.747141, 0.0] values taken from map.pgm file according to map.yaml file (subfolder navigation/config)
-    double x_origin = -30.133392;
-    double y_origin = -47.747141;
+    double x_origin = origin_x;
+    double y_origin = origin_y;
   //  ROS_INFO("Position Top Left x: %i, Position Top Left y: %i Position Bottom Right x: %i Position Bottom Right y: %i Cost: %i", topLeft.x, topLeft.y, botRight.x, botRight.y, cost );
     if(showOnlyLowestLevel == false) {
         publishVisualization(marker_publisher_, (double((topLeft.x + botRight.x) * resolution / 2.0 + x_origin)),
@@ -117,19 +118,19 @@ void Quadtree_Cell::testQuadtree(ros::Publisher marker_publisher_, double resolu
 
     if (topLeftCell != nullptr) {
   //      ROS_INFO("Showing top left cell");
-        topLeftCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel);
+        topLeftCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel, origin_x, origin_y);
     }
     if (botLeftCell != nullptr) {
    //     ROS_INFO("Showing bottom left cell");
-        botLeftCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel);
+        botLeftCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel, origin_x, origin_y);
     }
     if (topRightCell != nullptr) {
    //     ROS_INFO("Showing top right cell");
-        topRightCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel);
+        topRightCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel, origin_x, origin_y);
     }
     if (botRightCell != nullptr) {
     //    ROS_INFO("Showing bottom right cell");
-        botRightCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel);
+        botRightCell->testQuadtree(marker_publisher_, resolution, showOnlyLowestLevel, origin_x, origin_y);
     }
 }
 

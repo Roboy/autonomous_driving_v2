@@ -33,7 +33,7 @@ namespace quadtree_planner {
         ~QuadTreePlanner();
 
         /**
-          * Initialization function for the QuadtreePlanner object
+          * Initialization function for the QuadTreePlanner object
           * @param  name The name of this planner
           * @param  costmap_ros A pointer to the ROS wrapper of the costmap to use
           */
@@ -54,24 +54,34 @@ namespace quadtree_planner {
     public:
         // Methods that are left public for unit tests
 
-        /**
-         * Initialization function for the QuadtreePlanner object
-         */
+         /**
+          * Initialization function for the QuadTreePlanner object
+          * @param name The name of this planner
+          * @param costmap a pointer to the costmap to use
+          */
         void initialize(std::string name, Costmap *costmap);
 
+        /**
+        * Given a goal pose in the world, compute a plan
+        * @param start The start pose
+        * @param goal The goal pose
+        * @param plan The plan... filled by the planner
+        * @return True if a valid plan was found, false otherwise
+        */
         bool makePlan(const Pose &start, const Pose &goal, std::vector<Pose> &path);
+
+    private:
 
         std::vector<QuadtreeCellWithDist> getNeighborQuads(QuadtreeCellWithDist &quad, Pose goal) const;
 
         void calculateEta(std::vector<Pose> positions);
 
-    private:
         /**
          * Reconstruct the path to the goal position given a set of child/parent pairs.
          * A child position was visited from the parent position when running the planning algorithm.
          * @param parents a map of child/parent relationships. Keys are children, values are parents.
          * @param goal_pos goal position, is assumed to have no children.
-         * @param path conainer where the path is be stored.
+         * @param path container where the path is be stored.
          *              The first element is the start position, the last element - goal position.
          */
         void getPath(const std::unordered_map<Pose, Pose> &parents,
@@ -89,7 +99,7 @@ namespace quadtree_planner {
 
         /**
          *
-         * @param path
+         * @param path container where the path is stored
          * @return path length calculated based on euclidean distance between path points
          */
         double getPathLength(std::vector<Pose> &path);
@@ -98,9 +108,9 @@ namespace quadtree_planner {
         // Quad Tree based search
         /** Snap pose to a quadtree cell
          *
-         * @param pos
-         * @param quadtreeCellObject
-         * @return
+         * @param pos Pose of which the Quadtree_SearchCell should be returned
+         * @param quadtreeCellObject container that stores the Quadtree_SearchCell objects
+         * @return Quadtree_SearchCell of the input pose
          */
         Quadtree_SearchCell getQuad(const Pose &pos, std::vector<Quadtree_SearchCell> QuadtreeSearchCellVectorObject);
 

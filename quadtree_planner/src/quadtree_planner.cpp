@@ -70,7 +70,7 @@ namespace quadtree_planner {
         QuadtreeCellObject.buildQuadtree(costmap_inf_, &area);
         ROS_INFO("Quadtree built successfully but Planner is not ready yet");
    //     ROS_INFO("Starting visualization of quadtree!");
-   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true);
+   //     QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true, costmap_->getOriginX(), costmap_->getOriginY());
    //     ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
         ROS_INFO("Creation of QuadtreeSearchCellVector was succesful but Planner is not ready yet");

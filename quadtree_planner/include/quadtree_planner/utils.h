@@ -38,8 +38,8 @@ namespace quadtree_planner {
     };
 
     /**
- * Container for storing valid angle combinations
- */
+    * Container for storing valid angle combinations
+    */
     struct IntermediatePathAngles {
         double first_theta;
         double second_theta;
@@ -56,7 +56,7 @@ namespace quadtree_planner {
     };
 
     /**
-     * Container for storing DubinsSubpath
+     * Container for storing DubinsSubpath consisting of start and goal pose, turning radius and DubinsPathType
      */
     struct DubinsSubpath {
         Pose q0;
@@ -114,6 +114,9 @@ namespace quadtree_planner {
          bool operator==(const QuadtreeCellWithDist &other) const;
      };
 
+     /**
+      * Container for storing x/y coordinates (integer)
+      */
     struct Coordinates {
         int x;
         int y;
@@ -123,11 +126,20 @@ namespace quadtree_planner {
         Coordinates(int x, int y);
     };
 
-    /**
-     * Compute Euclidean distance between two positions.
-     */
+
+     /**
+      * @brief  Calculates the euclidean distance between two poses
+      * @param pose1 first pose
+      * @param pose2 second pose
+      * @return euclidean distance between pose1 and pose2
+      */
     double euclid_dist(const Pose &pose1, const Pose &pose2);
 
+    /**
+     * @brief  Normalizes the input angle to [0, 2pi]
+     * @param angle input angle
+     * @return normalized input angle in the interval [0, 2pi]
+     */
     double normalize_angle(double angle);
 }
 
