@@ -12,6 +12,7 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2/LinearMath/Transform.h>
+#include "../include/quadtree_planner/drive_to_location_server.h"
 
 int eta = 0;
 std_msgs::String error_message;

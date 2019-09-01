@@ -33,7 +33,7 @@ namespace quadtree_planner {
         ~QuadTreePlanner();
 
         /**
-          * Initialization function for the AStarPlanner object
+          * Initialization function for the QuadtreePlanner object
           * @param  name The name of this planner
           * @param  costmap_ros A pointer to the ROS wrapper of the costmap to use
           */
