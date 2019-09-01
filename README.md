@@ -30,7 +30,8 @@ The following maps are available:
 - MW.yaml (Maschinenwesen building of TUM indoor)
 - Interims.yaml (area around Interims II lecture hall of TUM)
 - MidnightSurprise.yaml
-The parameter goal_tolerance_local_planner is optional. It specifies the tolerance in the xy-plane from the final goal position for the local planner to stop the rickshaw. 
+
+The parameter goal_tolerance_local_planner is optional. It specifies the tolerance in the xy-plane from the final goal position for the local planner to stop the rickshaw. You can also start the launch file without specifying a tolerance (default value will be used in this case).
 <pre>
 roslaunch navigation demo_quadtree.launch rviz:=true map_configfile:="<i>MapConfigfile.yaml</i>"
 </pre>
