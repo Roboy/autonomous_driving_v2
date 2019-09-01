@@ -1,8 +1,0 @@
-image: ../data/3DLIDARmapUTUM.pgm
-resolution: 0.050000
-origin: [-30.133392, -47.747141, 0.0]	#map.pgm
-# origin: [-19.0, -21.0, 0.0]	# 3DLIDARmapUTUM.pgm
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.196	# map.pgm
-# free_thresh: 0.35	# 3DLIDARmapUTUM.pgm

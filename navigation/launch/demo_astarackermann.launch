@@ -1,4 +1,0 @@
-<launch>
-   <include file="$(find simulation)/launch/tricycle.launch"/>
-   <include file="$(find navigation)/launch/navigation_astarackermann.launch"/>
-</launch>
