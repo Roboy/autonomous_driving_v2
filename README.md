@@ -64,7 +64,7 @@ export ROS_MASTER_URI=http://ROS_MASTER_IP:11311/
 export ROS_HOSTNAME=REMOTE_IP
 export ROS_IP=REMOTE_IP
 
-rosrun rviz rviz -d <i>path_to_the_repo</i>//src/roboy_navigation/nav.rviz
+rosrun rviz rviz -d <i>path_to_the_repo</i>/src/roboy_navigation/nav.rviz
 </pre>
 
 ### Simulation
