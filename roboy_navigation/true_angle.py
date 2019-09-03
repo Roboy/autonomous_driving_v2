@@ -41,7 +41,7 @@ class AngleSensorListener:
                     * (self.right_angle - self.left_angle) * pi / 180
             self.pub.publish(angle)
 
-        rospy.Subscriber('/roboy/middleware/StearingAngle', MotorAngle,
+        rospy.Subscriber('/roboy/middleware/SteeringAngle', MotorAngle,
                          angle_receiver)
         rospy.spin()
 
