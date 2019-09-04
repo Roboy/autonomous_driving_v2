@@ -8,6 +8,7 @@ Panels:
         - /InflatedMap1
         - /InflatedMap1/Position1
         - /InflatedMap1/Orientation1
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 584
   - Class: rviz/Selection
@@ -410,6 +411,14 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: visualization_marker
+      Name: Marker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -438,25 +447,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 120.00541687011719
+      Distance: 97.68638610839844
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -23.81704330444336
-        Y: -85.90553283691406
-        Z: 0.00011211463424842805
+        X: -3.0682756900787354
+        Y: -35.59699630737305
+        Z: 9.819989645620808e-5
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9302033185958862
+      Pitch: 0.764796257019043
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 3.0012099742889404
+      Yaw: 3.606210947036743
     Saved: ~
 Window Geometry:
   Displays:
