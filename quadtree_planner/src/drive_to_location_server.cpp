@@ -128,10 +128,10 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
             ActionGoal.goal.target_pose.pose.orientation.w = -0.3243128899;
         }
     } else if (destination == "mwstucafe") {
-        ActionGoal.goal.target_pose.pose.position.x = 76.2451324463;
-        ActionGoal.goal.target_pose.pose.position.y = 37.1527862549;
-        ActionGoal.goal.target_pose.pose.orientation.z = -0.463249795557;
-        ActionGoal.goal.target_pose.pose.orientation.w = 0.886227751154;
+        ActionGoal.goal.target_pose.pose.position.x = 70.159;
+        ActionGoal.goal.target_pose.pose.position.y = 40.086;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.336;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.942;
     } else if (destination == "mwfachschaft") {
         ActionGoal.goal.target_pose.pose.position.x = -45.2332038879;
         ActionGoal.goal.target_pose.pose.position.y = -39.2914505005;
