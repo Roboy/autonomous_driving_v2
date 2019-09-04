@@ -83,13 +83,12 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     ActionGoal.header.stamp = ros::Time::now();
     ActionGoal.goal.target_pose.header.frame_id = "map";
     ActionGoal.goal.target_pose.header.stamp = ros::Time::now();
-    // IMPORTANT: Positions are just mock positions as map is not avaible yet
-    // ToDo: Replace positions by correct values once the maps are available
+
     if(destination == "midnightsurprise") {
-        ActionGoal.goal.target_pose.pose.position.x = -11.028;
-        ActionGoal.goal.target_pose.pose.position.y = -86.860;
-        ActionGoal.goal.target_pose.pose.orientation.z = -0.532;
-        ActionGoal.goal.target_pose.pose.orientation.w = 0.847;
+        ActionGoal.goal.target_pose.pose.position.x = 24.620;
+        ActionGoal.goal.target_pose.pose.position.y = -160.886;
+        ActionGoal.goal.target_pose.pose.orientation.z = -0.511;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.859;
     } else if (destination == "interimsfront") {
         if(base_link_y > ((1.0/3.5)*base_link_x - 18.5) ) {
             // When starting from interimssideutum
@@ -110,10 +109,10 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
         ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
         ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
     } else if (destination == "interimssideutum") {
-        ActionGoal.goal.target_pose.pose.position.x = 23.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        ActionGoal.goal.target_pose.pose.position.x = 34.829;
+        ActionGoal.goal.target_pose.pose.position.y = 9.771;
+        ActionGoal.goal.target_pose.pose.orientation.z = 0.991;
+        ActionGoal.goal.target_pose.pose.orientation.w = -0.130;
     } else if (destination == "mwchicco") {
         // Starting from mwfachschaft
         if(base_link_y < -base_link_x) {
