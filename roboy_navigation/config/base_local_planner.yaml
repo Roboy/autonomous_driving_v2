@@ -2,7 +2,7 @@ TrajectoryPlannerROS:
   # Robot dynamics
   max_vel_x: 1.0
   min_vel_x: 1.0
-  max_vel_theta: 0.24
+  max_vel_theta: 0.12
   min_in_place_vel_theta: 0.0
   acc_lim_theta: 20.0
   acc_lim_x: 1.0
