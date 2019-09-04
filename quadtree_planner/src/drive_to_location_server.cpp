@@ -86,10 +86,10 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
     // IMPORTANT: Positions are just mock positions as map is not avaible yet
     // ToDo: Replace positions by correct values once the maps are available
     if(destination == "midnightsurprise") {
-        ActionGoal.goal.target_pose.pose.position.x = 25.7466831207;
-        ActionGoal.goal.target_pose.pose.position.y = -163.38621521;
-        ActionGoal.goal.target_pose.pose.orientation.z = -0.529101508046;
-        ActionGoal.goal.target_pose.pose.orientation.w = 0.848558539044;
+        ActionGoal.goal.target_pose.pose.position.x = -11.028;
+        ActionGoal.goal.target_pose.pose.position.y = -86.860;
+        ActionGoal.goal.target_pose.pose.orientation.z = -0.532;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.847;
     } else if (destination == "interimsfront") {
         if(base_link_y > ((1.0/3.5)*base_link_x - 18.5) ) {
             // When starting from interimssideutum
