@@ -94,7 +94,7 @@ Visualization Manager:
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: PoseArray
@@ -103,7 +103,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /QuadTreePlanner/nonHolonomicPlanPoses
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -133,7 +133,7 @@ Visualization Manager:
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 255; 25; 0
-      Enabled: true
+      Enabled: false
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: PoseArray
@@ -142,7 +142,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /QuadTreePlanner/HolonomicPlanPoses
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -447,16 +447,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 97.68638610839844
+      Distance: 65.6119155883789
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -3.0682756900787354
-        Y: -35.59699630737305
-        Z: 9.819989645620808e-5
+        X: 24.5373592376709
+        Y: -20.003206253051758
+        Z: 9.234141180058941e-5
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
