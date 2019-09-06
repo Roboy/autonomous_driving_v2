@@ -45,6 +45,7 @@ class CalculateHasArrivedFlag:
         euclid_dist = self.euclidDistance(self.goal_x, self.goal_y, current_pos_x, current_pos_y)
         if( (self.ego_velocity <= self.maximum_velocity) and (euclid_dist <= self.maximum_distance) and (self.OnlyOneOutputPerGoal == True) ):
 			self.OnlyOneOutputPerGoal = False
+			rospy.sleep(3)
 			self.flag_publisher.publish(True)
 			rospy.loginfo('Publishing hasArrived = True')
         else:
