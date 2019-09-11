@@ -48,8 +48,8 @@ namespace quadtree_planner {
         name_ = name;
         costmap_ = costmap;
         ros::NodeHandle n;
-        plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1, true);
-        holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1, true);
+        plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
+        holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
         HolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/HolonomicPlanPoses", 1);
         nonHolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/nonHolonomicPlanPoses", 1);
         sampledPosesQ1publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/sampledPosesQ1", 1);
