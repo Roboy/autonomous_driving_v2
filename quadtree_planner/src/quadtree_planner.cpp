@@ -48,8 +48,8 @@ namespace quadtree_planner {
         name_ = name;
         costmap_ = costmap;
         ros::NodeHandle n;
-        plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1);
-        holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1);
+        plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/global_plan", 1, true);
+        holonomic_plan_publisher_ = n.advertise<nav_msgs::Path>(name + "/holonomic_plan", 1, true);
         HolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/HolonomicPlanPoses", 1);
         nonHolonomicPathPoses_publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/nonHolonomicPlanPoses", 1);
         sampledPosesQ1publisher_ = n.advertise<geometry_msgs::PoseArray>(name + "/sampledPosesQ1", 1);
@@ -70,7 +70,7 @@ namespace quadtree_planner {
         QuadtreeCellObject.buildQuadtree(costmap_inf_, &area);
         ROS_INFO("Quadtree built successfully but Planner is not ready yet");
      //   ROS_INFO("Starting visualization of quadtree!");
-     //   QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_inf_->getResolution(), true, costmap_->getOriginX(), costmap_->getOriginY());
+     //   QuadtreeCellObject.testQuadtree(marker_publisher_, costmap_->getResolution(), true, costmap_->getOriginX(), costmap_->getOriginY());
      //   ROS_INFO("Quadtree test was run. Visualization finished.");
         QuadtreeCellObject.createSearchCellVector(&QuadtreeSearchCellVector);
         ROS_INFO("Creation of QuadtreeSearchCellVector was succesful but Planner is not ready yet");

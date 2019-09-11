@@ -104,10 +104,10 @@ bool driveToLocation(roboy_cognition_msgs::DriveToLocation::Request  &req,
             ActionGoal.goal.target_pose.pose.orientation.w = 0.613718999436;
         }
     } else if (destination == "interimssidemensa") {
-        ActionGoal.goal.target_pose.pose.position.x = 21.0;
-        ActionGoal.goal.target_pose.pose.position.y = 1.0;
-        ActionGoal.goal.target_pose.pose.orientation.z = 0.0;
-        ActionGoal.goal.target_pose.pose.orientation.w = 1.0;
+        ActionGoal.goal.target_pose.pose.position.x = 49.341;
+        ActionGoal.goal.target_pose.pose.position.y = -24.161;
+        ActionGoal.goal.target_pose.pose.orientation.z = -0.987;
+        ActionGoal.goal.target_pose.pose.orientation.w = 0.160;
     } else if (destination == "interimssideutum") {
         ActionGoal.goal.target_pose.pose.position.x = 34.829;
         ActionGoal.goal.target_pose.pose.position.y = 9.771;
