@@ -37,7 +37,7 @@ roslaunch navigation demo_quadtree.launch rviz:=true map_configfile:="<i>MapConf
 </pre>
 
 ### Quadtreeplanner
-This package contains the custom implementation of a quadtree cell decomposition based planner with path refinement to meet the non-holonomic constraints of the rickshaw. Details about the implementation of the planning algorithm can be found in our wiki at ToDo:Link to WIKI page.
+This package contains the custom implementation of a quadtree cell decomposition based planner with path refinement to meet the non-holonomic constraints of the rickshaw. Details about the implementation of the planning algorithm can be found in our wiki at https://github.com/Roboy/autonomous_driving_v2/wiki/Path_Planning
 
 ### Roboy_communication
 This submodule contains the roboy_communication package which includes all Roboy specific ROS message types and ROS service types.
