@@ -1,1 +1,0 @@
-Aren't you a little short for a stormtrooper?
