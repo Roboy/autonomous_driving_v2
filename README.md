@@ -68,3 +68,8 @@ sudo docker stop docker_name
 
 ``` sudo docker ps -a``` (shows all dockers)
 
+## Running the AD SW stack
+
+Refer to our Wiki page for an example on how to run our SW stack:
+https://github.com/Roboy/autonomous_driving_v2/wiki/Examples
+
