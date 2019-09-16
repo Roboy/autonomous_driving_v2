@@ -1,0 +1,16 @@
+# id: set by controller
+# motor_id: set by controller
+control_mode: 2 # position=0, velocity=1, displacement=2
+output_pos_max: 1000
+output_neg_max: -1000
+sp_pos_max: 1000000
+sp_neg_max: -1000000
+integral_pos_max: 1000
+integral_neg_max: -1000
+kp: 200
+ki: 0
+kd: 0
+forward_gain: 0
+dead_band: 0
+output_divider: 1
+# setpoint: set by controller

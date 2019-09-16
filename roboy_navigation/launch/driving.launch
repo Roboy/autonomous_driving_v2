@@ -1,3 +1,4 @@
+<!-- delete-->
 <launch>
   <arg name="enable_rickshaw_motor" default="true"/>
   <arg name="left_motor_id" default="13"/>
