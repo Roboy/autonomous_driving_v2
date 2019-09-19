@@ -4,7 +4,7 @@ This is [Roboy's](https://roboy.org) Autonomous Driving Team's main repository f
 
 ## Devel
 
-This is the devel branch for planning which will be deployed in the docker container ad-planning. Check out the [docker branch](https://github.com/Roboy/autonomous_driving_v2/tree/docker) for more info.
+This is the devel branch for planning which will be deployed in the docker container ad-planning. Check out the [master branch](https://github.com/Roboy/autonomous_driving_v2/tree/master) for more info.
 You can also build this branch locally if you don't want to work in a docker container.
 
 ```
