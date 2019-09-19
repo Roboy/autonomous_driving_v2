@@ -32,6 +32,7 @@ chmod +x src/fixBag3D.py
 chmod +x imu/imu_remapping.py
 chmod +x src/lidar_remapping.py
 adduser root dialout
+touch /root/.bashrc && echo 'source /PATH/TO/CATKIN-WORKSPACE/FOLDER/devel/setup.bash' >> $HOME/.bashrc
 ```
 
 ## Packages of the ad-sensors docker:
