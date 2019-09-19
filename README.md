@@ -52,3 +52,18 @@ roslaunch roboy_ad data_recording.launch dir:=/DIRECTORY/WHERE/TO/SAVE/FILE/$(da
 ```
 
 The recorded data will be saved as a bag file with the date and time of recording as its name.
+
+## Scripts in the roboy ad package:
+
+### imu_remapping.py
+
+This script subscribes to the IMU topic (`/imu_data`) provided by the SBG ROS Driver and converts the proprietary SBG IMU Data format to the standard ROS sensor_msgs/Imu message format. The new messages are published to a new topic called `/imu`.
+
+### lidar_remapping.py
+
+This script subscribes to the Lidar PointCloud2 topic (`/livox/lidar`) provided by the Livox ROS Driver and sets the time stamp of each message to the current ROS time. This is necessary, as in its current set-up no sync signal is provided to the Lidar and thus the Lidar's internal time does not match the ROS time. The new messages are then published to a new topic called `/points2`.
+
+### fixBag3D.py
+
+This script takes bag files as an input and performs some repairing steps to the ROS messages, so that they are compliant with Google Cartographer.
+Mainly, it aligns the time stamps of Lidar and IMU messages so that they are in the same time range and correct order. Furthermore, it also remaps the `livox/lidar` topic to `/points2` if not already happened. This scripts works supplementary to the two previously named scripts on offline data. For more information on how the time stamp remapping works see [the corresponding Confluence page](https://devanthro.atlassian.net/wiki/spaces/SS19/pages/491290693/Data+preprocessing) (access might only be possible, if you have access to Roboy's Confluence)
