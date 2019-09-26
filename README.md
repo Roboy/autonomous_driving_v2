@@ -1,5 +1,8 @@
 # Autonomous Driving V2
 
+## Wiki
+Find our wiki here: https://github.com/Roboy/autonomous_driving_v2/wiki
+
 ## Dependencies
 If you want to build the different submodules without Docker, check the Dockerfiles for the required dependencies!
 
