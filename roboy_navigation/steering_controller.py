@@ -13,12 +13,78 @@ from roboy_navigation.steering_helper import TargetAngleListener, \
 
 
 class SteeringController:
+    """ This Class contains a ROS-node with the PID-controllers used to control the myo-muscles on the rickshaw. The node receives cmd_vel either from the planning container or the startup sequence and the angle values from the angle sensor on the rickshaw. The controller then calculates the needed displacement for a myo-muscle and sends the command to the fpga on the rickshaw. This node only controls one myo-muscle of the rickshaw. In order to use the two muscles on the rickshaw launch two intances of the node, which is automatically done by provided launch files.
+    Usage:
+    This ROS-node should be used via the startup.launch file, which also launches the startup sequence and the angle-converter.
+    If you don't want to test the startup sequence use the control_start.launch file.
+    
+    ...
 
+    Attributes
+    ----------
+    min_displacement : int
+        minimum displacement a myo-muscles should receive. Should be >0 so the muscles will keep a constant strain.
+    max_displacement : int
+        maximum displacement a myo-muscle should receive. Limits the force a muscle can pull with.
+    max_steering_angle_deg : int
+        the maximum angle the rickshaw can steer to. Needed in order to check if the cmd_vel send is valid and reachable (degree).
+    max_steering_angle : float
+        maximum steering angle in radian (radian).
+    compensation : dictionary
+        gain scheduling parameters that compensate the non-linearity caused by the rotation of the rickshaw (not needed when implementing a two-point controller, could improve a more refined control-approach).
+    update_param : bool
+        enables the update of the compencsation as well as the anti-windup bounds (not working currently).
+    motor_id : int
+        id of the slave-select pin the motor is connected to on the FPGA (check wiring).
+    angle_sensor_listener : AngleSensorListener
+        listens to the rickshaw angle, needed by the controller as an input.
+    target_angle_listener : TargetAngleListener
+        listens to the cmd_vel, needed by the controller as an input.
+    muscle_controller : MyoMusclesController
+        configures myo_muscles and publishes commands to the muscles.
+    pid : AsyncPID
+        PID-controller that calulates the command displacement the myo-muscle receives.
+
+    Methods
+    ----------
+    start()
+        starts the controller, angles listeners and configures the myo-muscles 
+    get_target_angle()
+        gets the current target angle from the cmd_vel command and passes it on to the PID-controller
+    get_actual_angle()
+        gets the current rickshaw angle and passes it on to the PID-controller, updates parameters
+    set_spring_displacement()
+        checks for the displacement bounds and sends the desired displacement via the muscle_controller to the myo_muscles
+    clip_bounds()
+       checks if the desired angle is in the admissable bound, if not, clips the angle and gives back an warning   
+    """
     def __init__(self, fpga_id, motor_id, 
                  comp, sample_rate=100, 
                  Kp=1, Ki=0, Kd=0,
                  min_displacement=10, max_displacement=300,
                  max_steering_angle_deg=30):
+        """
+        :param fpga_id: ID of the fpga, that controls the myo_muscles
+        :type fpga_id: int
+        :param motor_id: ID of the motor, that is controlled (check wiring)
+        :type motor_id: int
+        :param comp: non_linear compensation, due to rotation
+        :type comp: dict
+        :param sample_rate: controller sample rate
+        :type sample_rate: int
+        :param Kp: Proportional-Gain of controller
+        :type Kp: int
+        :param Ki: Integral-Gain of controller
+        :type Ki: int
+        :param Kd: Dervitative-Gain of controller
+        :type Kd: int
+        :param min_displacement: minimum displacement of the myo-muscle
+        :type min_displacement: int
+        :param max_displacement: maximum displacement of the myo-muscle
+        :type max_displacement: int
+        :param max_steering_angle_deg: maximum angle the rickshaw can steer to (degree)
+        :type max_steering_angle_deg: int
+        """
         self.min_displacement = min_displacement
         self.max_displacement = max_displacement
         self.max_steering_angle_deg = max_steering_angle_deg
@@ -40,6 +106,10 @@ class SteeringController:
         
 
     def start(self):
+        """
+        Starts the ROS-node of the controller; starts the target angle listener for the controller; starts the angle sensor listener for the controller; 
+        starts the internal controller for the muscles; starts the PID-controller for one steering muscle
+        """
         node_name = 'steering_controller_motor_' + str(self.motor_id)
         rospy.init_node(node_name)
         #TODO: refactor
@@ -50,10 +120,19 @@ class SteeringController:
         self.pid.start()
 
     def get_target_angle(self):
+        """
+        Gets the latest target angle from a cmd_vel and passes it to the PID-controller
+        :returns: clipped target angle in radian (float)
+        """
         angle = self.target_angle_listener.get_latest_target_angle()
         return self.clip_bounds(angle)
 
     def get_actual_angle(self):
+        """
+        Gets the latest smooth angle from the angle sensor and passes it to the PID-controller
+        Optionally updates the controller parameters and non-linear compensation
+        :returns: current smooth angle in radian (float)
+        """
         actual_angle = self.angle_sensor_listener.get_latest_smooth_angle()
         if self.update_param:
             clipped_angle = self.clip_bounds(actual_angle)
@@ -65,6 +144,13 @@ class SteeringController:
         return actual_angle
 
     def set_spring_displacement(self, displacement):
+        """
+        Passes on the control value (displacement) to the internal muscle control; clips the displacement if too low or too high
+        :param displacement: displacement value the internal control should reach
+        :type displacement: int
+
+        :returns: nothing
+        """
         #displacement *= self.comp
         print(displacement)
         if displacement < self.min_displacement:
@@ -75,6 +161,13 @@ class SteeringController:
         self.muscle_controller.send_command(displacement)
 
     def clip_bounds(self, angle):
+        """
+        gives out a warning if a desired angle is out of bounds and clips this value to be in range of the maximum steering angle
+        :param angle: desired angle for steering (radian)
+        :type angle: float
+        
+        :returns: clipped steering angle (radian, float)
+        """
         if -self.max_steering_angle<= angle <= self.max_steering_angle:
             return angle
         rospy.logwarn('steering_helper.py: Requested target angle=%.2f is not '
@@ -87,6 +180,7 @@ class SteeringController:
 
 
 if __name__ == '__main__':
+    # read the yaml-config files
     config_path = os.path.join(rospkg.RosPack().get_path('roboy_navigation'), 'config')
     # electronics
     with open(os.path.join(config_path, 'electronics.yaml'), 'r') as ymlfile:

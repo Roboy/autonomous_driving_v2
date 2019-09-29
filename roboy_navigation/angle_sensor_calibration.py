@@ -8,8 +8,43 @@ import yaml
 from roboy_middleware_msgs.msg import MotorAngle
 
 class AngleSensorCalibration:
+    """ Class to calibrate an angle sensor and store the calibration it a yaml config file.
+    Usage:
+    Its intended use is for the angle sensor on the rickshaw.
+    It guides the user through the calibration process. The dafault process consist of three steps. The user has to manually move the rickshaw into three positions (he can use the default angle value or define new ones) and then this ROS-node will listen to a given number of messages by the angle sensor and average over them. This process includes three steps to ensure, that the middle position of the rickshaw has the correct angle. The other two point determine the resolution of the angle sensor.
+    This code can be modified for a different calibration process, furthermore sanitiy should be included. E.g. is the middle angle approx. in the middle of the other two angles.
+
+    ...
+
+    Attributes
+    ----------
+    num_msgs : int
+        number of messages the class listens to and averages over
+    rate : int
+        freuquency of how often the listener checks for new messages
+    target_angles : list of str
+        points defined by the user, to which to steer the rickshaw to
+    default_angles: dict of int
+        degree values of the points defined by the user
+    pkg_path: str
+        path to the roboy_navigation package, needed for writing data into config file
+    angles: dict of int
+        actual chosen angle values by the user
+    raw: dict of int
+        average of the respective sensor angle values
+        
+
+    Methods
+    ----------
+    start()
+        starts the calibration process
+    """
 
     def __init__(self, num_msgs=100):
+        """
+        :param num_msgs: number of messages to average over (default: 100)
+        :type num_msgs: int
+        """
         self.num_msgs = num_msgs
         self.rate = 1
         self.target_angles = ('middle', 'right', 'left')
@@ -21,8 +56,11 @@ class AngleSensorCalibration:
         self.raw = {}
 
     def start(self):
-        
-
+        """
+        Starts the calibration process. Listens to messages of the angle sensor.
+        Writes the collected data into a yaml file in the config directory.
+        :returns: nothing
+        """
         rospy.init_node('angle_calibration', anonymous=True)
         rate = rospy.Rate(self.rate)
         for angle in self.target_angles:
@@ -43,7 +81,7 @@ class AngleSensorCalibration:
             self.data = []
             self.counter = 0
             for self.counter in range(self.num_msgs):
-                message = rospy.wait_for_message('/roboy/middleware/StearingAngle', MotorAngle)
+                message = rospy.wait_for_message('/roboy/middleware/SteeringAngle', MotorAngle)
                 self.data.append(message.raw_angles[0])
                 rate.sleep()
             collected_data = np.asarray(self.data)
