@@ -1,0 +1,7 @@
+talker module
+=============
+
+.. automodule:: talker
+    :members:
+    :undoc-members:
+    :show-inheritance:

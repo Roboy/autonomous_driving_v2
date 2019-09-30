@@ -1,0 +1,185 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>rickshaw_controller &#8212; beginner_tutorials 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for rickshaw_controller</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="k">import</span> <span class="n">Twist</span>
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="k">import</span> <span class="n">Bool</span>
+
+
+<span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-04</span>
+
+
+<div class="viewcode-block" id="RickshawController"><a class="viewcode-back" href="../rickshaw_controller.html#rickshaw_controller.RickshawController">[docs]</a><span class="k">class</span> <span class="nc">RickshawController</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A ROS-node that receives cmd_vel commands and converts them to commands for main driving motor of the rickshaw.</span>
+<span class="sd">    Binary controller. When given a non-zero target speed, it will turn on the motor, else stop it.</span>
+<span class="sd">    Usage:</span>
+<span class="sd">    This node is used by the startup.launch and the controller_start.launch files and will activate the motors if a cmd_vel is set.</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start()</span>
+<span class="sd">        starts the node, the publsiher for motor_commands and the subcriber.</span>
+<span class="sd">    handle_velocity_command()</span>
+<span class="sd">        callback for the subscriber, reads the cmd_vel and gives back infos</span>
+<span class="sd">    update_speed()</span>
+<span class="sd">        turns on/off the motor, when given a target speed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="RickshawController.start"><a class="viewcode-back" href="../rickshaw_controller.html#rickshaw_controller.RickshawController.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the ROS-node, the publisher, that sends commands to the FPGA, as well as the subscriber for the cmd_vel</span>
+<span class="sd">        :returns: nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;rickshaw_controller&#39;</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">rospy</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span><span class="s1">&#39;CAREFUL! Rickshaw motor controller is activated, &#39;</span>
+                      <span class="s1">&#39;rickshaw will start driving if cmd_vel command is set.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor_publisher</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;/roboy/control/GPIO&#39;</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span>
+                                               <span class="n">queue_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;cmd_vel&#39;</span><span class="p">,</span> <span class="n">Twist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_velocity_command</span><span class="p">,</span>
+                         <span class="n">queue_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="RickshawController.handle_velocity_command"><a class="viewcode-back" href="../rickshaw_controller.html#rickshaw_controller.RickshawController.handle_velocity_command">[docs]</a>    <span class="k">def</span> <span class="nf">handle_velocity_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">twist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function for the subscriber</span>
+<span class="sd">        Analyses the cmd_vel, and checks for errors, if non found, updates the speed command for the FPGA, according to the linear vel. in x direction.</span>
+<span class="sd">        :param twist: cmd_vel from the navigation ROS-node</span>
+<span class="sd">        :type twist: Twist</span>
+<span class="sd">    </span>
+<span class="sd">        :returns: nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="n">twist</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">twist</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">if</span> <span class="n">vy</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
+            <span class="n">rospy</span><span class="o">.</span><span class="n">logerr</span><span class="p">(</span><span class="s1">&#39;Non-holomonic velocity found vy=</span><span class="si">%.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vy</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">twist</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logdebug</span><span class="p">(</span><span class="s1">&#39;Command(vel=</span><span class="si">%.2f</span><span class="s1">, steering=</span><span class="si">%.2f</span><span class="s1">) received&#39;</span><span class="p">,</span> <span class="n">vx</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_speed</span><span class="p">(</span><span class="n">vx</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RickshawController.update_speed"><a class="viewcode-back" href="../rickshaw_controller.html#rickshaw_controller.RickshawController.update_speed">[docs]</a>    <span class="k">def</span> <span class="nf">update_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_speed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the speed command for the FPGA, by sending a ROS-message</span>
+<span class="sd">        :param target_speed: Wanted linear speed in x-direction</span>
+<span class="sd">        :type target_speed: float</span>
+
+<span class="sd">        :returns: nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">target_speed</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">motor_publisher</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">motor_publisher</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">RickshawController</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">beginner_tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, DominikMuhle.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

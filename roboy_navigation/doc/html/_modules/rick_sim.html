@@ -1,0 +1,195 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>rick_sim &#8212; beginner_tutorials 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for rick_sim</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">rospkg</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">atan</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">floor</span>
+<span class="kn">from</span> <span class="nn">roboy_middleware_msgs.msg</span> <span class="k">import</span> <span class="n">MotorCommand</span><span class="p">,</span> <span class="n">MotorAngle</span><span class="p">,</span> <span class="n">MotorConfig</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="k">import</span> <span class="n">Twist</span>
+
+
+<div class="viewcode-block" id="LowPassSim"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim">[docs]</a><span class="k">class</span> <span class="nc">LowPassSim</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_angle_raw</span><span class="o">=</span><span class="mi">2190</span><span class="p">,</span> 
+                 <span class="n">right_angle_raw</span><span class="o">=</span><span class="mi">2570</span><span class="p">,</span> <span class="n">right_angle</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                 <span class="n">left_angle_raw</span><span class="o">=</span><span class="mi">1810</span><span class="p">,</span> <span class="n">left_angle</span><span class="o">=-</span><span class="mi">30</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">starting_angle</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal_angle</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">MotorAngle</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rate</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_constant</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_angle</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wheel_base</span> <span class="o">=</span> <span class="mf">1.6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zero_angle_raw</span> <span class="o">=</span> <span class="n">zero_angle_raw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right_angle_raw</span> <span class="o">=</span> <span class="n">right_angle_raw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right_angle</span> <span class="o">=</span> <span class="n">right_angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left_angle_raw</span> <span class="o">=</span> <span class="n">left_angle_raw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left_angle</span> <span class="o">=</span> <span class="n">left_angle</span>
+        
+<div class="viewcode-block" id="LowPassSim.start"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;/roboy/middleware/SteeringAngle&#39;</span><span class="p">,</span> <span class="n">MotorAngle</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">raw_angles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">raw_angles_prev</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">offset_angles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">relative_angles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">rev_counter</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rick_node</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LowPassSim.rick_node"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim.rick_node">[docs]</a>    <span class="k">def</span> <span class="nf">rick_node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;send_angle&#39;</span><span class="p">,</span> <span class="n">anonymous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">)</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">listen_to_target_angle</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal_angle</span> <span class="o">-</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">goal_angle</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting_angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_constant</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="o">.</span><span class="n">raw_angles</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_angle_to_encoder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_angle</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LowPassSim.shutdown_msg"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim.shutdown_msg">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown_msg</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shutting down node: sending angle&#39;</span><span class="p">)</span></div>
+   
+<div class="viewcode-block" id="LowPassSim.listen_to_target_angle"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim.listen_to_target_angle">[docs]</a>    <span class="k">def</span> <span class="nf">listen_to_target_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">navigation_commands_receiver</span><span class="p">(</span><span class="n">twist</span><span class="p">):</span>
+            <span class="n">angular_velocity</span> <span class="o">=</span> <span class="n">twist</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span>
+            <span class="n">linear_velocity</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_goal_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_trans_rot_vel_to_steering_angle</span><span class="p">(</span>
+                <span class="n">linear_velocity</span><span class="p">,</span> <span class="n">angular_velocity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wheel_base</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal_angle</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_goal_angle</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">goal_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_goal_angle</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">starting_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_angle</span>
+            
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s1">&#39;/cmd_vel&#39;</span><span class="p">,</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">navigation_commands_receiver</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LowPassSim.convert_angle_to_encoder"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim.convert_angle_to_encoder">[docs]</a>    <span class="k">def</span> <span class="nf">convert_angle_to_encoder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="n">encoder</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_angle_raw</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left_angle_raw</span><span class="p">)</span> \
+                        <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_angle</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left_angle</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">zero_angle_raw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">encoder</span></div>
+
+<div class="viewcode-block" id="LowPassSim.convert_trans_rot_vel_to_steering_angle"><a class="viewcode-back" href="../rick_sim.html#rick_sim.LowPassSim.convert_trans_rot_vel_to_steering_angle">[docs]</a>    <span class="k">def</span> <span class="nf">convert_trans_rot_vel_to_steering_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lin_vel</span><span class="p">,</span> <span class="n">ang_vel</span><span class="p">,</span> <span class="n">wheelbase</span><span class="p">):</span>
+        <span class="c1"># gives back steering_angle in rad</span>
+        <span class="k">if</span> <span class="n">ang_vel</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">lin_vel</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">lin_vel</span> <span class="o">/</span> <span class="n">ang_vel</span>
+        <span class="k">return</span> <span class="n">atan</span><span class="p">(</span><span class="n">wheelbase</span> <span class="o">/</span> <span class="n">radius</span><span class="p">)</span></div></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rospkg</span><span class="o">.</span><span class="n">RosPack</span><span class="p">()</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;roboy_navigation&#39;</span><span class="p">),</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span>
+    <span class="c1"># calibration</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;calibration.yaml&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ymlfile</span><span class="p">:</span>
+        <span class="n">calibration</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ymlfile</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Started simulation&#39;</span><span class="p">)</span>
+    <span class="n">LowPassSim</span><span class="p">(</span><span class="n">calibration</span><span class="p">[</span><span class="s1">&#39;raw&#39;</span><span class="p">][</span><span class="s1">&#39;raw_middle&#39;</span><span class="p">],</span> <span class="n">calibration</span><span class="p">[</span><span class="s1">&#39;raw&#39;</span><span class="p">][</span><span class="s1">&#39;raw_right&#39;</span><span class="p">],</span> <span class="n">calibration</span><span class="p">[</span><span class="s1">&#39;angles&#39;</span><span class="p">][</span><span class="s1">&#39;right&#39;</span><span class="p">],</span> 
+        <span class="n">calibration</span><span class="p">[</span><span class="s1">&#39;raw&#39;</span><span class="p">][</span><span class="s1">&#39;raw_left&#39;</span><span class="p">],</span> <span class="n">calibration</span><span class="p">[</span><span class="s1">&#39;angles&#39;</span><span class="p">][</span><span class="s1">&#39;left&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">beginner_tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, DominikMuhle.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

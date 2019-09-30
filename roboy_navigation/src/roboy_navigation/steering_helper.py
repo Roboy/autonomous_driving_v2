@@ -292,9 +292,9 @@ class MyoMuscleController:
         Calls the ROS-service that configures the myo-muscle
         :returns: nothing
         """
-        config_motors_service = rospy.ServiceProxy(
-            '/roboy/rikshaw/middleware/MotorConfig',
-            MotorConfigService
+        #config_motors_service = rospy.ServiceProxy(
+        #    '/roboy/rikshaw/middleware/MotorConfig',
+        #    MotorConfigService
         )
         config = MotorConfig(
             id=self.fpga_id,
@@ -314,7 +314,7 @@ class MyoMuscleController:
             output_divider=[1],
             setpoint=[self.init_disp]
         )
-        config_motors_service(config)
+        #config_motors_service(config)
 
     def send_command(self, effort):
         """

@@ -1,0 +1,23 @@
+actions: []
+authors: Jane Doe <you@yourdomain.tld>
+brief: ''
+bugtracker: ''
+depends:
+- catkin
+- roscpp
+- message_runtime
+- std_msgs
+- python-catkin-pkg
+- rospy
+- message_generation
+description: The beginner_tutorials package
+license: BSD
+maintainers: Your Name <you@yourdomain.tld>
+msgs:
+- Person
+- Num
+package_type: package
+repo_url: ''
+srvs:
+- PIDConfig
+url: http://wiki.ros.org/beginner_tutorials

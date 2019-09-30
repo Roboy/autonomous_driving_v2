@@ -1,0 +1,333 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>steering_controller &#8212; beginner_tutorials 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for steering_controller</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">floor</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">rospkg</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+
+<span class="kn">from</span> <span class="nn">async_pid</span> <span class="k">import</span> <span class="n">AsyncPID</span>
+<span class="kn">from</span> <span class="nn">steering_helper</span> <span class="k">import</span> <span class="n">TargetAngleListener</span><span class="p">,</span> \
+    <span class="n">AngleSensorListener</span><span class="p">,</span> <span class="n">MyoMuscleController</span><span class="p">,</span> <span class="n">rad_to_deg</span>
+
+
+<div class="viewcode-block" id="SteeringController"><a class="viewcode-back" href="../steering_controller.html#steering_controller.SteeringController">[docs]</a><span class="k">class</span> <span class="nc">SteeringController</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; This Class contains a ROS-node with the PID-controllers used to control the myo-muscles on the rickshaw. The node receives cmd_vel either from the planning container or the startup sequence and the angle values from the angle sensor on the rickshaw. The controller then calculates the needed displacement for a myo-muscle and sends the command to the fpga on the rickshaw. This node only controls one myo-muscle of the rickshaw. In order to use the two muscles on the rickshaw launch two intances of the node, which is automatically done by provided launch files.</span>
+<span class="sd">    Usage:</span>
+<span class="sd">    This ROS-node should be used via the startup.launch file, which also launches the startup sequence and the angle-converter.</span>
+<span class="sd">    If you don&#39;t want to test the startup sequence use the control_start.launch file.</span>
+<span class="sd">    </span>
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    min_displacement : int</span>
+<span class="sd">        minimum displacement a myo-muscles should receive. Should be &gt;0 so the muscles will keep a constant strain.</span>
+<span class="sd">    max_displacement : int</span>
+<span class="sd">        maximum displacement a myo-muscle should receive. Limits the force a muscle can pull with.</span>
+<span class="sd">    max_steering_angle_deg : int</span>
+<span class="sd">        the maximum angle the rickshaw can steer to. Needed in order to check if the cmd_vel send is valid and reachable (degree).</span>
+<span class="sd">    max_steering_angle : float</span>
+<span class="sd">        maximum steering angle in radian (radian).</span>
+<span class="sd">    compensation : dictionary</span>
+<span class="sd">        gain scheduling parameters that compensate the non-linearity caused by the rotation of the rickshaw (not needed when implementing a two-point controller, could improve a more refined control-approach).</span>
+<span class="sd">    update_param : bool</span>
+<span class="sd">        enables the update of the compencsation as well as the anti-windup bounds (not working currently).</span>
+<span class="sd">    motor_id : int</span>
+<span class="sd">        id of the slave-select pin the motor is connected to on the FPGA (check wiring).</span>
+<span class="sd">    angle_sensor_listener : AngleSensorListener</span>
+<span class="sd">        listens to the rickshaw angle, needed by the controller as an input.</span>
+<span class="sd">    target_angle_listener : TargetAngleListener</span>
+<span class="sd">        listens to the cmd_vel, needed by the controller as an input.</span>
+<span class="sd">    muscle_controller : MyoMusclesController</span>
+<span class="sd">        configures myo_muscles and publishes commands to the muscles.</span>
+<span class="sd">    pid : AsyncPID</span>
+<span class="sd">        PID-controller that calulates the command displacement the myo-muscle receives.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start()</span>
+<span class="sd">        starts the controller, angles listeners and configures the myo-muscles </span>
+<span class="sd">    get_target_angle()</span>
+<span class="sd">        gets the current target angle from the cmd_vel command and passes it on to the PID-controller</span>
+<span class="sd">    get_actual_angle()</span>
+<span class="sd">        gets the current rickshaw angle and passes it on to the PID-controller, updates parameters</span>
+<span class="sd">    set_spring_displacement()</span>
+<span class="sd">        checks for the displacement bounds and sends the desired displacement via the muscle_controller to the myo_muscles</span>
+<span class="sd">    clip_bounds()</span>
+<span class="sd">       checks if the desired angle is in the admissable bound, if not, clips the angle and gives back an warning   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fpga_id</span><span class="p">,</span> <span class="n">motor_id</span><span class="p">,</span> 
+                 <span class="n">comp</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+                 <span class="n">Kp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ki</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">Kd</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">min_displacement</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_displacement</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                 <span class="n">max_steering_angle_deg</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param fpga_id: ID of the fpga, that controls the myo_muscles</span>
+<span class="sd">        :type fpga_id: int</span>
+<span class="sd">        :param motor_id: ID of the motor, that is controlled (check wiring)</span>
+<span class="sd">        :type motor_id: int</span>
+<span class="sd">        :param comp: non_linear compensation, due to rotation</span>
+<span class="sd">        :type comp: dict</span>
+<span class="sd">        :param sample_rate: controller sample rate</span>
+<span class="sd">        :type sample_rate: int</span>
+<span class="sd">        :param Kp: Proportional-Gain of controller</span>
+<span class="sd">        :type Kp: int</span>
+<span class="sd">        :param Ki: Integral-Gain of controller</span>
+<span class="sd">        :type Ki: int</span>
+<span class="sd">        :param Kd: Dervitative-Gain of controller</span>
+<span class="sd">        :type Kd: int</span>
+<span class="sd">        :param min_displacement: minimum displacement of the myo-muscle</span>
+<span class="sd">        :type min_displacement: int</span>
+<span class="sd">        :param max_displacement: maximum displacement of the myo-muscle</span>
+<span class="sd">        :type max_displacement: int</span>
+<span class="sd">        :param max_steering_angle_deg: maximum angle the rickshaw can steer to (degree)</span>
+<span class="sd">        :type max_steering_angle_deg: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_displacement</span> <span class="o">=</span> <span class="n">min_displacement</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_displacement</span> <span class="o">=</span> <span class="n">max_displacement</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle_deg</span> <span class="o">=</span> <span class="n">max_steering_angle_deg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">max_steering_angle_deg</span><span class="p">)</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">pi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compensation</span> <span class="o">=</span> <span class="n">comp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_param</span> <span class="o">=</span><span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">motor_id</span> <span class="o">=</span> <span class="n">motor_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle_sensor_listener</span> <span class="o">=</span> <span class="n">AngleSensorListener</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_angle_listener</span> <span class="o">=</span> <span class="n">TargetAngleListener</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muscle_controller</span> <span class="o">=</span> <span class="n">MyoMuscleController</span><span class="p">(</span><span class="n">fpga_id</span><span class="o">=</span><span class="n">fpga_id</span><span class="p">,</span> 
+                                                     <span class="n">motor_id</span><span class="o">=</span><span class="n">motor_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">AsyncPID</span><span class="p">(</span><span class="n">target_val_provider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_target_angle</span><span class="p">,</span> 
+                            <span class="n">actual_val_provider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_actual_angle</span><span class="p">,</span> 
+                            <span class="n">control_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">set_spring_displacement</span><span class="p">,</span> 
+                            <span class="n">sample_rate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span> 
+                            <span class="n">Kp</span><span class="o">=</span><span class="n">Kp</span><span class="p">,</span> <span class="n">Ki</span><span class="o">=</span><span class="n">Ki</span><span class="p">,</span> <span class="n">Kd</span><span class="o">=</span><span class="n">Kd</span><span class="p">,</span> 
+                            <span class="n">lower_limit</span><span class="o">=</span><span class="n">min_displacement</span><span class="p">,</span> 
+                            <span class="n">upper_limit</span><span class="o">=</span><span class="n">max_displacement</span><span class="p">)</span>
+        
+
+<div class="viewcode-block" id="SteeringController.start"><a class="viewcode-back" href="../steering_controller.html#steering_controller.SteeringController.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the ROS-node of the controller; starts the target angle listener for the controller; starts the angle sensor listener for the controller; </span>
+<span class="sd">        starts the internal controller for the muscles; starts the PID-controller for one steering muscle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">node_name</span> <span class="o">=</span> <span class="s1">&#39;steering_controller_motor_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motor_id</span><span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="n">node_name</span><span class="p">)</span>
+        <span class="c1">#TODO: refactor</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s1">&#39;~wheel_base&#39;</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_angle_listener</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle_sensor_listener</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muscle_controller</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SteeringController.get_target_angle"><a class="viewcode-back" href="../steering_controller.html#steering_controller.SteeringController.get_target_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_target_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the latest target angle from a cmd_vel and passes it to the PID-controller</span>
+<span class="sd">        :returns: clipped target angle in radian (float)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_angle_listener</span><span class="o">.</span><span class="n">get_latest_target_angle</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_bounds</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SteeringController.get_actual_angle"><a class="viewcode-back" href="../steering_controller.html#steering_controller.SteeringController.get_actual_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_actual_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the latest smooth angle from the angle sensor and passes it to the PID-controller</span>
+<span class="sd">        Optionally updates the controller parameters and non-linear compensation</span>
+<span class="sd">        :returns: current smooth angle in radian (float)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">actual_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_sensor_listener</span><span class="o">.</span><span class="n">get_latest_smooth_angle</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_param</span><span class="p">:</span>
+            <span class="n">clipped_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_bounds</span><span class="p">(</span><span class="n">actual_angle</span><span class="p">)</span>
+            <span class="n">angle_deg_discrete</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">clipped_angle</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">pi</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comp</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compensation</span><span class="p">[</span><span class="n">angle_deg_discrete</span><span class="p">])</span>
+       	    <span class="n">lower_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_displacement</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">comp</span>
+            <span class="n">upper_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_displacement</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">comp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pid</span><span class="o">.</span><span class="n">set_limits</span><span class="p">(</span><span class="n">lower_limit</span><span class="p">,</span> <span class="n">upper_limit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">actual_angle</span></div>
+
+<div class="viewcode-block" id="SteeringController.set_spring_displacement"><a class="viewcode-back" href="../steering_controller.html#steering_controller.SteeringController.set_spring_displacement">[docs]</a>    <span class="k">def</span> <span class="nf">set_spring_displacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">displacement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Passes on the control value (displacement) to the internal muscle control; clips the displacement if too low or too high</span>
+<span class="sd">        :param displacement: displacement value the internal control should reach</span>
+<span class="sd">        :type displacement: int</span>
+
+<span class="sd">        :returns: nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#displacement *= self.comp</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">displacement</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_displacement</span><span class="p">:</span>
+            <span class="n">displacement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_displacement</span>
+        <span class="k">elif</span> <span class="n">displacement</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_displacement</span><span class="p">:</span>
+            <span class="n">displacement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_displacement</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">displacement</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">muscle_controller</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SteeringController.clip_bounds"><a class="viewcode-back" href="../steering_controller.html#steering_controller.SteeringController.clip_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">clip_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        gives out a warning if a desired angle is out of bounds and clips this value to be in range of the maximum steering angle</span>
+<span class="sd">        :param angle: desired angle for steering (radian)</span>
+<span class="sd">        :type angle: float</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: clipped steering angle (radian, float)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle</span><span class="o">&lt;=</span> <span class="n">angle</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">angle</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">logwarn</span><span class="p">(</span><span class="s1">&#39;steering_helper.py: Requested target angle=</span><span class="si">%.2f</span><span class="s1"> is not &#39;</span>
+                      <span class="s1">&#39;in the admissible bounds (</span><span class="si">%.2f</span><span class="s1">, </span><span class="si">%.2f</span><span class="s1">)&#39;</span><span class="p">,</span>
+                      <span class="n">rad_to_deg</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
+                      <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle_deg</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle_deg</span>
+                      <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_steering_angle</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># read the yaml-config files</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rospkg</span><span class="o">.</span><span class="n">RosPack</span><span class="p">()</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;roboy_navigation&#39;</span><span class="p">),</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span>
+    <span class="c1"># electronics</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;electronics.yaml&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ymlfile</span><span class="p">:</span>
+        <span class="n">electronics</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">ymlfile</span><span class="p">)</span> 
+    <span class="c1"># controller</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;controller.yaml&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ymlfile</span><span class="p">:</span>
+        <span class="n">controller</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">ymlfile</span><span class="p">)</span>
+    <span class="c1"># compensation</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;compensation.yaml&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ymlfile</span><span class="p">:</span>
+        <span class="n">compensation</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">ymlfile</span><span class="p">)</span>
+    <span class="c1"># geometry</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;geometry.yaml&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ymlfile</span><span class="p">:</span>
+        <span class="n">geometry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">ymlfile</span><span class="p">)</span>
+    
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ROS node to control the steering myomuscles&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--motor_id&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fpga_id&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">electronics</span><span class="p">[</span><span class="s1">&#39;IDs&#39;</span><span class="p">][</span><span class="s1">&#39;fpga_id&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--sample_rate&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">controller</span><span class="p">[</span><span class="s1">&#39;sample_rate&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--Kp&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">controller</span><span class="p">[</span><span class="s1">&#39;gains&#39;</span><span class="p">][</span><span class="s1">&#39;k_p&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--Ki&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">controller</span><span class="p">[</span><span class="s1">&#39;gains&#39;</span><span class="p">][</span><span class="s1">&#39;k_i&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--Kd&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">controller</span><span class="p">[</span><span class="s1">&#39;gains&#39;</span><span class="p">][</span><span class="s1">&#39;k_d&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--max_disp&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">controller</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">][</span><span class="s1">&#39;max_disp&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--min_disp&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">controller</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">][</span><span class="s1">&#39;min_disp&#39;</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--direction&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
+        <span class="n">motor_id</span> <span class="o">=</span> <span class="n">electronics</span><span class="p">[</span><span class="s1">&#39;IDs&#39;</span><span class="p">][</span><span class="s1">&#39;right_motor_id&#39;</span><span class="p">]</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">compensation</span><span class="p">[</span><span class="s1">&#39;right_comp&#39;</span><span class="p">]</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">Kp</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">Ki</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">Kd</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+        <span class="n">motor_id</span> <span class="o">=</span> <span class="n">electronics</span><span class="p">[</span><span class="s1">&#39;IDs&#39;</span><span class="p">][</span><span class="s1">&#39;left_motor_id&#39;</span><span class="p">]</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">compensation</span><span class="p">[</span><span class="s1">&#39;left_comp&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Wrong direction argument&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">motor_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">motor_id</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">motor_id</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;steering_controller config:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rospkg</span><span class="o">.</span><span class="n">RosPack</span><span class="p">()</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="s1">&#39;roboy_navigation&#39;</span><span class="p">),</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span>
+    <span class="n">SteeringController</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">fpga_id</span><span class="p">,</span> <span class="n">motor_id</span><span class="p">,</span> 
+                       <span class="n">comp</span><span class="p">,</span>
+                       <span class="n">args</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> 
+                       <span class="n">args</span><span class="o">.</span><span class="n">Kp</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">Ki</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">Kd</span><span class="p">,</span>
+                       <span class="n">args</span><span class="o">.</span><span class="n">min_disp</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_disp</span><span class="p">,</span> 
+                       <span class="n">geometry</span><span class="p">[</span><span class="s1">&#39;max_steering_angle&#39;</span><span class="p">]</span> <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">beginner_tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, DominikMuhle.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

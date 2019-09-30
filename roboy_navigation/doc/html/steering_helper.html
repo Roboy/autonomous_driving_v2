@@ -1,0 +1,349 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>steering_helper module &#8212; beginner_tutorials 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-steering_helper">
+<span id="steering-helper-module"></span><h1>steering_helper module<a class="headerlink" href="#module-steering_helper" title="Permalink to this headline">¶</a></h1>
+<p>Usage:
+target_angle_listener = TargetAngleListener()
+target_angle_listener.start()</p>
+<p>actual_angle_listener = AngleSensorListener()
+actual_angle_listener.start()</p>
+<p>actual_angle = actual_angle_listener.get_latest_actual_angle()
+target_angle = target_angle_listener.get_latest_target_angle()</p>
+<p>Parameters:
+wheel_base - double, distance between the wheels of the model.</p>
+<dl class="class">
+<dt id="steering_helper.AngleSensorListener">
+<em class="property">class </em><code class="descclassname">steering_helper.</code><code class="descname">AngleSensorListener</code><span class="sig-paren">(</span><em>decay=0.95</em>, <em>threshold=0.0017453292519943296</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#AngleSensorListener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.AngleSensorListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Class contains a ROS-node that subscribes to the processed angle value of the rickshaw and smoothes it out. Passes the smooth angle to the high-level controller.
+Usage:
+This class is used in the steering_controller.py file and acts as an interface between unfiltered angle data and the high-level controller.
+INFO: This class was mainly written by AD in WiSe18/19 and this documentation was completed by AD2 in SuSe19, therefore documentation may differ from actual functionality.</p>
+<p>…</p>
+<dl class="docutils">
+<dt>actual_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>radian value of the unfiltered angle data</dd>
+<dt>smmoth_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>filtered angle data (radian)</dd>
+<dt>last_smooth_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>is only updated if a certain threshold is crossed</dd>
+<dt>decay <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>parameter for smoothing</dd>
+<dt>threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>parameter for updating last_smooth_angle</dd>
+</dl>
+<dl class="docutils">
+<dt>start()</dt>
+<dd>starts the subscriber</dd>
+<dt>listen_to_angle_sensor()</dt>
+<dd>subcriber for target angle</dd>
+<dt>get_latest_actual_angle()</dt>
+<dd>gives back last known steering angle, not processed (radian).</dd>
+<dt>get_latest_smooth_angle()</dt>
+<dd>gives back last known steering angle (radian).</dd>
+<dt>smooth_out()</dt>
+<dd>reduces the impact of noise on the angle data</dd>
+</dl>
+<dl class="method">
+<dt id="steering_helper.AngleSensorListener.get_latest_actual_angle">
+<code class="descname">get_latest_actual_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#AngleSensorListener.get_latest_actual_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.AngleSensorListener.get_latest_actual_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Last known steering angle, not processed.
+:returns: unfiltered angle (radian, float)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.AngleSensorListener.get_latest_smooth_angle">
+<code class="descname">get_latest_smooth_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#AngleSensorListener.get_latest_smooth_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.AngleSensorListener.get_latest_smooth_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Last known steering angle.
+Smoothed using the exponential smoothing
+<a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_smoothing">https://en.wikipedia.org/wiki/Exponential_smoothing</a>
+to filter out the noise.
+:returns: last_smooth_angle (radian, float)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.AngleSensorListener.listen_to_angle_sensor">
+<code class="descname">listen_to_angle_sensor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#AngleSensorListener.listen_to_angle_sensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.AngleSensorListener.listen_to_angle_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>ROS-subscriber for the unfiltered angle data
+:returns: nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.AngleSensorListener.smooth_out">
+<code class="descname">smooth_out</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#AngleSensorListener.smooth_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.AngleSensorListener.smooth_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduced the impact of noise by filtering the data
+:param angle: current unfiltered angle data (radian)
+:type angle: float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">filtered angle (radian, float)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.AngleSensorListener.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#AngleSensorListener.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.AngleSensorListener.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>starts the subscriber</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="steering_helper.MyoMuscleController">
+<em class="property">class </em><code class="descclassname">steering_helper.</code><code class="descname">MyoMuscleController</code><span class="sig-paren">(</span><em>fpga_id</em>, <em>motor_id</em>, <em>init_disp=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#MyoMuscleController"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.MyoMuscleController" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Class contains a ROS-node that configures the myo-muscles and sends commands to them
+Usage:
+This Class is used in the steering_controller.py file and acts as an interface between high-level steering-controller and low-level myo-muscle controller.</p>
+<p>…</p>
+<dl class="docutils">
+<dt>fpga_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>id of the fpga the myo-muscle is connected to</dd>
+<dt>motor_id <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>id of the slave-select pin the motor is connected to on the FPGA (check wiring).</dd>
+<dt>init_disp <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>default displacement values the motor is set to after configuring them</dd>
+</dl>
+<dl class="docutils">
+<dt>start()</dt>
+<dd>starts the publisher and configures the myo-muscle</dd>
+<dt>set_control_mode()</dt>
+<dd>configures the myo-muscle</dd>
+<dt>send_command()</dt>
+<dd>sends the displacement command from the controller to the myo-muscle</dd>
+</dl>
+<dl class="method">
+<dt id="steering_helper.MyoMuscleController.send_command">
+<code class="descname">send_command</code><span class="sig-paren">(</span><em>effort</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#MyoMuscleController.send_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.MyoMuscleController.send_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends displacment commands via ROS-message to the fpga
+:param effort: displacement the myo-muscle should reach
+:type effort: int</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.MyoMuscleController.set_control_mode">
+<code class="descname">set_control_mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#MyoMuscleController.set_control_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.MyoMuscleController.set_control_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the ROS-service that configures the myo-muscle
+:returns: nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.MyoMuscleController.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#MyoMuscleController.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.MyoMuscleController.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>starts the publisher for the motor command.
+Call the initial configurment of the myo-muscle
+:returns: nothing</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="steering_helper.TargetAngleListener">
+<em class="property">class </em><code class="descclassname">steering_helper.</code><code class="descname">TargetAngleListener</code><a class="reference internal" href="_modules/steering_helper.html#TargetAngleListener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.TargetAngleListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Class contains a ROS-node that subscribes to the cmd_vel for the rickshaw. Passes extracted steering angle to the high-level controller.
+Usage:
+This class is used in the steering_controller.py file and acts as an interface between cmd_vel and the high-level controller.
+INFO: This class was mainly written by AD in WiSe18/19 and this documentation was completed by AD2 in SuSe19, therefore documentation may differ from actual functionality.</p>
+<p>…</p>
+<dl class="docutils">
+<dt>target_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>radian value of target steering angle</dd>
+<dt>wheel_base <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>distance</dd>
+</dl>
+<dl class="docutils">
+<dt>start()</dt>
+<dd>starts the subscriber</dd>
+<dt>listen_to_navigation_controller()</dt>
+<dd>subscriber for target angle, converts Twist to angle.</dd>
+<dt>get_latest_target_angle()</dt>
+<dd>gives back last known target angle (radian).</dd>
+</dl>
+<dl class="method">
+<dt id="steering_helper.TargetAngleListener.get_latest_target_angle">
+<code class="descname">get_latest_target_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#TargetAngleListener.get_latest_target_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.TargetAngleListener.get_latest_target_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for target angle
+:returns: last send target angle in radian (float)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.TargetAngleListener.listen_to_navigation_controller">
+<code class="descname">listen_to_navigation_controller</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#TargetAngleListener.listen_to_navigation_controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.TargetAngleListener.listen_to_navigation_controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscriber for the target angle
+:returns: nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="steering_helper.TargetAngleListener.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#TargetAngleListener.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.TargetAngleListener.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets ROS-param and start the subscriber.
+:returns: nothing</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="steering_helper.convert_trans_rot_vel_to_steering_angle">
+<code class="descclassname">steering_helper.</code><code class="descname">convert_trans_rot_vel_to_steering_angle</code><span class="sig-paren">(</span><em>lin_vel</em>, <em>ang_vel</em>, <em>wheelbase</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#convert_trans_rot_vel_to_steering_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.convert_trans_rot_vel_to_steering_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the rotational velocity command from the cmd_vel message and turns it into a steering angle
+Taken from <a class="reference external" href="http://docs.ros.org/kinetic/api/teb_local_planner/html/cmd__vel__to__ackermann__drive_8py_source.html">http://docs.ros.org/kinetic/api/teb_local_planner/html/cmd__vel__to__ackermann__drive_8py_source.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lin_vel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – forward velocity of the bike (is set to 1 per default) (m/s)</li>
+<li><strong>ang_vel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – angular velocity of the cmd_vel message</li>
+<li><strong>wheelbase</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – distance between front and back axis of the rickshaw (meter)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">steering angle in radian (float)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="steering_helper.deg_to_rad">
+<code class="descclassname">steering_helper.</code><code class="descname">deg_to_rad</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#deg_to_rad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.deg_to_rad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts angle from degree to radian
+:param val: angle in degree
+:type val: float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">angle in radian (float)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="steering_helper.rad_to_deg">
+<code class="descclassname">steering_helper.</code><code class="descname">rad_to_deg</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/steering_helper.html#rad_to_deg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#steering_helper.rad_to_deg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts angle from radian to degree
+:param val: angle in radian
+:type val: float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">angle in degree (float)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">beginner_tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, DominikMuhle.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/steering_helper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,7 @@
+custom\_talker module
+=====================
+
+.. automodule:: custom_talker
+    :members:
+    :undoc-members:
+    :show-inheritance:

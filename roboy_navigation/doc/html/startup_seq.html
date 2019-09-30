@@ -1,0 +1,212 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>startup_seq module &#8212; beginner_tutorials 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-startup_seq">
+<span id="startup-seq-module"></span><h1>startup_seq module<a class="headerlink" href="#module-startup_seq" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="startup_seq.StartUpSequence">
+<em class="property">class </em><code class="descclassname">startup_seq.</code><code class="descname">StartUpSequence</code><span class="sig-paren">(</span><em>sequence</em>, <em>decay=0.95</em>, <em>threshold=0.0017453292519943296</em>, <em>threshold_angle=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#StartUpSequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.StartUpSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class performes a predefined startup sequence to ensure the steering and driving motor is working as intended. This class gets a startup sequence defined at config/startup.yaml and sends the corresponding commands to the controller ROS-node via the cmd_vel msg. It then listens to the steering angle sensor to check if the goal position was reached. If the position was reached and hold for a few seconds it will proceed with the next entry in the startup sequence. If a goal position is not reached within a certain time limit this node will terminate, tell the user it couldn’t finish and exit.
+Usage:
+This ROS-node should be used via the startup launch file, which also launches the controller scripts and the angle-converter.</p>
+<p>…</p>
+<dl class="docutils">
+<dt>rate <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>freuquency of how often the publisher publishes new messages</dd>
+<dt>sequence <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>startup sequence that is executed defined in config/startup.yaml</dd>
+<dt>target_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the current target angle that the rickshaw should steer to (radian)</dd>
+<dt>actual angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>the current angle, the rickshaw is at the moment (radian)</dd>
+<dt>smooth_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>processed rickshaw-angle to smooth noise (radian)</dd>
+<dt>last_smooth_angle <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>updates only if  the smooth_angle changes by a threshold, so the angle is less volatile</dd>
+<dt>decay <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>parameter to smooth the rickshaw angle</dd>
+<dt>threshold <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>parameter for last_smooth_angle</dd>
+<dt>send_next <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Flag to indicate, if the next command should be send</dd>
+<dt>timeout_start <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>timestamp, when the current goal was first published</dd>
+<dt>timeout_time <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>time in seconds in which the goal position has to be reached, otherwise startup-sequence has failed</dd>
+<dt>hold_start <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>timestamp, when the current goal-zone was initaily reached</dd>
+<dt>hold_time <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>time in seconds how long the angle has to stay inside the goal-zone to fullfil the current command</dd>
+<dt>timing_started <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Flag to indicate if the timing in the current goal position has already started</dd>
+</dl>
+<dl class="docutils">
+<dt>start()</dt>
+<dd>starts the startup sequence process</dd>
+<dt>send_msg()</dt>
+<dd>publishes the current goal position to the control-node</dd>
+<dt>listen_to_angle_sensor()</dt>
+<dd>listens to the rickshaw angle, starts timing, terminates ROS-node if timeout has occured</dd>
+<dt>smooth_out()</dt>
+<dd>processing of angle sensor data</dd>
+<dt>default_position()</dt>
+<dd>returns a default rickshaw configuration, no speed and 0 degree angle TODO: define as Attribute</dd>
+</dl>
+<dl class="method">
+<dt id="startup_seq.StartUpSequence.default_position">
+<code class="descname">default_position</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#StartUpSequence.default_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.StartUpSequence.default_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a default position for the Rickshaw to revert back to, once the startup sequence has finished or failed.
+TODO: better as an attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="startup_seq.StartUpSequence.listen_to_angle_sensor">
+<code class="descname">listen_to_angle_sensor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#StartUpSequence.listen_to_angle_sensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.StartUpSequence.listen_to_angle_sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts subscriber for RickshawAngle message
+Listens to the radian angle of the rickshaw_angle sensor and call the callback function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="startup_seq.StartUpSequence.send_msg">
+<code class="descname">send_msg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#StartUpSequence.send_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.StartUpSequence.send_msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constanly publishes cmd_vel messages for the controller to receive
+Gets the message values from the sequence dictionary and processes them to a ROS Twist message.
+Iterates through the sequence if a goal is reached and sets the new parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="startup_seq.StartUpSequence.smooth_out">
+<code class="descname">smooth_out</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#StartUpSequence.smooth_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.StartUpSequence.smooth_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to reduce the effect of noise on the angle sensor, get a smoother reading.
+:param angle: current reading of the angle sensor (radian)
+:type angle: float</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="startup_seq.StartUpSequence.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#StartUpSequence.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.StartUpSequence.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the startup sequence.
+Initializes the ROS-node and the publisher. Calls and initializes the subscriber and then starts sending cmd_vel messages</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="startup_seq.convert_steering_angle_to_trans_rot_vel">
+<code class="descclassname">startup_seq.</code><code class="descname">convert_steering_angle_to_trans_rot_vel</code><span class="sig-paren">(</span><em>lin_vel</em>, <em>angle</em>, <em>wheelbase</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/startup_seq.html#convert_steering_angle_to_trans_rot_vel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#startup_seq.convert_steering_angle_to_trans_rot_vel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that converts the desired steering angle into a correspinding lin_vel used by the cmd_vel message using the geometry of the rickshaw.
+:param lin_vel: the forward velocity of the rickshaw in m/s
+:type lin_vel: float
+:param angle: the desired angle the rickshaw should move to
+:type angle: float
+:param wheelbase: the distance between the front wheels of the rickshaw and the back wheel
+:type wheelbase: float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">angular velocity used by the cmd_vel message</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">beginner_tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, DominikMuhle.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/startup_seq.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
