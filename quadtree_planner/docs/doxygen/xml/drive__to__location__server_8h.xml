@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="drive__to__location__server_8h" kind="file" language="C++">
+    <compoundname>drive_to_location_server.h</compoundname>
+    <includedby refid="drive__to__location__server_8cpp" local="yes">/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp</includedby>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="drive__to__location__server_8h_1acfdd1bb4a00fede6a82d2524788d1962" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void etaCallback</definition>
+        <argsstring>(const std_msgs::Int16::ConstPtr &amp;msg)</argsstring>
+        <name>etaCallback</name>
+        <param>
+          <type>const std_msgs::Int16::ConstPtr &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback that is called when the eta ROS message is received from the quadtreeplanner node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to eta ROS message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/drive_to_location_server.h" line="12" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8h_1af7a4ae92d7b4d46d911d1ee19e0dbd18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void errorMessageCallback</definition>
+        <argsstring>(const std_msgs::String::ConstPtr &amp;msg)</argsstring>
+        <name>errorMessageCallback</name>
+        <param>
+          <type>const std_msgs::String::ConstPtr &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback that is called when the error_message ROS message is received from the quadtreeplanner node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to error_message ROS message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/drive_to_location_server.h" line="18" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8h_1aa2988cf760b8cb76dc9237bb4b586586" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void pathFoundMessageCallback</definition>
+        <argsstring>(const std_msgs::Bool::ConstPtr &amp;msg)</argsstring>
+        <name>pathFoundMessageCallback</name>
+        <param>
+          <type>const std_msgs::Bool::ConstPtr &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback that is called when the pathFound ROS message is received from the quadtreeplanner node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to pathFound ROS message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/drive_to_location_server.h" line="24" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8h_1a50be67435d1baeae18793fb5d9c753ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool driveToLocation</definition>
+        <argsstring>(roboy_cognition_msgs::DriveToLocation::Request &amp;req, roboy_cognition_msgs::DriveToLocation::Response &amp;res)</argsstring>
+        <name>driveToLocation</name>
+        <param>
+          <type>roboy_cognition_msgs::DriveToLocation::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>roboy_cognition_msgs::DriveToLocation::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is called when the ROS service DriveToLocation.srv is requested. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>request by the caller of the ROS service DriveToLocation.srv </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>response by the ROS service DriveToLocation.srv </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>signalizes successful execution of the service </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/drive_to_location_server.h" line="32" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="43" bodyend="170"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Created<sp/>by<sp/>maximilian<sp/>on<sp/>01.09.19.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SRC_DRIVE_TO_LOCATION_SERVER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SRC_DRIVE_TO_LOCATION_SERVER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>etaCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std_msgs::Int16::ConstPtr&amp;<sp/>msg);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>errorMessageCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std_msgs::String::ConstPtr&amp;<sp/>msg);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pathFoundMessageCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std_msgs::Bool::ConstPtr&amp;<sp/>msg);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>driveToLocation(roboy_cognition_msgs::DriveToLocation::Request<sp/><sp/>&amp;req,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>roboy_cognition_msgs::DriveToLocation::Response<sp/>&amp;res);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//SRC_DRIVE_TO_LOCATION_SERVER_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/drive_to_location_server.h"/>
+  </compounddef>
+</doxygen>

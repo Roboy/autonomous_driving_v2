@@ -1,0 +1,128 @@
+\hypertarget{classQuadtree__SearchCell}{}\section{Quadtree\+\_\+\+Search\+Cell Class Reference}
+\label{classQuadtree__SearchCell}\index{Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}}
+
+
+{\ttfamily \#include $<$quadtree\+\_\+datastructure.\+h$>$}
+
+
+
+Collaboration diagram for Quadtree\+\_\+\+Search\+Cell\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classQuadtree__SearchCell__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQuadtree__SearchCell_aae69ecac827985bc95c5d93736a874bf}\label{classQuadtree__SearchCell_aae69ecac827985bc95c5d93736a874bf}} 
+{\bfseries Quadtree\+\_\+\+Search\+Cell} (\hyperlink{structPoint}{Point} \+\_\+topL, \hyperlink{structPoint}{Point} \+\_\+botR, unsigned int \+\_\+cost, std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $\ast$$>$ \+\_\+neighbors)
+\item 
+\mbox{\Hypertarget{classQuadtree__SearchCell_ad19965518209ded935963af6f82439b0}\label{classQuadtree__SearchCell_ad19965518209ded935963af6f82439b0}} 
+bool {\bfseries operator==} (const \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} \&other) const
+\item 
+\hyperlink{structPoint}{Point} \hyperlink{classQuadtree__SearchCell_a757563b6c0b2c46ab3470225fc3d9026}{get\+Top\+Left} ()
+\begin{DoxyCompactList}\small\item\em Returns the top left point of the quadtree search cell. \end{DoxyCompactList}\item 
+\hyperlink{structPoint}{Point} \hyperlink{classQuadtree__SearchCell_aa05145ed327cd4043027ea7d0dc05006}{get\+Bot\+Right} ()
+\begin{DoxyCompactList}\small\item\em Returns the bottom right point of the quadtree search cell. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{classQuadtree__SearchCell_af5398942f7a48fc146ec99f798aedc71}{get\+Cost} ()
+\begin{DoxyCompactList}\small\item\em returns the cost of the quadtree search cell \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $\ast$ $>$ \hyperlink{classQuadtree__SearchCell_a8af6b597f8a32c7c19f858f34d16efa2}{get\+Neighbors} ()
+\begin{DoxyCompactList}\small\item\em Returns a std\+::vector of pointers to the neighbors of this quadtree search cell. \end{DoxyCompactList}\item 
+void \hyperlink{classQuadtree__SearchCell_a36c9e92db030bb40f563d0c3b0453c8b}{set\+Neighbors} (std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $\ast$$>$ \+\_\+neighbors)
+\begin{DoxyCompactList}\small\item\em Sets a std\+::vector of pointers to the neighbors of this quadtree search cell. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQuadtree__SearchCell_a5364a5cc75d4eaaafdd2e96a679b8073}\label{classQuadtree__SearchCell_a5364a5cc75d4eaaafdd2e96a679b8073}} 
+\hyperlink{structPoint}{Point} {\bfseries top\+Left}
+\item 
+\mbox{\Hypertarget{classQuadtree__SearchCell_a39b17158a3eca5ba37dc5f850a1283d5}\label{classQuadtree__SearchCell_a39b17158a3eca5ba37dc5f850a1283d5}} 
+\hyperlink{structPoint}{Point} {\bfseries bot\+Right}
+\item 
+\mbox{\Hypertarget{classQuadtree__SearchCell_a6377f42344a7108ec70768b2f8ebe83e}\label{classQuadtree__SearchCell_a6377f42344a7108ec70768b2f8ebe83e}} 
+unsigned int {\bfseries cost}
+\item 
+\mbox{\Hypertarget{classQuadtree__SearchCell_ae633f7a72335bb2c13420667bb34ec1c}\label{classQuadtree__SearchCell_ae633f7a72335bb2c13420667bb34ec1c}} 
+std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $\ast$ $>$ {\bfseries neighbors}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+used as nodes in the A$\ast$ search algorithm 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classQuadtree__SearchCell_aa05145ed327cd4043027ea7d0dc05006}\label{classQuadtree__SearchCell_aa05145ed327cd4043027ea7d0dc05006}} 
+\index{Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}!get\+Bot\+Right@{get\+Bot\+Right}}
+\index{get\+Bot\+Right@{get\+Bot\+Right}!Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}}
+\subsubsection{\texorpdfstring{get\+Bot\+Right()}{getBotRight()}}
+{\footnotesize\ttfamily \hyperlink{structPoint}{Point} Quadtree\+\_\+\+Search\+Cell\+::get\+Bot\+Right (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the bottom right point of the quadtree search cell. 
+
+\begin{DoxyReturn}{Returns}
+bottom right point of the quadtree search cell 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQuadtree__SearchCell_af5398942f7a48fc146ec99f798aedc71}\label{classQuadtree__SearchCell_af5398942f7a48fc146ec99f798aedc71}} 
+\index{Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}!get\+Cost@{get\+Cost}}
+\index{get\+Cost@{get\+Cost}!Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}}
+\subsubsection{\texorpdfstring{get\+Cost()}{getCost()}}
+{\footnotesize\ttfamily unsigned int Quadtree\+\_\+\+Search\+Cell\+::get\+Cost (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the cost of the quadtree search cell 
+
+\begin{DoxyReturn}{Returns}
+cost of the quadtree search cell 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQuadtree__SearchCell_a8af6b597f8a32c7c19f858f34d16efa2}\label{classQuadtree__SearchCell_a8af6b597f8a32c7c19f858f34d16efa2}} 
+\index{Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}!get\+Neighbors@{get\+Neighbors}}
+\index{get\+Neighbors@{get\+Neighbors}!Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}}
+\subsubsection{\texorpdfstring{get\+Neighbors()}{getNeighbors()}}
+{\footnotesize\ttfamily std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $\ast$ $>$ Quadtree\+\_\+\+Search\+Cell\+::get\+Neighbors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns a std\+::vector of pointers to the neighbors of this quadtree search cell. 
+
+\begin{DoxyReturn}{Returns}
+a std\+::vector of pointers to the neighbors of this quadtree search cell 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQuadtree__SearchCell_a757563b6c0b2c46ab3470225fc3d9026}\label{classQuadtree__SearchCell_a757563b6c0b2c46ab3470225fc3d9026}} 
+\index{Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}!get\+Top\+Left@{get\+Top\+Left}}
+\index{get\+Top\+Left@{get\+Top\+Left}!Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}}
+\subsubsection{\texorpdfstring{get\+Top\+Left()}{getTopLeft()}}
+{\footnotesize\ttfamily \hyperlink{structPoint}{Point} Quadtree\+\_\+\+Search\+Cell\+::get\+Top\+Left (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the top left point of the quadtree search cell. 
+
+\begin{DoxyReturn}{Returns}
+top left point of the quadtree search cell 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQuadtree__SearchCell_a36c9e92db030bb40f563d0c3b0453c8b}\label{classQuadtree__SearchCell_a36c9e92db030bb40f563d0c3b0453c8b}} 
+\index{Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}!set\+Neighbors@{set\+Neighbors}}
+\index{set\+Neighbors@{set\+Neighbors}!Quadtree\+\_\+\+Search\+Cell@{Quadtree\+\_\+\+Search\+Cell}}
+\subsubsection{\texorpdfstring{set\+Neighbors()}{setNeighbors()}}
+{\footnotesize\ttfamily void Quadtree\+\_\+\+Search\+Cell\+::set\+Neighbors (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $\ast$$>$}]{\+\_\+neighbors }\end{DoxyParamCaption})}
+
+
+
+Sets a std\+::vector of pointers to the neighbors of this quadtree search cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+neighbors} & std\+::vector of pointers to the neighbors of this quadtree search cell \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/include/quadtree\+\_\+planner/quadtree\+\_\+datastructure.\+h\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/src/quadtree\+\_\+datastructure.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="utils_8cpp" kind="file" language="C++">
+    <compoundname>utils.cpp</compoundname>
+    <includes local="no">math.h</includes>
+    <includes local="no">tf2/LinearMath/Quaternion.h</includes>
+    <includes local="no">tf2/LinearMath/Matrix3x3.h</includes>
+    <includes local="no">tf2/convert.h</includes>
+    <includes local="no">tf2_geometry_msgs/tf2_geometry_msgs.h</includes>
+    <includes refid="utils_8h" local="yes">../include/quadtree_planner/utils.h</includes>
+    <incdepgraph>
+      <node id="106">
+        <label>tf2/convert.h</label>
+      </node>
+      <node id="107">
+        <label>tf2_geometry_msgs/tf2_geometry_msgs.h</label>
+      </node>
+      <node id="110">
+        <label>ostream</label>
+      </node>
+      <node id="112">
+        <label>../include/quadtree_planner/dubins.h</label>
+      </node>
+      <node id="108">
+        <label>../include/quadtree_planner/utils.h</label>
+        <link refid="utils_8h_source"/>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp</label>
+        <link refid="utils_8cpp"/>
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+      </node>
+      <node id="109">
+        <label>geometry_msgs/PoseStamped.h</label>
+      </node>
+      <node id="111">
+        <label>../include/quadtree_planner/quadtree_datastructure.h</label>
+      </node>
+      <node id="103">
+        <label>math.h</label>
+      </node>
+      <node id="104">
+        <label>tf2/LinearMath/Quaternion.h</label>
+      </node>
+      <node id="105">
+        <label>tf2/LinearMath/Matrix3x3.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacequadtree__planner">quadtree_planner</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;math.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf2/LinearMath/Quaternion.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf2/LinearMath/Matrix3x3.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf2/convert.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf2_geometry_msgs/tf2_geometry_msgs.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/><sp/>&quot;../include/quadtree_planner/utils.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacequadtree__planner" kindref="compound">quadtree_planner</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>Pose::Pose():<sp/>Pose(0.0,<sp/>0.0,<sp/>0.0)<sp/>{}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>Pose::Pose(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>th)<sp/>:<sp/>x(x),<sp/>y(y),<sp/>th(th)<sp/>{}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>Pose::Pose(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geometry_msgs::PoseStamped<sp/>&amp;pose)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tf2::Quaternion<sp/>quat;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tf2::fromMsg(pose.pose.orientation,<sp/>quat);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>roll,<sp/>pitch,<sp/>yaw;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tf2::Matrix3x3(quat).getRPY(roll,<sp/>pitch,<sp/>yaw);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>pose.pose.position.x;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>y<sp/>=<sp/>pose.pose.position.y;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th<sp/>=<sp/>yaw;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>geometry_msgs::PoseStamped<sp/>Pose::toPoseStamped()<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tf2::Quaternion<sp/>quat;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quat.setRPY(0,<sp/>0,<sp/>th);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pose<sp/>=<sp/>geometry_msgs::PoseStamped();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pose.pose.orientation<sp/>=<sp/>tf2::toMsg(quat);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pose.pose.position.x<sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pose.pose.position.y<sp/>=<sp/>y;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pose;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>geometry_msgs::Pose<sp/>Pose::toPose(){</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tf2::Quaternion<sp/>quat;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quat.setRPY(0,<sp/>0,<sp/>th);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pose<sp/>=<sp/>geometry_msgs::Pose();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pose.orientation<sp/>=<sp/>tf2::toMsg(quat);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pose.position.x<sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pose.position.y<sp/>=<sp/>y;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pose;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>IntermediatePathAngles::IntermediatePathAngles():<sp/>IntermediatePathAngles(0.0,0.0,0.0,<sp/>LSL)<sp/>{}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>IntermediatePathAngles::IntermediatePathAngles(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>first_theta,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>second_theta,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>pathLength,<sp/>DubinsPathType<sp/>dubinsPathType):</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>first_theta(first_theta),<sp/>second_theta(second_theta),<sp/>pathLength(pathLength),<sp/>dubinsPathType(dubinsPathType)<sp/><sp/>{}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IntermediatePathAngles::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">quadtree_planner::IntermediatePathAngles</ref><sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>first_theta<sp/>==<sp/>other.first_theta<sp/>&amp;&amp;<sp/>second_theta<sp/>==<sp/>other.second_theta<sp/>&amp;&amp;<sp/>pathLength<sp/>==<sp/>other.pathLength;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>IntermediatePaths::IntermediatePaths(){</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>second_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>intermediatePathAngles_;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>intermediatePathAngles<sp/>=<sp/>intermediatePathAngles_;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>IntermediatePaths::IntermediatePaths(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>first_index,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>second_index,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>intermediatePathAngles):<sp/>first_index(first_index),<sp/>second_index(second_index),<sp/>intermediatePathAngles(intermediatePathAngles)<sp/>{}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IntermediatePaths::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">quadtree_planner::IntermediatePaths</ref><sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>first_index<sp/>==<sp/>other.first_index<sp/>&amp;&amp;<sp/>second_index<sp/>==<sp/>other.second_index;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>DubinsSubpath::DubinsSubpath():<sp/>DubinsSubpath(Pose(),<sp/>Pose(),<sp/>0,<sp/>LSL)<sp/>{}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>DubinsSubpath::DubinsSubpath(Pose<sp/>q0,<sp/>Pose<sp/>q1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>turning_radius,<sp/>DubinsPathType<sp/>dubinsPathType):</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>q0(q0),<sp/>q1(q1),<sp/>turning_radius(turning_radius),<sp/>dubinsPathType(dubinsPathType)<sp/>{}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream<sp/>&amp;out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IntermediatePaths<sp/>&amp;intermediatePaths)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out<sp/>&lt;&lt;<sp/>std::setprecision(3)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;IntermediatedPaths(&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>intermediatePaths.first_index<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>intermediatePaths.second_index;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Pose::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">quadtree_planner::Pose</ref><sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>x<sp/>==<sp/>other.x<sp/>&amp;&amp;<sp/>y<sp/>==<sp/>other.y<sp/>&amp;&amp;<sp/>th<sp/>==<sp/>other.th;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream<sp/>&amp;out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pose<sp/>&amp;pos)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out<sp/>&lt;&lt;<sp/>std::setprecision(3)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pos(&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>pos.x<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>pos.y<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>pos.th<sp/>/<sp/>M_PI<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;pi)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>PoseWithDist::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PoseWithDist<sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::equal_to&lt;Pose&gt;()(pose,<sp/>other.pose);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>PoseWithDist::operator&lt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PoseWithDist<sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dist<sp/>&lt;<sp/>other.dist;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>QuadtreeCellWithDist::operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QuadtreeCellWithDist<sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::equal_to&lt;Quadtree_SearchCell&gt;()(quadtreeCell,<sp/>other.quadtreeCell);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>QuadtreeCellWithDist::operator&lt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QuadtreeCellWithDist<sp/>&amp;other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dist<sp/>&lt;<sp/>other.dist;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>Coordinates::Coordinates():<sp/>Coordinates(0,<sp/>0){}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>Coordinates::Coordinates(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y)<sp/>:<sp/><sp/>x(x),<sp/>y(y)<sp/>{}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>euclid_dist(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pose<sp/>&amp;pose1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Pose<sp/>&amp;pose2)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sqrt(pow(pose1.x<sp/>-<sp/>pose2.x,<sp/>2)+<sp/>pow(pose1.y<sp/>-<sp/>pose2.y,<sp/>2));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>normalize_angle(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>angle)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>angle<sp/>&gt;=<sp/>0<sp/>?<sp/>fmod(angle,<sp/>2*M_PI)<sp/>:<sp/>2<sp/>*<sp/>M_PI<sp/>-<sp/>fmod(fabs(angle),<sp/>2*M_PI);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp"/>
+  </compounddef>
+</doxygen>

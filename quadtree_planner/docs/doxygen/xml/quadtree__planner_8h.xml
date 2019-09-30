@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="quadtree__planner_8h" kind="file" language="C++">
+    <compoundname>quadtree_planner.h</compoundname>
+    <includes local="no">ros/ros.h</includes>
+    <includes local="no">geometry_msgs/PoseStamped.h</includes>
+    <includes local="no">geometry_msgs/PoseArray.h</includes>
+    <includes local="no">costmap_2d/costmap_2d_ros.h</includes>
+    <includes local="no">nav_core/base_global_planner.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes refid="costmap_8h" local="yes">costmap.h</includes>
+    <includes refid="utils_8h" local="yes">utils.h</includes>
+    <includes local="no">visualization_msgs/Marker.h</includes>
+    <includes local="yes">../include/quadtree_planner/quadtree_datastructure.h</includes>
+    <includes local="yes">../include/quadtree_planner/dubins.h</includes>
+    <includedby refid="quadtree__planner_8cpp" local="yes">/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_planner.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>geometry_msgs/PoseArray.h</label>
+      </node>
+      <node id="15">
+        <label>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h</label>
+        <link refid="quadtree__planner_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>ostream</label>
+      </node>
+      <node id="28">
+        <label>../include/quadtree_planner/dubins.h</label>
+      </node>
+      <node id="29">
+        <label>visualization_msgs/Marker.h</label>
+      </node>
+      <node id="25">
+        <label>utils.h</label>
+        <link refid="utils_8h_source"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>costmap_2d/costmap_2d_ros.h</label>
+      </node>
+      <node id="17">
+        <label>geometry_msgs/PoseStamped.h</label>
+      </node>
+      <node id="21">
+        <label>vector</label>
+      </node>
+      <node id="27">
+        <label>../include/quadtree_planner/quadtree_datastructure.h</label>
+      </node>
+      <node id="16">
+        <label>ros/ros.h</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="20">
+        <label>nav_core/base_global_planner.h</label>
+      </node>
+      <node id="23">
+        <label>costmap.h</label>
+        <link refid="costmap_8h_source"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>costmap_2d/costmap_2d.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classquadtree__planner_1_1QuadTreePlanner" prot="public">quadtree_planner::QuadTreePlanner</innerclass>
+    <innernamespace refid="namespacequadtree__planner">quadtree_planner</innernamespace>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="quadtree__planner_8h_1afe46891af6a6c22ce8822fcefafbb0c7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structquadtree__planner_1_1Pose" kindref="compound">quadtree_planner::Pose</ref> &gt;</type>
+        <definition>std::vector&lt;quadtree_planner::Pose&gt; Dubins_Poses_temp</definition>
+        <argsstring></argsstring>
+        <name>Dubins_Poses_temp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h" line="186" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="quadtree__planner_8h_1aa9518bee6e2e9b64a3075f284256e376" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structquadtree__planner_1_1Pose" kindref="compound">quadtree_planner::Pose</ref> &gt;</type>
+        <definition>std::vector&lt;quadtree_planner::Pose&gt; Dubins_Poses_final</definition>
+        <argsstring></argsstring>
+        <name>Dubins_Poses_final</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h" line="187" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="quadtree__planner_8h_1ac527fd6a6e3f89192a03797d5040f70d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int createDubinsConfiguration</definition>
+        <argsstring>(double q[3], double x, void *user_data)</argsstring>
+        <name>createDubinsConfiguration</name>
+        <param>
+          <type>double</type>
+          <declname>q</declname>
+          <array>[3]</array>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>user_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h" line="185" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_planner.cpp" bodystart="927" bodyend="935"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Created<sp/>by<sp/>Maximilian<sp/>Kempa<sp/>on<sp/>11.06.19.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>QUADTREE_PLANNER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QUADTREE_PLANNER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ros/ros.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;geometry_msgs/PoseStamped.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;geometry_msgs/PoseArray.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Costmap<sp/>used<sp/>for<sp/>the<sp/>map<sp/>representation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;costmap_2d/costmap_2d_ros.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Abstract<sp/>global<sp/>planner<sp/>from<sp/>move_base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nav_core/base_global_planner.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;costmap.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Visualization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;visualization_msgs/Marker.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../include/quadtree_planner/quadtree_datastructure.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../include/quadtree_planner/dubins.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacequadtree__planner" kindref="compound">quadtree_planner</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classquadtree__planner_1_1QuadTreePlanner" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classquadtree__planner_1_1QuadTreePlanner" kindref="compound">QuadTreePlanner</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>nav_core::BaseGlobalPlanner<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classquadtree__planner_1_1QuadTreePlanner" kindref="compound">QuadTreePlanner</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~<ref refid="classquadtree__planner_1_1QuadTreePlanner" kindref="compound">QuadTreePlanner</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classquadtree__planner_1_1QuadTreePlanner_1a95b6b962b0bb8b7cb3a823d853ad447f" kindref="member">initialize</ref>(std::string<sp/>name,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>costmap_2d::Costmap2DROS<sp/>*costmap_ros)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classquadtree__planner_1_1QuadTreePlanner_1a65ced31e9ea72cbee760f593f47115cd" kindref="member">makePlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geometry_msgs::PoseStamped<sp/>&amp;start,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geometry_msgs::PoseStamped<sp/>&amp;goal,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;geometry_msgs::PoseStamped&gt;<sp/>&amp;plan)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Methods<sp/>that<sp/>are<sp/>left<sp/>public<sp/>for<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classquadtree__planner_1_1QuadTreePlanner_1a95b6b962b0bb8b7cb3a823d853ad447f" kindref="member">initialize</ref>(std::string<sp/>name,<sp/><ref refid="classquadtree__planner_1_1Costmap" kindref="compound">Costmap</ref><sp/>*costmap);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classquadtree__planner_1_1QuadTreePlanner_1a65ced31e9ea72cbee760f593f47115cd" kindref="member">makePlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;start,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;goal,<sp/>std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;QuadtreeCellWithDist&gt;<sp/>getNeighborQuads(<ref refid="structquadtree__planner_1_1QuadtreeCellWithDist" kindref="compound">QuadtreeCellWithDist</ref><sp/>&amp;quad,<sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>goal)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>calculateEta(std::vector&lt;Pose&gt;<sp/>positions);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;Pose,<sp/>Pose&gt;<sp/>&amp;parents,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;goal_pos,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;start_pos,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Pose&gt;<sp/>&amp;path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>publishPlan(std::vector&lt;geometry_msgs::PoseStamped&gt;<sp/>&amp;path,<sp/>ros::Publisher<sp/>&amp;plan_publisher_);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>publishHolonomicPlan(std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distEstimate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pose1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pose2)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getPathLength(std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quad<sp/>Tree<sp/>based<sp/>search</highlight></codeline>
+<codeline lineno="115"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref><sp/>getQuad(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pos,<sp/>std::vector&lt;Quadtree_SearchCell&gt;<sp/>QuadtreeSearchCellVectorObject);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>getPoseFromQuad(<ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref><sp/>&amp;quad,<sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>goal)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasReachedGoalQuad(<ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref><sp/>&amp;quad,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;goal);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadParameters();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateParameters()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>publishVisualization(ros::Publisher<sp/>marker_pub,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>marker_pose_x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>marker_pose_y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>marker_scale);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>inflateCostmap(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>inflate_radius);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>publishInflation();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>Refinement<sp/>(Dubin&apos;s<sp/>car)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pathRefinementGreedy(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;reached_goal_quad,<sp/><sp/>std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pathRefinementExhaustive(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;reached_goal_quad,<sp/><sp/>std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SampleThetaAnglesQ1(<ref refid="structDubinsPath" kindref="compound">DubinsPath</ref><sp/>*<ref refid="structDubinsPath" kindref="compound">DubinsPath</ref>,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>q0[],<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>q1[],<sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>&amp;intermediatePathAngles);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SampleAllDubinsPaths(DubinsPath<sp/>*DubinsPath,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>q0[],<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>q1[],<sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>&amp;intermediatePathAngles);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IsTrajectoryCollisionFree(std::vector&lt;Pose&gt;<sp/>pathVector);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>VisualizeSampledPosesQ1(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>q1[],<sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>&amp;intermediatePathAngles);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>visualizeNonHolonomicPoses(std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>printIntermediatePathVector(std::vector&lt;IntermediatePaths&gt;<sp/>&amp;intermediatePathsVector);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>CheckCompletenessOfIntermediatePathsVector(std::vector&lt;IntermediatePaths&gt;<sp/>&amp;intermediatePathsVector,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;first_index,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;second_index,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;intermediatePathVectorComplete,<sp/>std::vector&lt;Pose&gt;<sp/>&amp;path,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;reached_goal_quad,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;pathPossible);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ConnectSubpaths(DubinsPath<sp/>*DubinsPath,<sp/>std::vector&lt;IntermediatePaths&gt;<sp/>&amp;intermediatePathsVector,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;reached_goal_quad,<sp/>std::vector&lt;Pose&gt;<sp/>&amp;path);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name_;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classquadtree__planner_1_1Costmap" kindref="compound">Costmap</ref><sp/>*costmap_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classquadtree__planner_1_1Costmap" kindref="compound">Costmap</ref><sp/>*costmap_inf_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>global_frame_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>plan_publisher_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>holonomic_plan_publisher_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>HolonomicPathPoses_publisher_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>nonHolonomicPathPoses_publisher_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>sampledPosesQ1publisher_;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>inflated_map_publisher_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_allowed_time_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>turning_radius_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>goal_tolerance_;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rickshaw_speed_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_pathRefinement_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>planner_inflation_radius_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Visualization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>marker_publisher_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Communication<sp/>with<sp/>Luigi</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>eta_publisher_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>error_message_publisher_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Publisher<sp/>path_found_publisher_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quadtree<sp/>planning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref><sp/>QuadtreeCellObject;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Quadtree_SearchCell&gt;<sp/>QuadtreeSearchCellVector;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Debugging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>area;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Path<sp/>refinement<sp/>via<sp/>Dubin&apos;s<sp/>car</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>createDubinsConfiguration(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>q[3],<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>user_data);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">std::vector&lt;quadtree_planner::Pose&gt;<sp/>Dubins_Poses_temp;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">std::vector&lt;quadtree_planner::Pose&gt;<sp/>Dubins_Poses_final;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//QuadTreePlanner_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h"/>
+  </compounddef>
+</doxygen>

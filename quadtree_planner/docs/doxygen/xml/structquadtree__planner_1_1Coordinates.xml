@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structquadtree__planner_1_1Coordinates" kind="struct" language="C++" prot="public">
+    <compoundname>quadtree_planner::Coordinates</compoundname>
+    <includes refid="utils_8h" local="no">utils.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquadtree__planner_1_1Coordinates_1a089df06f81f178e3d472bdcc30bea797" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int quadtree_planner::Coordinates::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="121" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1Coordinates_1a905d2402bc151275af1701361c251805" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int quadtree_planner::Coordinates::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="122" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquadtree__planner_1_1Coordinates_1a7ab5f2b7fbb580839acbcf42cb102456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::Coordinates::Coordinates</definition>
+        <argsstring>()</argsstring>
+        <name>Coordinates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="124" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1Coordinates_1ad815a528caf5c0fcd801f777e83cf5ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::Coordinates::Coordinates</definition>
+        <argsstring>(int x, int y)</argsstring>
+        <name>Coordinates</name>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="126" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Container for storing x/y coordinates (integer) </para>    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="120" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="120" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structquadtree__planner_1_1Coordinates_1a7ab5f2b7fbb580839acbcf42cb102456" prot="public" virt="non-virtual"><scope>quadtree_planner::Coordinates</scope><name>Coordinates</name></member>
+      <member refid="structquadtree__planner_1_1Coordinates_1ad815a528caf5c0fcd801f777e83cf5ff" prot="public" virt="non-virtual"><scope>quadtree_planner::Coordinates</scope><name>Coordinates</name></member>
+      <member refid="structquadtree__planner_1_1Coordinates_1a089df06f81f178e3d472bdcc30bea797" prot="public" virt="non-virtual"><scope>quadtree_planner::Coordinates</scope><name>x</name></member>
+      <member refid="structquadtree__planner_1_1Coordinates_1a905d2402bc151275af1701361c251805" prot="public" virt="non-virtual"><scope>quadtree_planner::Coordinates</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

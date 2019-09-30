@@ -1,0 +1,506 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="drive__to__location__server_8cpp" kind="file" language="C++">
+    <compoundname>drive_to_location_server.cpp</compoundname>
+    <includes local="yes">ros/ros.h</includes>
+    <includes local="yes">roboy_cognition_msgs/DriveToLocation.h</includes>
+    <includes local="yes">std_msgs/String.h</includes>
+    <includes local="yes">std_msgs/Int16.h</includes>
+    <includes local="yes">std_msgs/Bool.h</includes>
+    <includes local="no">move_base_msgs/MoveBaseAction.h</includes>
+    <includes local="no">actionlib/client/simple_action_client.h</includes>
+    <includes local="no">tf/transform_listener.h</includes>
+    <includes local="no">geometry_msgs/TransformStamped.h</includes>
+    <includes local="no">tf2_ros/transform_listener.h</includes>
+    <includes local="no">tf2/LinearMath/Transform.h</includes>
+    <includes refid="drive__to__location__server_8h" local="yes">../include/quadtree_planner/drive_to_location_server.h</includes>
+    <incdepgraph>
+      <node id="46">
+        <label>std_msgs/Int16.h</label>
+      </node>
+      <node id="54">
+        <label>../include/quadtree_planner/drive_to_location_server.h</label>
+        <link refid="drive__to__location__server_8h_source"/>
+      </node>
+      <node id="53">
+        <label>tf2/LinearMath/Transform.h</label>
+      </node>
+      <node id="50">
+        <label>tf/transform_listener.h</label>
+      </node>
+      <node id="47">
+        <label>std_msgs/Bool.h</label>
+      </node>
+      <node id="48">
+        <label>move_base_msgs/MoveBaseAction.h</label>
+      </node>
+      <node id="51">
+        <label>geometry_msgs/TransformStamped.h</label>
+      </node>
+      <node id="49">
+        <label>actionlib/client/simple_action_client.h</label>
+      </node>
+      <node id="43">
+        <label>ros/ros.h</label>
+      </node>
+      <node id="45">
+        <label>std_msgs/String.h</label>
+      </node>
+      <node id="52">
+        <label>tf2_ros/transform_listener.h</label>
+      </node>
+      <node id="44">
+        <label>roboy_cognition_msgs/DriveToLocation.h</label>
+      </node>
+      <node id="42">
+        <label>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp</label>
+        <link refid="drive__to__location__server_8cpp"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1a1ec09f1a0f2b61e496bd8d0f9416b75e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int eta</definition>
+        <argsstring></argsstring>
+        <name>eta</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="17" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1a21ba0f9a2f53f1a4bc0f7bad47ce6ffa" prot="public" static="no" mutable="no">
+        <type>std_msgs::String</type>
+        <definition>std_msgs::String error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="18" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1ae12eb42d1429c3318b825c80a0dc5427" prot="public" static="no" mutable="no">
+        <type>std_msgs::Bool</type>
+        <definition>std_msgs::Bool pathFound_message</definition>
+        <argsstring></argsstring>
+        <name>pathFound_message</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="19" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1a82d7c7d4f42c848d7071abd9a658f735" prot="public" static="no" mutable="no">
+        <type>ros::Publisher</type>
+        <definition>ros::Publisher navGoalPublisher_</definition>
+        <argsstring></argsstring>
+        <name>navGoalPublisher_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="20" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1ac9e23310fa276073540ce1045087f93e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool eta_received</definition>
+        <argsstring></argsstring>
+        <name>eta_received</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="21" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1a9feacfe4149367bd8b77317623579556" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool error_message_received</definition>
+        <argsstring></argsstring>
+        <name>error_message_received</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="22" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="drive__to__location__server_8cpp_1a6828e23494d0403612379a945ecf158b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool path_found_received</definition>
+        <argsstring></argsstring>
+        <name>path_found_received</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="23" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="drive__to__location__server_8cpp_1acfdd1bb4a00fede6a82d2524788d1962" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void etaCallback</definition>
+        <argsstring>(const std_msgs::Int16::ConstPtr &amp;msg)</argsstring>
+        <name>etaCallback</name>
+        <param>
+          <type>const std_msgs::Int16::ConstPtr &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback that is called when the eta ROS message is received from the quadtreeplanner node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to eta ROS message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="25" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8cpp_1af7a4ae92d7b4d46d911d1ee19e0dbd18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void errorMessageCallback</definition>
+        <argsstring>(const std_msgs::String::ConstPtr &amp;msg)</argsstring>
+        <name>errorMessageCallback</name>
+        <param>
+          <type>const std_msgs::String::ConstPtr &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback that is called when the error_message ROS message is received from the quadtreeplanner node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to error_message ROS message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="31" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8cpp_1aa2988cf760b8cb76dc9237bb4b586586" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void pathFoundMessageCallback</definition>
+        <argsstring>(const std_msgs::Bool::ConstPtr &amp;msg)</argsstring>
+        <name>pathFoundMessageCallback</name>
+        <param>
+          <type>const std_msgs::Bool::ConstPtr &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback that is called when the pathFound ROS message is received from the quadtreeplanner node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to pathFound ROS message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="37" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8cpp_1a50be67435d1baeae18793fb5d9c753ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool driveToLocation</definition>
+        <argsstring>(roboy_cognition_msgs::DriveToLocation::Request &amp;req, roboy_cognition_msgs::DriveToLocation::Response &amp;res)</argsstring>
+        <name>driveToLocation</name>
+        <param>
+          <type>roboy_cognition_msgs::DriveToLocation::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>roboy_cognition_msgs::DriveToLocation::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is called when the ROS service DriveToLocation.srv is requested. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>request by the caller of the ROS service DriveToLocation.srv </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>response by the ROS service DriveToLocation.srv </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>signalizes successful execution of the service </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="43" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="43" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="drive__to__location__server_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" line="172" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp" bodystart="172" bodyend="182"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Created<sp/>by<sp/>maximilian<sp/>on<sp/>08.08.19.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ros/ros.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;roboy_cognition_msgs/DriveToLocation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;std_msgs/String.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;std_msgs/Int16.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;std_msgs/Bool.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;move_base_msgs/MoveBaseAction.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;actionlib/client/simple_action_client.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf/transform_listener.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;geometry_msgs/TransformStamped.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf2_ros/transform_listener.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tf2/LinearMath/Transform.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../include/quadtree_planner/drive_to_location_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>eta<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">std_msgs::String<sp/>error_message;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">std_msgs::Bool<sp/>pathFound_message;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">ros::Publisher<sp/>navGoalPublisher_;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>eta_received<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>error_message_received<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>path_found_received<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>etaCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std_msgs::Int16::ConstPtr&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>eta<sp/>=<sp/>msg-&gt;data;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>eta_received<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>errorMessageCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std_msgs::String::ConstPtr&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>error_message.data<sp/>=<sp/>msg-&gt;data;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>error_message_received<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pathFoundMessageCallback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std_msgs::Bool::ConstPtr&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>pathFound_message.data<sp/>=<sp/>msg-&gt;data;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>path_found_received<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>driveToLocation(roboy_cognition_msgs::DriveToLocation::Request<sp/><sp/>&amp;req,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>roboy_cognition_msgs::DriveToLocation::Response<sp/>&amp;res)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::NodeHandle<sp/>n;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::Subscriber<sp/>sub<sp/>=<sp/>n.subscribe(</highlight><highlight class="stringliteral">&quot;/QuadTreePlanner/eta&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>etaCallback);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::Subscriber<sp/>sub2<sp/>=<sp/>n.subscribe(</highlight><highlight class="stringliteral">&quot;/QuadTreePlanner/error_message&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>errorMessageCallback);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::Subscriber<sp/>sub3<sp/>=<sp/>n.subscribe(</highlight><highlight class="stringliteral">&quot;/QuadTreePlanner/path_found&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>pathFoundMessageCallback);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>ROS_INFO(</highlight><highlight class="stringliteral">&quot;request:<sp/>%s&quot;</highlight><highlight class="normal">,<sp/>req.destination.c_str());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>destination<sp/>=<sp/>req.destination.c_str();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>eta_received<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>error_message_received<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>path_found_received<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>location_unknown<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Send<sp/>2D<sp/>nav<sp/>goal<sp/>according<sp/>to<sp/>received<sp/>destination<sp/>(string)<sp/>from<sp/>Luigi</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Publish<sp/>simple<sp/>2D<sp/>nav<sp/>goal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>move_base_msgs::MoveBaseActionGoal<sp/>ActionGoal;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>move_base_msgs::MoveBaseGoal<sp/>goal;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>Base<sp/>Link<sp/>coordinates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>tf2_ros::Buffer<sp/>tfBuffer;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>tf2_ros::TransformListener<sp/>tfListener(tfBuffer);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>geometry_msgs::TransformStamped<sp/>transformStamped;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base_link_x<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base_link_y<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base_link_orientation_w<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>base_link_orientation_z<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transformStamped<sp/>=<sp/>tfBuffer.lookupTransform(</highlight><highlight class="stringliteral">&quot;map&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;base_link&quot;</highlight><highlight class="normal">,<sp/>ros::Time(0),<sp/>ros::Duration(10));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_link_x<sp/>=<sp/>transformStamped.transform.translation.x;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_link_y<sp/>=<sp/>transformStamped.transform.translation.y;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_link_orientation_z<sp/>=<sp/>transformStamped.transform.rotation.z;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>base_link_orientation_w<sp/>=<sp/>transformStamped.transform.rotation.w;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ROS_INFO(</highlight><highlight class="stringliteral">&quot;Base<sp/>Link<sp/>x:<sp/>%f<sp/>y:<sp/>%f<sp/>orientation:<sp/>z:%f<sp/>w:%f&quot;</highlight><highlight class="normal">,<sp/>base_link_x,<sp/>base_link_y,<sp/>base_link_orientation_z,<sp/>base_link_orientation_w);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(tf::TransformException<sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ROS_ERROR(</highlight><highlight class="stringliteral">&quot;%s&quot;</highlight><highlight class="normal">,ex.what());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::Duration(1.0).sleep();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ActionGoal.header.frame_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ActionGoal.header.stamp<sp/>=<sp/>ros::Time::now();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.header.frame_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;map&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.header.stamp<sp/>=<sp/>ros::Time::now();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;midnightsurprise&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>24.620;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-160.886;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>-0.511;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.859;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;interimsfront&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(base_link_y<sp/>&gt;<sp/>((1.0/3.5)*base_link_x<sp/>-<sp/>18.5)<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>starting<sp/>from<sp/>interimssideutum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>47.3372039795;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-7.63010787964;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>-0.611320751869;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.79138292775;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>starting<sp/>from<sp/>InterimsSideMensa</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>46.3632125854;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-4.0682258606;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>0.789524533964;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.613718999436;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;interimssidemensa&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>49.341;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-24.161;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>-0.987;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.160;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;interimssideutum&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>34.829;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>9.771;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>0.991;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>-0.130;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;mwchicco&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Starting<sp/>from<sp/>mwfachschaft</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(base_link_y<sp/>&lt;<sp/>-base_link_x)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>1.74308013916;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-9.9398727417;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>0.346074328657;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.938207098164;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Starting<sp/>from<sp/>mwstucafe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>7.88451004028;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-5.58188390732;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>0.945949866243;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>-0.3243128899;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;mwstucafe&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>70.159;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>40.086;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>0.336;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.942;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(destination<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;mwfachschaft&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.x<sp/>=<sp/>-45.2332038879;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.position.y<sp/>=<sp/>-39.2914505005;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.z<sp/>=<sp/>0.892010303234;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ActionGoal.goal.target_pose.pose.orientation.w<sp/>=<sp/>0.45201506493;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>location_unknown<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(location_unknown)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.eta<sp/>=<sp/>32767;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Location<sp/>unknown!&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.path_found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>navGoalPublisher_.publish(ActionGoal);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>messages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(<sp/>(!eta_received)<sp/>||<sp/>(!error_message_received)<sp/>||<sp/>(!path_found_received)<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ros::spinOnce();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.eta<sp/>=<sp/>eta;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subscribes<sp/>to<sp/>eta<sp/>from<sp/>QuadTreePlanner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.error_message<sp/>=<sp/>error_message.data;<sp/></highlight><highlight class="comment">//<sp/>Subscribes<sp/>to<sp/>error_message<sp/>from<sp/>QuadTreePlanner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res.path_found<sp/>=<sp/>pathFound_message.data;<sp/></highlight><highlight class="comment">//<sp/>Subscribes<sp/>to<sp/>pathFound_message<sp/>from<sp/>QuadTreePlanner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>path_found_string;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(res.path_found<sp/>==<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path_found_string<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;True&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path_found_string<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;False&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ROS_INFO(</highlight><highlight class="stringliteral">&quot;sending<sp/>back<sp/>response<sp/>eta:<sp/>[%i],<sp/>error_message:<sp/>[%s],<sp/>path_found<sp/>[%s]&quot;</highlight><highlight class="normal">,<sp/>res.eta,<sp/>res.error_message.c_str(),<sp/>path_found_string.c_str());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**argv)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::init(argc,<sp/>argv,<sp/></highlight><highlight class="stringliteral">&quot;autonomous_driving&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::NodeHandle<sp/>n;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::ServiceServer<sp/>service<sp/>=<sp/>n.advertiseService(</highlight><highlight class="stringliteral">&quot;autonomous_driving&quot;</highlight><highlight class="normal">,<sp/>driveToLocation);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>navGoalPublisher_<sp/>=<sp/>n.advertise&lt;move_base_msgs::MoveBaseActionGoal&gt;(</highlight><highlight class="stringliteral">&quot;move_base/goal&quot;</highlight><highlight class="normal">,1);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ROS_INFO(</highlight><highlight class="stringliteral">&quot;Ready<sp/>to<sp/>provide<sp/>service<sp/>DriveToLocation.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ros::spin();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/drive_to_location_server.cpp"/>
+  </compounddef>
+</doxygen>

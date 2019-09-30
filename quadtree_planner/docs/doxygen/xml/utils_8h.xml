@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="utils_8h" kind="file" language="C++">
+    <compoundname>utils.h</compoundname>
+    <includes local="no">geometry_msgs/PoseStamped.h</includes>
+    <includes local="no">ostream</includes>
+    <includes local="yes">../include/quadtree_planner/quadtree_datastructure.h</includes>
+    <includes local="yes">../include/quadtree_planner/dubins.h</includes>
+    <includedby refid="quadtree__planner_8h" local="yes">/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h</includedby>
+    <includedby refid="quadtree__planner_8cpp" local="yes">/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_planner.cpp</includedby>
+    <includedby refid="utils_8cpp" local="yes">/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp</includedby>
+    <incdepgraph>
+      <node id="33">
+        <label>ostream</label>
+      </node>
+      <node id="35">
+        <label>../include/quadtree_planner/dubins.h</label>
+      </node>
+      <node id="31">
+        <label>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>geometry_msgs/PoseStamped.h</label>
+      </node>
+      <node id="34">
+        <label>../include/quadtree_planner/quadtree_datastructure.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="37">
+        <label>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_planner.h</label>
+        <link refid="quadtree__planner_8h_source"/>
+      </node>
+      <node id="36">
+        <label>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structquadtree__planner_1_1Pose" prot="public">quadtree_planner::Pose</innerclass>
+    <innerclass refid="structquadtree__planner_1_1IntermediatePathAngles" prot="public">quadtree_planner::IntermediatePathAngles</innerclass>
+    <innerclass refid="structquadtree__planner_1_1DubinsSubpath" prot="public">quadtree_planner::DubinsSubpath</innerclass>
+    <innerclass refid="structquadtree__planner_1_1IntermediatePaths" prot="public">quadtree_planner::IntermediatePaths</innerclass>
+    <innerclass refid="structquadtree__planner_1_1PoseWithDist" prot="public">quadtree_planner::PoseWithDist</innerclass>
+    <innerclass refid="structquadtree__planner_1_1QuadtreeCellWithDist" prot="public">quadtree_planner::QuadtreeCellWithDist</innerclass>
+    <innerclass refid="structquadtree__planner_1_1Coordinates" prot="public">quadtree_planner::Coordinates</innerclass>
+    <innerclass refid="structstd_1_1hash_3_01quadtree__planner_1_1Pose_01_4" prot="public">std::hash&lt; quadtree_planner::Pose &gt;</innerclass>
+    <innerclass refid="structstd_1_1hash_3_01Quadtree__SearchCell_01_4" prot="public">std::hash&lt; Quadtree_SearchCell &gt;</innerclass>
+    <innernamespace refid="namespacequadtree__planner">quadtree_planner</innernamespace>
+    <innernamespace refid="namespacestd">std</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Created<sp/>by<sp/>alex<sp/>on<sp/>15.02.19.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>QUADTREE_PLANNER_UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QUADTREE_PLANNER_UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;geometry_msgs/PoseStamped.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../include/quadtree_planner/quadtree_datastructure.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../include/quadtree_planner/dubins.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacequadtree__planner" kindref="compound">quadtree_planner</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="structquadtree__planner_1_1Pose" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>th;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>th);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>geometry_msgs::PoseStamped<sp/>&amp;pose);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>geometry_msgs::PoseStamped<sp/>toPoseStamped();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>geometry_msgs::Pose<sp/>toPose();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream<sp/>&amp;out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pos);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structquadtree__planner_1_1IntermediatePathAngles" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>first_theta;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>second_theta;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>pathLength;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DubinsPathType<sp/>dubinsPathType;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref>();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>first_theta,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>second_theta,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>pathLength,<sp/>DubinsPathType<sp/>dubinsPathType);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream<sp/>&amp;out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref><sp/>&amp;intermediatePathAngles);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structquadtree__planner_1_1DubinsSubpath" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1DubinsSubpath" kindref="compound">DubinsSubpath</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>q0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>q1;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>turning_radius;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DubinsPathType<sp/>dubinsPathType;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1DubinsSubpath" kindref="compound">DubinsSubpath</ref>();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1DubinsSubpath" kindref="compound">DubinsSubpath</ref>(<ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>q0,<sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>q1,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>turning_radius,<sp/>DubinsPathType<sp/>dubinsPathType);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structquadtree__planner_1_1IntermediatePaths" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>first_index;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>second_index;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>intermediatePathAngles;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref>();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>first_index,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>second_index,<sp/>std::vector&lt;IntermediatePathAngles&gt;<sp/>intermediatePathAngles);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream<sp/>&amp;out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref><sp/>&amp;intermediatePaths);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structquadtree__planner_1_1PoseWithDist" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1PoseWithDist" kindref="compound">PoseWithDist</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>pose;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1PoseWithDist" kindref="compound">PoseWithDist</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pose)<sp/>:<sp/>dist(dist),<sp/>pose(pose)<sp/>{}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1PoseWithDist" kindref="compound">PoseWithDist</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1PoseWithDist" kindref="compound">PoseWithDist</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structquadtree__planner_1_1QuadtreeCellWithDist" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1QuadtreeCellWithDist" kindref="compound">QuadtreeCellWithDist</ref><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref><sp/>quadtreeCell;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1QuadtreeCellWithDist" kindref="compound">QuadtreeCellWithDist</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist,<sp/><ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref><sp/>&amp;quad)<sp/>:<sp/>dist(dist),<sp/>quadtreeCell(quad)<sp/>{}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator&lt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1QuadtreeCellWithDist" kindref="compound">QuadtreeCellWithDist</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1QuadtreeCellWithDist" kindref="compound">QuadtreeCellWithDist</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structquadtree__planner_1_1Coordinates" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structquadtree__planner_1_1Coordinates" kindref="compound">Coordinates</ref><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Coordinates" kindref="compound">Coordinates</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structquadtree__planner_1_1Coordinates" kindref="compound">Coordinates</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>euclid_dist(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pose1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref><sp/>&amp;pose2);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>normalize_angle(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>angle);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref><sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;&gt;</highlight></codeline>
+<codeline lineno="149" refid="structstd_1_1hash_3_01quadtree__planner_1_1Pose_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">hash&lt;<ref refid="namespacequadtree__planner" kindref="compound">quadtree_planner</ref>::Pose&gt;<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>operator()(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structquadtree__planner_1_1Pose" kindref="compound">quadtree_planner::Pose</ref><sp/>&amp;pose)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(pose.x)<sp/>&lt;&lt;<sp/>40)<sp/>+</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(size_t(pose.y)<sp/>&lt;&lt;<sp/>20)<sp/>+<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(pose.th);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;&gt;</highlight></codeline>
+<codeline lineno="157" refid="structstd_1_1hash_3_01Quadtree__SearchCell_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">hash&lt;<ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref>&gt;<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>operator()(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref><sp/>&amp;quad)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(quad.topLeft.x)<sp/>&lt;&lt;<sp/>40)<sp/>+</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(size_t(quad.topLeft.y)<sp/>&lt;&lt;<sp/>20)<sp/>+<sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(quad.botRight.x)<sp/>&lt;&lt;<sp/>10)<sp/>+<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(quad.botRight.y);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//ASTAR_PLANNER_UTILS_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h"/>
+  </compounddef>
+</doxygen>

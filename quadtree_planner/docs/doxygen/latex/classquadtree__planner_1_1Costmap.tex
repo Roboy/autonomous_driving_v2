@@ -1,0 +1,292 @@
+\hypertarget{classquadtree__planner_1_1Costmap}{}\section{quadtree\+\_\+planner\+:\+:Costmap Class Reference}
+\label{classquadtree__planner_1_1Costmap}\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+
+
+{\ttfamily \#include $<$costmap.\+h$>$}
+
+
+
+Inheritance diagram for quadtree\+\_\+planner\+:\+:Costmap\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classquadtree__planner_1_1Costmap__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual unsigned \hyperlink{classquadtree__planner_1_1Costmap_ada8d9915ad1b73637730fe65be8d291d}{get\+Cost} (unsigned int x, unsigned int y) const =0
+\begin{DoxyCompactList}\small\item\em Get the cost of a cell in the costmap. \end{DoxyCompactList}\item 
+virtual double \hyperlink{classquadtree__planner_1_1Costmap_a86720bf9d3de86f59af0229d706763c1}{get\+Size\+In\+MetersX} () const =0
+\begin{DoxyCompactList}\small\item\em Get the size of the costmap in x direction in meters. \end{DoxyCompactList}\item 
+virtual double \hyperlink{classquadtree__planner_1_1Costmap_ac0767c6851d243d8d12a8a0dbd2d022b}{get\+Size\+In\+MetersY} () const =0
+\begin{DoxyCompactList}\small\item\em Get the size of the costmap in y direction in meters. \end{DoxyCompactList}\item 
+virtual unsigned int \hyperlink{classquadtree__planner_1_1Costmap_aa78086776637e7472d5ca8ae44f5c2f0}{get\+Size\+In\+CellsX} () const =0
+\begin{DoxyCompactList}\small\item\em Get the size of the costmap in x direction in cells. \end{DoxyCompactList}\item 
+virtual unsigned int \hyperlink{classquadtree__planner_1_1Costmap_a5c07589004856b158dbbe38470562bfe}{get\+Size\+In\+CellsY} () const =0
+\begin{DoxyCompactList}\small\item\em Get the size of the costmap in y direction in cells. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classquadtree__planner_1_1Costmap_a5384641291709625c2215144e97cf69c}{set\+Cost} (unsigned int mx, unsigned int my, unsigned char cost) const =0
+\begin{DoxyCompactList}\small\item\em Set the cost of a cell in the costmap. \end{DoxyCompactList}\item 
+virtual double \hyperlink{classquadtree__planner_1_1Costmap_aaef2845def8e7320a7fa576e9efab289}{get\+Resolution} () const =0
+\begin{DoxyCompactList}\small\item\em Get resolution of the costmap, in meters per cell. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classquadtree__planner_1_1Costmap_aba601c58933da74c707214d4dba2925a}{world\+To\+Map} (double wx, double wy, unsigned int \&mx, unsigned int \&my) const =0
+\begin{DoxyCompactList}\small\item\em Convert from world coordinates to map coordinates. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classquadtree__planner_1_1Costmap_af82ccc7c15bd2cb9092e002ac6998eba}{map\+To\+World} (unsigned int mx, unsigned int my, double \&wx, double \&wy) const =0
+\begin{DoxyCompactList}\small\item\em Convert from map coordinates to world coordinates. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classquadtree__planner_1_1Costmap_ad6251247260f19389a1fa547c9b0d956}{save\+Map} (std\+::string file\+\_\+name) const =0
+\begin{DoxyCompactList}\small\item\em the costmap to a file as a greyscale image \end{DoxyCompactList}\item 
+virtual double \hyperlink{classquadtree__planner_1_1Costmap_a8fda39ff20cf58f6700705dae7bd3a0b}{get\+OriginX} () const =0
+\begin{DoxyCompactList}\small\item\em the origin of the map in x direction in meters \end{DoxyCompactList}\item 
+virtual double \hyperlink{classquadtree__planner_1_1Costmap_aa2b342e257504329321109b1822ca302}{get\+OriginY} () const =0
+\begin{DoxyCompactList}\small\item\em the origin of the map in y direction in meters \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Associates costs with the points in the world. Largely corresponds to costmap\+\_\+2d/\+Costmap2D of the R\+OS navigation stack. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_ada8d9915ad1b73637730fe65be8d291d}\label{classquadtree__planner_1_1Costmap_ada8d9915ad1b73637730fe65be8d291d}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+Cost@{get\+Cost}}
+\index{get\+Cost@{get\+Cost}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Cost()}{getCost()}}
+{\footnotesize\ttfamily virtual unsigned quadtree\+\_\+planner\+::\+Costmap\+::get\+Cost (\begin{DoxyParamCaption}\item[{unsigned int}]{x,  }\item[{unsigned int}]{y }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the cost of a cell in the costmap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mx} & The x coordinate of the cell \\
+\hline
+{\em my} & The y coordinate of the cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The cost of the cell 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_af5b15c508adabc428aabde14253c9468}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_a2d952b1e51adc413b4ca767e4cd082dc}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_a8fda39ff20cf58f6700705dae7bd3a0b}\label{classquadtree__planner_1_1Costmap_a8fda39ff20cf58f6700705dae7bd3a0b}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+OriginX@{get\+OriginX}}
+\index{get\+OriginX@{get\+OriginX}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Origin\+X()}{getOriginX()}}
+{\footnotesize\ttfamily virtual double quadtree\+\_\+planner\+::\+Costmap\+::get\+OriginX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+the origin of the map in x direction in meters 
+
+\begin{DoxyReturn}{Returns}
+origin of the map in x direction in meters 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_ad63fb92c24234eb69b7672a7c9f15d26}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_aa2b342e257504329321109b1822ca302}\label{classquadtree__planner_1_1Costmap_aa2b342e257504329321109b1822ca302}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+OriginY@{get\+OriginY}}
+\index{get\+OriginY@{get\+OriginY}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Origin\+Y()}{getOriginY()}}
+{\footnotesize\ttfamily virtual double quadtree\+\_\+planner\+::\+Costmap\+::get\+OriginY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+the origin of the map in y direction in meters 
+
+\begin{DoxyReturn}{Returns}
+origin of the map in y direction in meters 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a004ee5ebfac631b47f6d3987e933cd38}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_aaef2845def8e7320a7fa576e9efab289}\label{classquadtree__planner_1_1Costmap_aaef2845def8e7320a7fa576e9efab289}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+Resolution@{get\+Resolution}}
+\index{get\+Resolution@{get\+Resolution}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Resolution()}{getResolution()}}
+{\footnotesize\ttfamily virtual double quadtree\+\_\+planner\+::\+Costmap\+::get\+Resolution (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get resolution of the costmap, in meters per cell. 
+
+\begin{DoxyReturn}{Returns}
+resolution of the costmap, in meters per cell 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_abfe3febc6445cbbd2aa7379c8635539b}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_a2401c36e2f5c93fc9ae3dde9fc9ac930}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_aa78086776637e7472d5ca8ae44f5c2f0}\label{classquadtree__planner_1_1Costmap_aa78086776637e7472d5ca8ae44f5c2f0}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+Size\+In\+CellsX@{get\+Size\+In\+CellsX}}
+\index{get\+Size\+In\+CellsX@{get\+Size\+In\+CellsX}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Size\+In\+Cells\+X()}{getSizeInCellsX()}}
+{\footnotesize\ttfamily virtual unsigned int quadtree\+\_\+planner\+::\+Costmap\+::get\+Size\+In\+CellsX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the size of the costmap in x direction in cells. 
+
+\begin{DoxyReturn}{Returns}
+size of the costmap in x direction in cells 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a376b9bddbf47474be992170d06e008d7}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_a41621ddd089ca5112d02c1315241534c}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_a5c07589004856b158dbbe38470562bfe}\label{classquadtree__planner_1_1Costmap_a5c07589004856b158dbbe38470562bfe}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+Size\+In\+CellsY@{get\+Size\+In\+CellsY}}
+\index{get\+Size\+In\+CellsY@{get\+Size\+In\+CellsY}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Size\+In\+Cells\+Y()}{getSizeInCellsY()}}
+{\footnotesize\ttfamily virtual unsigned int quadtree\+\_\+planner\+::\+Costmap\+::get\+Size\+In\+CellsY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the size of the costmap in y direction in cells. 
+
+\begin{DoxyReturn}{Returns}
+size of the costmap in y direction in cells 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a7d54b4b74b3057018408550c1116066e}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_a2e3c5ddaaaee218d1cccf2a72dbe633f}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_a86720bf9d3de86f59af0229d706763c1}\label{classquadtree__planner_1_1Costmap_a86720bf9d3de86f59af0229d706763c1}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+Size\+In\+MetersX@{get\+Size\+In\+MetersX}}
+\index{get\+Size\+In\+MetersX@{get\+Size\+In\+MetersX}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Size\+In\+Meters\+X()}{getSizeInMetersX()}}
+{\footnotesize\ttfamily virtual double quadtree\+\_\+planner\+::\+Costmap\+::get\+Size\+In\+MetersX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the size of the costmap in x direction in meters. 
+
+\begin{DoxyReturn}{Returns}
+size of the costmap in x direction in meters 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a360c5f4047437c2fb69b91e598e0aecf}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_ae7bbb00b36630b65f3e5d5d55a519fdd}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_ac0767c6851d243d8d12a8a0dbd2d022b}\label{classquadtree__planner_1_1Costmap_ac0767c6851d243d8d12a8a0dbd2d022b}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!get\+Size\+In\+MetersY@{get\+Size\+In\+MetersY}}
+\index{get\+Size\+In\+MetersY@{get\+Size\+In\+MetersY}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{get\+Size\+In\+Meters\+Y()}{getSizeInMetersY()}}
+{\footnotesize\ttfamily virtual double quadtree\+\_\+planner\+::\+Costmap\+::get\+Size\+In\+MetersY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the size of the costmap in y direction in meters. 
+
+\begin{DoxyReturn}{Returns}
+size of the costmap in y direction in meters 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_aa253651d1b4596009ca26009e7ad28f8}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_aec6c2b1a739b6475f21219d688bc0b54}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_af82ccc7c15bd2cb9092e002ac6998eba}\label{classquadtree__planner_1_1Costmap_af82ccc7c15bd2cb9092e002ac6998eba}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!map\+To\+World@{map\+To\+World}}
+\index{map\+To\+World@{map\+To\+World}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{map\+To\+World()}{mapToWorld()}}
+{\footnotesize\ttfamily virtual void quadtree\+\_\+planner\+::\+Costmap\+::map\+To\+World (\begin{DoxyParamCaption}\item[{unsigned int}]{mx,  }\item[{unsigned int}]{my,  }\item[{double \&}]{wx,  }\item[{double \&}]{wy }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Convert from map coordinates to world coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mx} & The x map coordinate \\
+\hline
+{\em my} & The y map coordinate \\
+\hline
+{\em wx} & Will be set to the associated world x coordinate \\
+\hline
+{\em wy} & Will be set to the associated world y coordinate \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_aa3b530c60bd8565e32166642e5e37663}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_ad6251247260f19389a1fa547c9b0d956}\label{classquadtree__planner_1_1Costmap_ad6251247260f19389a1fa547c9b0d956}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!save\+Map@{save\+Map}}
+\index{save\+Map@{save\+Map}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{save\+Map()}{saveMap()}}
+{\footnotesize\ttfamily virtual bool quadtree\+\_\+planner\+::\+Costmap\+::save\+Map (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+\_\+name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+the costmap to a file as a greyscale image 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & path to file where the image shall be stored (e.\+g. as .pgm) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a11201eaf5094483113acf5d195923893}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_a5384641291709625c2215144e97cf69c}\label{classquadtree__planner_1_1Costmap_a5384641291709625c2215144e97cf69c}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!set\+Cost@{set\+Cost}}
+\index{set\+Cost@{set\+Cost}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{set\+Cost()}{setCost()}}
+{\footnotesize\ttfamily virtual void quadtree\+\_\+planner\+::\+Costmap\+::set\+Cost (\begin{DoxyParamCaption}\item[{unsigned int}]{mx,  }\item[{unsigned int}]{my,  }\item[{unsigned char}]{cost }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the cost of a cell in the costmap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mx} & The x coordinate of the cell \\
+\hline
+{\em my} & The y coordinate of the cell \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a816f4036c5a67297c72302ad4329b98b}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}.
+
+\mbox{\Hypertarget{classquadtree__planner_1_1Costmap_aba601c58933da74c707214d4dba2925a}\label{classquadtree__planner_1_1Costmap_aba601c58933da74c707214d4dba2925a}} 
+\index{quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}!world\+To\+Map@{world\+To\+Map}}
+\index{world\+To\+Map@{world\+To\+Map}!quadtree\+\_\+planner\+::\+Costmap@{quadtree\+\_\+planner\+::\+Costmap}}
+\subsubsection{\texorpdfstring{world\+To\+Map()}{worldToMap()}}
+{\footnotesize\ttfamily virtual bool quadtree\+\_\+planner\+::\+Costmap\+::world\+To\+Map (\begin{DoxyParamCaption}\item[{double}]{wx,  }\item[{double}]{wy,  }\item[{unsigned int \&}]{mx,  }\item[{unsigned int \&}]{my }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Convert from world coordinates to map coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em wx} & The x world coordinate \\
+\hline
+{\em wy} & The y world coordinate \\
+\hline
+{\em mx} & Will be set to the associated map x coordinate \\
+\hline
+{\em my} & Will be set to the associated map y coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the conversion was successful (legal bounds) false otherwise 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classquadtree__planner_1_1CostmapAdapter_a422624b4df8d3fa267eb367389b73751}{quadtree\+\_\+planner\+::\+Costmap\+Adapter}, and \hyperlink{classquadtree__planner_1_1EmptyCostmap_a329690825d4e3789189dc0b99c891786}{quadtree\+\_\+planner\+::\+Empty\+Costmap}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/include/quadtree\+\_\+planner/costmap.\+h\end{DoxyCompactItemize}

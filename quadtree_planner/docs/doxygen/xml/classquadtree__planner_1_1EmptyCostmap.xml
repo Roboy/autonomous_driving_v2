@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classquadtree__planner_1_1EmptyCostmap" kind="class" language="C++" prot="public">
+    <compoundname>quadtree_planner::EmptyCostmap</compoundname>
+    <basecompoundref refid="classquadtree__planner_1_1Costmap" prot="public" virt="non-virtual">quadtree_planner::Costmap</basecompoundref>
+    <includes refid="costmap_8h" local="no">costmap.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquadtree__planner_1_1EmptyCostmap_1a3c85ad936d044721b6b7da44cd1a973c" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int quadtree_planner::EmptyCostmap::sizeX</definition>
+        <argsstring></argsstring>
+        <name>sizeX</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="109" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquadtree__planner_1_1EmptyCostmap_1a809bab8375d4798f6d3befe1afb4ecfa" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int quadtree_planner::EmptyCostmap::sizeY</definition>
+        <argsstring></argsstring>
+        <name>sizeY</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="110" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquadtree__planner_1_1EmptyCostmap_1aeb282d12b36ab20698850abf0bbbb61f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::EmptyCostmap::resolution</definition>
+        <argsstring></argsstring>
+        <name>resolution</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="111" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1ac76dfd72c0366cc6ea8cf63a9adde273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::EmptyCostmap::EmptyCostmap</definition>
+        <argsstring>(unsigned int sizeX, unsigned int sizeY, double resolution)</argsstring>
+        <name>EmptyCostmap</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>sizeX</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>sizeY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>resolution</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for <ref refid="classquadtree__planner_1_1EmptyCostmap" kindref="compound">EmptyCostmap</ref> class. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sizeX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of the costmap in cells in x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sizeY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of the costmap in cells in y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resolution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>resolution of the costmap, in meters per cell </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="120" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="5" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1a2d952b1e51adc413b4ca767e4cd082dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int quadtree_planner::EmptyCostmap::getCost</definition>
+        <argsstring>(unsigned int x, unsigned int y) const override</argsstring>
+        <name>getCost</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1ada8d9915ad1b73637730fe65be8d291d">getCost</reimplements>
+        <param>
+          <type>unsigned int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Get the cost of a cell in the costmap. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The x coordinate of the cell </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The y coordinate of the cell </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The cost of the cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="128" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1ae7bbb00b36630b65f3e5d5d55a519fdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double quadtree_planner::EmptyCostmap::getSizeInMetersX</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSizeInMetersX</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1a86720bf9d3de86f59af0229d706763c1">getSizeInMetersX</reimplements>
+        <briefdescription>
+<para>Get the size of the costmap in x direction in meters. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in x direction in meters </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="134" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1aec6c2b1a739b6475f21219d688bc0b54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double quadtree_planner::EmptyCostmap::getSizeInMetersY</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSizeInMetersY</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1ac0767c6851d243d8d12a8a0dbd2d022b">getSizeInMetersY</reimplements>
+        <briefdescription>
+<para>Get the size of the costmap in y direction in meters. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in y direction in meters </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="140" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1a41621ddd089ca5112d02c1315241534c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int quadtree_planner::EmptyCostmap::getSizeInCellsX</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSizeInCellsX</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1aa78086776637e7472d5ca8ae44f5c2f0">getSizeInCellsX</reimplements>
+        <briefdescription>
+<para>Get the size of the costmap in x direction in cells. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in x direction in cells </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="146" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1a2e3c5ddaaaee218d1cccf2a72dbe633f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int quadtree_planner::EmptyCostmap::getSizeInCellsY</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSizeInCellsY</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1a5c07589004856b158dbbe38470562bfe">getSizeInCellsY</reimplements>
+        <briefdescription>
+<para>Get the size of the costmap in y direction in cells. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in y direction in cells </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="152" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1a2401c36e2f5c93fc9ae3dde9fc9ac930" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double quadtree_planner::EmptyCostmap::getResolution</definition>
+        <argsstring>() const override</argsstring>
+        <name>getResolution</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1aaef2845def8e7320a7fa576e9efab289">getResolution</reimplements>
+        <briefdescription>
+<para>Get resolution of the costmap, in meters per cell. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>resolution of the costmap, in meters per cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="158" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1a329690825d4e3789189dc0b99c891786" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool quadtree_planner::EmptyCostmap::worldToMap</definition>
+        <argsstring>(double wx, double wy, unsigned int &amp;mx, unsigned int &amp;my) const override</argsstring>
+        <name>worldToMap</name>
+        <reimplements refid="classquadtree__planner_1_1Costmap_1aba601c58933da74c707214d4dba2925a">worldToMap</reimplements>
+        <param>
+          <type>double</type>
+          <declname>wx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>wy</declname>
+        </param>
+        <param>
+          <type>unsigned int &amp;</type>
+          <declname>mx</declname>
+        </param>
+        <param>
+          <type>unsigned int &amp;</type>
+          <declname>my</declname>
+        </param>
+        <briefdescription>
+<para>Convert from world coordinates to map coordinates. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The x world coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The y world coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will be set to the associated map x coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will be set to the associated map y coordinate </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the conversion was successful (legal bounds) false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="168" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/costmap.cpp" bodystart="32" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1EmptyCostmap_1ab65304ad58bbc0f33a7f1598c1114dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::EmptyCostmap::~EmptyCostmap</definition>
+        <argsstring>() override</argsstring>
+        <name>~EmptyCostmap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="170" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A stub costmap used for testing purposes. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="17">
+        <label>quadtree_planner::EmptyCostmap</label>
+        <link refid="classquadtree__planner_1_1EmptyCostmap"/>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>quadtree_planner::Costmap</label>
+        <link refid="classquadtree__planner_1_1Costmap"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="19">
+        <label>quadtree_planner::EmptyCostmap</label>
+        <link refid="classquadtree__planner_1_1EmptyCostmap"/>
+        <childnode refid="20" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>quadtree_planner::Costmap</label>
+        <link refid="classquadtree__planner_1_1Costmap"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="107" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" bodystart="107" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1ac76dfd72c0366cc6ea8cf63a9adde273" prot="public" virt="non-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>EmptyCostmap</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a2d952b1e51adc413b4ca767e4cd082dc" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getCost</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1a8fda39ff20cf58f6700705dae7bd3a0b" prot="public" virt="pure-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getOriginX</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1aa2b342e257504329321109b1822ca302" prot="public" virt="pure-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getOriginY</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a2401c36e2f5c93fc9ae3dde9fc9ac930" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getResolution</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a41621ddd089ca5112d02c1315241534c" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getSizeInCellsX</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a2e3c5ddaaaee218d1cccf2a72dbe633f" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getSizeInCellsY</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1ae7bbb00b36630b65f3e5d5d55a519fdd" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getSizeInMetersX</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1aec6c2b1a739b6475f21219d688bc0b54" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>getSizeInMetersY</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1af82ccc7c15bd2cb9092e002ac6998eba" prot="public" virt="pure-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>mapToWorld</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1aeb282d12b36ab20698850abf0bbbb61f" prot="private" virt="non-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>resolution</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1ad6251247260f19389a1fa547c9b0d956" prot="public" virt="pure-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>saveMap</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1a5384641291709625c2215144e97cf69c" prot="public" virt="pure-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>setCost</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a3c85ad936d044721b6b7da44cd1a973c" prot="private" virt="non-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>sizeX</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a809bab8375d4798f6d3befe1afb4ecfa" prot="private" virt="non-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>sizeY</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1a329690825d4e3789189dc0b99c891786" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>worldToMap</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1ae48e7b30f41407db2033e980fb55920e" prot="public" virt="virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>~Costmap</name></member>
+      <member refid="classquadtree__planner_1_1EmptyCostmap_1ab65304ad58bbc0f33a7f1598c1114dff" prot="public" virt="non-virtual"><scope>quadtree_planner::EmptyCostmap</scope><name>~EmptyCostmap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

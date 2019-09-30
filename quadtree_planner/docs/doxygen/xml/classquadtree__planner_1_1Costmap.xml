@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classquadtree__planner_1_1Costmap" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>quadtree_planner::Costmap</compoundname>
+    <derivedcompoundref refid="classquadtree__planner_1_1CostmapAdapter" prot="public" virt="non-virtual">quadtree_planner::CostmapAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classquadtree__planner_1_1EmptyCostmap" prot="public" virt="non-virtual">quadtree_planner::EmptyCostmap</derivedcompoundref>
+    <includes refid="costmap_8h" local="no">costmap.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1ada8d9915ad1b73637730fe65be8d291d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>unsigned</type>
+        <definition>virtual unsigned quadtree_planner::Costmap::getCost</definition>
+        <argsstring>(unsigned int x, unsigned int y) const =0</argsstring>
+        <name>getCost</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1a2d952b1e51adc413b4ca767e4cd082dc">getCost</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1af5b15c508adabc428aabde14253c9468">getCost</reimplementedby>
+        <param>
+          <type>unsigned int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Get the cost of a cell in the costmap. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The x coordinate of the cell </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The y coordinate of the cell </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The cost of the cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="24" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1a86720bf9d3de86f59af0229d706763c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double quadtree_planner::Costmap::getSizeInMetersX</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSizeInMetersX</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1ae7bbb00b36630b65f3e5d5d55a519fdd">getSizeInMetersX</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a360c5f4047437c2fb69b91e598e0aecf">getSizeInMetersX</reimplementedby>
+        <briefdescription>
+<para>Get the size of the costmap in x direction in meters. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in x direction in meters </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="30" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1ac0767c6851d243d8d12a8a0dbd2d022b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double quadtree_planner::Costmap::getSizeInMetersY</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSizeInMetersY</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1aec6c2b1a739b6475f21219d688bc0b54">getSizeInMetersY</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1aa253651d1b4596009ca26009e7ad28f8">getSizeInMetersY</reimplementedby>
+        <briefdescription>
+<para>Get the size of the costmap in y direction in meters. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in y direction in meters </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="36" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1aa78086776637e7472d5ca8ae44f5c2f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>unsigned int</type>
+        <definition>virtual unsigned int quadtree_planner::Costmap::getSizeInCellsX</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSizeInCellsX</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1a41621ddd089ca5112d02c1315241534c">getSizeInCellsX</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a376b9bddbf47474be992170d06e008d7">getSizeInCellsX</reimplementedby>
+        <briefdescription>
+<para>Get the size of the costmap in x direction in cells. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in x direction in cells </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="42" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1a5c07589004856b158dbbe38470562bfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>unsigned int</type>
+        <definition>virtual unsigned int quadtree_planner::Costmap::getSizeInCellsY</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSizeInCellsY</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1a2e3c5ddaaaee218d1cccf2a72dbe633f">getSizeInCellsY</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a7d54b4b74b3057018408550c1116066e">getSizeInCellsY</reimplementedby>
+        <briefdescription>
+<para>Get the size of the costmap in y direction in cells. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>size of the costmap in y direction in cells </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="48" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1a5384641291709625c2215144e97cf69c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void quadtree_planner::Costmap::setCost</definition>
+        <argsstring>(unsigned int mx, unsigned int my, unsigned char cost) const =0</argsstring>
+        <name>setCost</name>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a816f4036c5a67297c72302ad4329b98b">setCost</reimplementedby>
+        <param>
+          <type>unsigned int</type>
+          <declname>mx</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>my</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>cost</declname>
+        </param>
+        <briefdescription>
+<para>Set the cost of a cell in the costmap. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The x coordinate of the cell </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The y coordinate of the cell </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="55" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1aaef2845def8e7320a7fa576e9efab289" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double quadtree_planner::Costmap::getResolution</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getResolution</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1a2401c36e2f5c93fc9ae3dde9fc9ac930">getResolution</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1abfe3febc6445cbbd2aa7379c8635539b">getResolution</reimplementedby>
+        <briefdescription>
+<para>Get resolution of the costmap, in meters per cell. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>resolution of the costmap, in meters per cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="61" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1aba601c58933da74c707214d4dba2925a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool quadtree_planner::Costmap::worldToMap</definition>
+        <argsstring>(double wx, double wy, unsigned int &amp;mx, unsigned int &amp;my) const =0</argsstring>
+        <name>worldToMap</name>
+        <reimplementedby refid="classquadtree__planner_1_1EmptyCostmap_1a329690825d4e3789189dc0b99c891786">worldToMap</reimplementedby>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a422624b4df8d3fa267eb367389b73751">worldToMap</reimplementedby>
+        <param>
+          <type>double</type>
+          <declname>wx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>wy</declname>
+        </param>
+        <param>
+          <type>unsigned int &amp;</type>
+          <declname>mx</declname>
+        </param>
+        <param>
+          <type>unsigned int &amp;</type>
+          <declname>my</declname>
+        </param>
+        <briefdescription>
+<para>Convert from world coordinates to map coordinates. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The x world coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The y world coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will be set to the associated map x coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will be set to the associated map y coordinate </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the conversion was successful (legal bounds) false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="71" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1af82ccc7c15bd2cb9092e002ac6998eba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void quadtree_planner::Costmap::mapToWorld</definition>
+        <argsstring>(unsigned int mx, unsigned int my, double &amp;wx, double &amp;wy) const =0</argsstring>
+        <name>mapToWorld</name>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1aa3b530c60bd8565e32166642e5e37663">mapToWorld</reimplementedby>
+        <param>
+          <type>unsigned int</type>
+          <declname>mx</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>my</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>wx</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>wy</declname>
+        </param>
+        <briefdescription>
+<para>Convert from map coordinates to world coordinates. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The x map coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The y map coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will be set to the associated world x coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Will be set to the associated world y coordinate </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="80" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1ad6251247260f19389a1fa547c9b0d956" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool quadtree_planner::Costmap::saveMap</definition>
+        <argsstring>(std::string file_name) const =0</argsstring>
+        <name>saveMap</name>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a11201eaf5094483113acf5d195923893">saveMap</reimplementedby>
+        <param>
+          <type>std::string</type>
+          <declname>file_name</declname>
+        </param>
+        <briefdescription>
+<para>the costmap to a file as a greyscale image </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>path to file where the image shall be stored (e.g. as .pgm) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para></para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1a8fda39ff20cf58f6700705dae7bd3a0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double quadtree_planner::Costmap::getOriginX</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getOriginX</name>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1ad63fb92c24234eb69b7672a7c9f15d26">getOriginX</reimplementedby>
+        <briefdescription>
+<para>the origin of the map in x direction in meters </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>origin of the map in x direction in meters </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="93" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1aa2b342e257504329321109b1822ca302" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double quadtree_planner::Costmap::getOriginY</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getOriginY</name>
+        <reimplementedby refid="classquadtree__planner_1_1CostmapAdapter_1a004ee5ebfac631b47f6d3987e933cd38">getOriginY</reimplementedby>
+        <briefdescription>
+<para>the origin of the map in y direction in meters </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>origin of the map in y direction in meters </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="99" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classquadtree__planner_1_1Costmap_1ae48e7b30f41407db2033e980fb55920e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual quadtree_planner::Costmap::~Costmap</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Costmap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="101" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Associates costs with the points in the world. Largely corresponds to costmap_2d/Costmap2D of the ROS navigation stack. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>quadtree_planner::EmptyCostmap</label>
+        <link refid="classquadtree__planner_1_1EmptyCostmap"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quadtree_planner::CostmapAdapter</label>
+        <link refid="classquadtree__planner_1_1CostmapAdapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>quadtree_planner::Costmap</label>
+        <link refid="classquadtree__planner_1_1Costmap"/>
+      </node>
+    </inheritancegraph>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="16" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" bodystart="16" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classquadtree__planner_1_1Costmap_1ada8d9915ad1b73637730fe65be8d291d" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getCost</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1a8fda39ff20cf58f6700705dae7bd3a0b" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getOriginX</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1aa2b342e257504329321109b1822ca302" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getOriginY</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1aaef2845def8e7320a7fa576e9efab289" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getResolution</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1aa78086776637e7472d5ca8ae44f5c2f0" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getSizeInCellsX</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1a5c07589004856b158dbbe38470562bfe" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getSizeInCellsY</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1a86720bf9d3de86f59af0229d706763c1" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getSizeInMetersX</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1ac0767c6851d243d8d12a8a0dbd2d022b" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>getSizeInMetersY</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1af82ccc7c15bd2cb9092e002ac6998eba" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>mapToWorld</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1ad6251247260f19389a1fa547c9b0d956" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>saveMap</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1a5384641291709625c2215144e97cf69c" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>setCost</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1aba601c58933da74c707214d4dba2925a" prot="public" virt="pure-virtual"><scope>quadtree_planner::Costmap</scope><name>worldToMap</name></member>
+      <member refid="classquadtree__planner_1_1Costmap_1ae48e7b30f41407db2033e980fb55920e" prot="public" virt="virtual"><scope>quadtree_planner::Costmap</scope><name>~Costmap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

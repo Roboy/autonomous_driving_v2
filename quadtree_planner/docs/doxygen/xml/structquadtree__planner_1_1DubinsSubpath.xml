@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structquadtree__planner_1_1DubinsSubpath" kind="struct" language="C++" prot="public">
+    <compoundname>quadtree_planner::DubinsSubpath</compoundname>
+    <includes refid="utils_8h" local="no">utils.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquadtree__planner_1_1DubinsSubpath_1a855b4da40a33f3f00972d27cffd46676" prot="public" static="no" mutable="no">
+        <type><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref></type>
+        <definition>Pose quadtree_planner::DubinsSubpath::q0</definition>
+        <argsstring></argsstring>
+        <name>q0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="62" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1DubinsSubpath_1a21654f1004522b7dbacca9459ccf3b23" prot="public" static="no" mutable="no">
+        <type><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref></type>
+        <definition>Pose quadtree_planner::DubinsSubpath::q1</definition>
+        <argsstring></argsstring>
+        <name>q1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="63" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1DubinsSubpath_1a1287c19670d9d00eedfb8a8086a06754" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::DubinsSubpath::turning_radius</definition>
+        <argsstring></argsstring>
+        <name>turning_radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="64" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1DubinsSubpath_1ae7ea561e580756e838676b3c4f39566c" prot="public" static="no" mutable="no">
+        <type>DubinsPathType</type>
+        <definition>DubinsPathType quadtree_planner::DubinsSubpath::dubinsPathType</definition>
+        <argsstring></argsstring>
+        <name>dubinsPathType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="65" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquadtree__planner_1_1DubinsSubpath_1a5ee858dc23417d18f9904cdcde295792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::DubinsSubpath::DubinsSubpath</definition>
+        <argsstring>()</argsstring>
+        <name>DubinsSubpath</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="67" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1DubinsSubpath_1aca184e2e5a7ddc1d699941154e4b76bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::DubinsSubpath::DubinsSubpath</definition>
+        <argsstring>(Pose q0, Pose q1, double turning_radius, DubinsPathType dubinsPathType)</argsstring>
+        <name>DubinsSubpath</name>
+        <param>
+          <type><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref></type>
+          <declname>q0</declname>
+        </param>
+        <param>
+          <type><ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref></type>
+          <declname>q1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>turning_radius</declname>
+        </param>
+        <param>
+          <type>DubinsPathType</type>
+          <declname>dubinsPathType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="69" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="71" bodyend="72"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Container for storing <ref refid="structquadtree__planner_1_1DubinsSubpath" kindref="compound">DubinsSubpath</ref> consisting of start and goal pose, turning radius and DubinsPathType </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="15">
+        <label>quadtree_planner::DubinsSubpath</label>
+        <link refid="structquadtree__planner_1_1DubinsSubpath"/>
+        <childnode refid="16" relation="usage">
+          <edgelabel>q0</edgelabel>
+          <edgelabel>q1</edgelabel>
+        </childnode>
+      </node>
+      <node id="16">
+        <label>quadtree_planner::Pose</label>
+        <link refid="structquadtree__planner_1_1Pose"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="61" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="61" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structquadtree__planner_1_1DubinsSubpath_1ae7ea561e580756e838676b3c4f39566c" prot="public" virt="non-virtual"><scope>quadtree_planner::DubinsSubpath</scope><name>dubinsPathType</name></member>
+      <member refid="structquadtree__planner_1_1DubinsSubpath_1a5ee858dc23417d18f9904cdcde295792" prot="public" virt="non-virtual"><scope>quadtree_planner::DubinsSubpath</scope><name>DubinsSubpath</name></member>
+      <member refid="structquadtree__planner_1_1DubinsSubpath_1aca184e2e5a7ddc1d699941154e4b76bb" prot="public" virt="non-virtual"><scope>quadtree_planner::DubinsSubpath</scope><name>DubinsSubpath</name></member>
+      <member refid="structquadtree__planner_1_1DubinsSubpath_1a855b4da40a33f3f00972d27cffd46676" prot="public" virt="non-virtual"><scope>quadtree_planner::DubinsSubpath</scope><name>q0</name></member>
+      <member refid="structquadtree__planner_1_1DubinsSubpath_1a21654f1004522b7dbacca9459ccf3b23" prot="public" virt="non-virtual"><scope>quadtree_planner::DubinsSubpath</scope><name>q1</name></member>
+      <member refid="structquadtree__planner_1_1DubinsSubpath_1a1287c19670d9d00eedfb8a8086a06754" prot="public" virt="non-virtual"><scope>quadtree_planner::DubinsSubpath</scope><name>turning_radius</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

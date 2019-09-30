@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structquadtree__planner_1_1IntermediatePaths" kind="struct" language="C++" prot="public">
+    <compoundname>quadtree_planner::IntermediatePaths</compoundname>
+    <includes refid="utils_8h" local="no">utils.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePaths_1a5655dcf69ce97f40f99481f1a2cc8586" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int quadtree_planner::IntermediatePaths::first_index</definition>
+        <argsstring></argsstring>
+        <name>first_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="76" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePaths_1a6fc49ad9c13a2f3116c7cb288ff6405e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int quadtree_planner::IntermediatePaths::second_index</definition>
+        <argsstring></argsstring>
+        <name>second_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="77" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePaths_1adf013ca83453d9254eb015814ca605a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref> &gt;</type>
+        <definition>std::vector&lt;IntermediatePathAngles&gt; quadtree_planner::IntermediatePaths::intermediatePathAngles</definition>
+        <argsstring></argsstring>
+        <name>intermediatePathAngles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="78" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquadtree__planner_1_1IntermediatePaths_1a2e3820b9cce6234cbf2002ad6a1ab639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::IntermediatePaths::IntermediatePaths</definition>
+        <argsstring>()</argsstring>
+        <name>IntermediatePaths</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="80" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1IntermediatePaths_1a5345b071f834cf2ca9fb0be256f39ea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::IntermediatePaths::IntermediatePaths</definition>
+        <argsstring>(int first_index, int second_index, std::vector&lt; IntermediatePathAngles &gt; intermediatePathAngles)</argsstring>
+        <name>IntermediatePaths</name>
+        <param>
+          <type>int</type>
+          <declname>first_index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>second_index</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref> &gt;</type>
+          <declname>intermediatePathAngles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="82" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="61" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1IntermediatePaths_1a6ed4e6644af54586e70e22d34aa9ddfb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool quadtree_planner::IntermediatePaths::operator==</definition>
+        <argsstring>(const IntermediatePaths &amp;other) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="84" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="structquadtree__planner_1_1IntermediatePaths_1aad252649919945cbcff2c68113b7f442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;out, const IntermediatePaths &amp;intermediatePaths)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref> &amp;</type>
+          <declname>intermediatePaths</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="86" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Container for storing intermediate paths (possible angle combinations for each index combination) </para>    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="75" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="75" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1a5655dcf69ce97f40f99481f1a2cc8586" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>first_index</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1adf013ca83453d9254eb015814ca605a7" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>intermediatePathAngles</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1a2e3820b9cce6234cbf2002ad6a1ab639" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>IntermediatePaths</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1a5345b071f834cf2ca9fb0be256f39ea2" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>IntermediatePaths</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1aad252649919945cbcff2c68113b7f442" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>operator&lt;&lt;</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1a6ed4e6644af54586e70e22d34aa9ddfb" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>operator==</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePaths_1a6fc49ad9c13a2f3116c7cb288ff6405e" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePaths</scope><name>second_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

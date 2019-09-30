@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structDubinsIntermediateResults" kind="struct" language="C++" prot="public">
+    <compoundname>DubinsIntermediateResults</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1a16dd90fd03de98085a5a2fe20462bdb7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="54" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1a3cdf7760c671e13f89d39a9a7797bb27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="55" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1a2c7907bf15d843630ab3ac72c008dc29" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="56" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1a8f48ddc917c92cdc085e8307bb614c3c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::sa</definition>
+        <argsstring></argsstring>
+        <name>sa</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="57" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1afaa830d0fac94e976b9c73617ef81c23" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::sb</definition>
+        <argsstring></argsstring>
+        <name>sb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="58" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1ad90b052827792e3593993570f1af378f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::ca</definition>
+        <argsstring></argsstring>
+        <name>ca</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="59" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1aa0b40e6890ad6ca9bb6b8393f1cdba29" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::cb</definition>
+        <argsstring></argsstring>
+        <name>cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="60" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1abbfbd766bb26dd03b571bce328032f92" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::c_ab</definition>
+        <argsstring></argsstring>
+        <name>c_ab</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="61" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsIntermediateResults_1aee0ab71f744ccb8551d3d409c2c38391" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsIntermediateResults::d_sq</definition>
+        <argsstring></argsstring>
+        <name>d_sq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="62" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" line="53" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/dubins.c" bodystart="52" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structDubinsIntermediateResults_1a16dd90fd03de98085a5a2fe20462bdb7" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>alpha</name></member>
+      <member refid="structDubinsIntermediateResults_1a3cdf7760c671e13f89d39a9a7797bb27" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>beta</name></member>
+      <member refid="structDubinsIntermediateResults_1abbfbd766bb26dd03b571bce328032f92" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>c_ab</name></member>
+      <member refid="structDubinsIntermediateResults_1ad90b052827792e3593993570f1af378f" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>ca</name></member>
+      <member refid="structDubinsIntermediateResults_1aa0b40e6890ad6ca9bb6b8393f1cdba29" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>cb</name></member>
+      <member refid="structDubinsIntermediateResults_1a2c7907bf15d843630ab3ac72c008dc29" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>d</name></member>
+      <member refid="structDubinsIntermediateResults_1aee0ab71f744ccb8551d3d409c2c38391" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>d_sq</name></member>
+      <member refid="structDubinsIntermediateResults_1a8f48ddc917c92cdc085e8307bb614c3c" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>sa</name></member>
+      <member refid="structDubinsIntermediateResults_1afaa830d0fac94e976b9c73617ef81c23" prot="public" virt="non-virtual"><scope>DubinsIntermediateResults</scope><name>sb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classQuadtree__SearchCell" kind="class" language="C++" prot="public">
+    <compoundname>Quadtree_SearchCell</compoundname>
+    <includes refid="quadtree__datastructure_8h" local="no">quadtree_datastructure.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classQuadtree__SearchCell_1a5364a5cc75d4eaaafdd2e96a679b8073" prot="public" static="no" mutable="no">
+        <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+        <definition>Point Quadtree_SearchCell::topLeft</definition>
+        <argsstring></argsstring>
+        <name>topLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="47" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__SearchCell_1a39b17158a3eca5ba37dc5f850a1283d5" prot="public" static="no" mutable="no">
+        <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+        <definition>Point Quadtree_SearchCell::botRight</definition>
+        <argsstring></argsstring>
+        <name>botRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="48" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__SearchCell_1a6377f42344a7108ec70768b2f8ebe83e" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Quadtree_SearchCell::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="51" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__SearchCell_1ae633f7a72335bb2c13420667bb34ec1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> * &gt;</type>
+        <definition>std::vector&lt;Quadtree_SearchCell*&gt; Quadtree_SearchCell::neighbors</definition>
+        <argsstring></argsstring>
+        <name>neighbors</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="54" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classQuadtree__SearchCell_1af5f43d6d48b447463cc12e9bbba9cebd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Quadtree_SearchCell::Quadtree_SearchCell</definition>
+        <argsstring>()</argsstring>
+        <name>Quadtree_SearchCell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="56" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1aae69ecac827985bc95c5d93736a874bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Quadtree_SearchCell::Quadtree_SearchCell</definition>
+        <argsstring>(Point _topL, Point _botR, unsigned int _cost, std::vector&lt; Quadtree_SearchCell *&gt; _neighbors)</argsstring>
+        <name>Quadtree_SearchCell</name>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>_topL</declname>
+        </param>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>_botR</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>_cost</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> *&gt;</type>
+          <declname>_neighbors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="63" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="63" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1ad19965518209ded935963af6f82439b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Quadtree_SearchCell::operator==</definition>
+        <argsstring>(const Quadtree_SearchCell &amp;other) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="71" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="396" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1a757563b6c0b2c46ab3470225fc3d9026" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+        <definition>Point Quadtree_SearchCell::getTopLeft</definition>
+        <argsstring>()</argsstring>
+        <name>getTopLeft</name>
+        <briefdescription>
+<para>Returns the top left point of the quadtree search cell. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>top left point of the quadtree search cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="77" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="376" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1aa05145ed327cd4043027ea7d0dc05006" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+        <definition>Point Quadtree_SearchCell::getBotRight</definition>
+        <argsstring>()</argsstring>
+        <name>getBotRight</name>
+        <briefdescription>
+<para>Returns the bottom right point of the quadtree search cell. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>bottom right point of the quadtree search cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="83" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="380" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1af5398942f7a48fc146ec99f798aedc71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int Quadtree_SearchCell::getCost</definition>
+        <argsstring>()</argsstring>
+        <name>getCost</name>
+        <briefdescription>
+<para>returns the cost of the quadtree search cell </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>cost of the quadtree search cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="89" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="384" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1a8af6b597f8a32c7c19f858f34d16efa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> * &gt;</type>
+        <definition>std::vector&lt; Quadtree_SearchCell * &gt; Quadtree_SearchCell::getNeighbors</definition>
+        <argsstring>()</argsstring>
+        <name>getNeighbors</name>
+        <briefdescription>
+<para>Returns a std::vector of pointers to the neighbors of this quadtree search cell. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>a std::vector of pointers to the neighbors of this quadtree search cell </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="95" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="388" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__SearchCell_1a36c9e92db030bb40f563d0c3b0453c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Quadtree_SearchCell::setNeighbors</definition>
+        <argsstring>(std::vector&lt; Quadtree_SearchCell *&gt; _neighbors)</argsstring>
+        <name>setNeighbors</name>
+        <param>
+          <type>std::vector&lt; <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> *&gt;</type>
+          <declname>_neighbors</declname>
+        </param>
+        <briefdescription>
+<para>Sets a std::vector of pointers to the neighbors of this quadtree search cell. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>_neighbors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>std::vector of pointers to the neighbors of this quadtree search cell </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="101" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="392" bodyend="394"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>used as nodes in the A* search algorithm </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="40">
+        <label>Point</label>
+        <link refid="structPoint"/>
+      </node>
+      <node id="39">
+        <label>Quadtree_SearchCell</label>
+        <link refid="classQuadtree__SearchCell"/>
+        <childnode refid="40" relation="usage">
+          <edgelabel>topLeft</edgelabel>
+          <edgelabel>botRight</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="42" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="41" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classQuadtree__SearchCell_1a39b17158a3eca5ba37dc5f850a1283d5" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>botRight</name></member>
+      <member refid="classQuadtree__SearchCell_1a6377f42344a7108ec70768b2f8ebe83e" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>cost</name></member>
+      <member refid="classQuadtree__SearchCell_1aa05145ed327cd4043027ea7d0dc05006" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>getBotRight</name></member>
+      <member refid="classQuadtree__SearchCell_1af5398942f7a48fc146ec99f798aedc71" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>getCost</name></member>
+      <member refid="classQuadtree__SearchCell_1a8af6b597f8a32c7c19f858f34d16efa2" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>getNeighbors</name></member>
+      <member refid="classQuadtree__SearchCell_1a757563b6c0b2c46ab3470225fc3d9026" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>getTopLeft</name></member>
+      <member refid="classQuadtree__SearchCell_1ae633f7a72335bb2c13420667bb34ec1c" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>neighbors</name></member>
+      <member refid="classQuadtree__SearchCell_1ad19965518209ded935963af6f82439b0" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>operator==</name></member>
+      <member refid="classQuadtree__SearchCell_1af5f43d6d48b447463cc12e9bbba9cebd" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>Quadtree_SearchCell</name></member>
+      <member refid="classQuadtree__SearchCell_1aae69ecac827985bc95c5d93736a874bf" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>Quadtree_SearchCell</name></member>
+      <member refid="classQuadtree__SearchCell_1a36c9e92db030bb40f563d0c3b0453c8b" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>setNeighbors</name></member>
+      <member refid="classQuadtree__SearchCell_1a5364a5cc75d4eaaafdd2e96a679b8073" prot="public" virt="non-virtual"><scope>Quadtree_SearchCell</scope><name>topLeft</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

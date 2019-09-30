@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structquadtree__planner_1_1Pose" kind="struct" language="C++" prot="public">
+    <compoundname>quadtree_planner::Pose</compoundname>
+    <includes refid="utils_8h" local="no">utils.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquadtree__planner_1_1Pose_1a6ce521b9e7aa2df629f50ed7842a2892" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::Pose::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="20" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1Pose_1a4ab82a425c9ebf3d5f621705e0822663" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::Pose::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="21" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1Pose_1a9bbe15f58cd108cbdfc5c9e6c33e3071" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::Pose::th</definition>
+        <argsstring></argsstring>
+        <name>th</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="22" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquadtree__planner_1_1Pose_1a4f71a4136352d3492bae66239fb3bdc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::Pose::Pose</definition>
+        <argsstring>()</argsstring>
+        <name>Pose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="24" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1Pose_1ac5cb9edb234c265892e1aaf25a09c126" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::Pose::Pose</definition>
+        <argsstring>(double x, double y, double th)</argsstring>
+        <name>Pose</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>th</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="26" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1Pose_1ab15807e852317d6acee928d2a02775c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::Pose::Pose</definition>
+        <argsstring>(const geometry_msgs::PoseStamped &amp;pose)</argsstring>
+        <name>Pose</name>
+        <param>
+          <type>const geometry_msgs::PoseStamped &amp;</type>
+          <declname>pose</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="28" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="15" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1Pose_1a89717ec05a3c8cf79b4163a2a73231dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>geometry_msgs::PoseStamped</type>
+        <definition>geometry_msgs::PoseStamped quadtree_planner::Pose::toPoseStamped</definition>
+        <argsstring>()</argsstring>
+        <name>toPoseStamped</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="30" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="25" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1Pose_1abbba628215c1b1b4c167cb69de949588" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>geometry_msgs::Pose</type>
+        <definition>geometry_msgs::Pose quadtree_planner::Pose::toPose</definition>
+        <argsstring>()</argsstring>
+        <name>toPose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="32" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1Pose_1a5dcf7f0ddb54e6d5ccc7df7b364299bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool quadtree_planner::Pose::operator==</definition>
+        <argsstring>(const Pose &amp;other) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="34" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="structquadtree__planner_1_1Pose_1a27618b39608d206d837feff803b5b665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;out, const Pose &amp;pos)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="36" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Container for storing pose of a 2D object in space. </para>    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="19" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="19" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structquadtree__planner_1_1Pose_1a27618b39608d206d837feff803b5b665" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>operator&lt;&lt;</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1a5dcf7f0ddb54e6d5ccc7df7b364299bf" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>operator==</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1a4f71a4136352d3492bae66239fb3bdc7" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>Pose</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1ac5cb9edb234c265892e1aaf25a09c126" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>Pose</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1ab15807e852317d6acee928d2a02775c4" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>Pose</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1a9bbe15f58cd108cbdfc5c9e6c33e3071" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>th</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1abbba628215c1b1b4c167cb69de949588" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>toPose</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1a89717ec05a3c8cf79b4163a2a73231dc" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>toPoseStamped</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1a6ce521b9e7aa2df629f50ed7842a2892" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>x</name></member>
+      <member refid="structquadtree__planner_1_1Pose_1a4ab82a425c9ebf3d5f621705e0822663" prot="public" virt="non-virtual"><scope>quadtree_planner::Pose</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

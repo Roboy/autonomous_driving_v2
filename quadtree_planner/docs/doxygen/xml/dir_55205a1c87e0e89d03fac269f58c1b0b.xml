@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_55205a1c87e0e89d03fac269f58c1b0b" kind="dir">
+    <compoundname>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner</compoundname>
+    <innerfile refid="costmap_8h">costmap.h</innerfile>
+    <innerfile refid="drive__to__location__server_8h">drive_to_location_server.h</innerfile>
+    <innerfile refid="dubins_8h">dubins.h</innerfile>
+    <innerfile refid="quadtree__datastructure_8h">quadtree_datastructure.h</innerfile>
+    <innerfile refid="quadtree__planner_8h">quadtree_planner.h</innerfile>
+    <innerfile refid="utils_8h">utils.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/"/>
+  </compounddef>
+</doxygen>

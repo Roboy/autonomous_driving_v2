@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacequadtree__planner" kind="namespace" language="C++">
+    <compoundname>quadtree_planner</compoundname>
+    <innerclass refid="structquadtree__planner_1_1Coordinates" prot="public">quadtree_planner::Coordinates</innerclass>
+    <innerclass refid="classquadtree__planner_1_1Costmap" prot="public">quadtree_planner::Costmap</innerclass>
+    <innerclass refid="classquadtree__planner_1_1CostmapAdapter" prot="public">quadtree_planner::CostmapAdapter</innerclass>
+    <innerclass refid="structquadtree__planner_1_1DubinsSubpath" prot="public">quadtree_planner::DubinsSubpath</innerclass>
+    <innerclass refid="classquadtree__planner_1_1EmptyCostmap" prot="public">quadtree_planner::EmptyCostmap</innerclass>
+    <innerclass refid="structquadtree__planner_1_1IntermediatePathAngles" prot="public">quadtree_planner::IntermediatePathAngles</innerclass>
+    <innerclass refid="structquadtree__planner_1_1IntermediatePaths" prot="public">quadtree_planner::IntermediatePaths</innerclass>
+    <innerclass refid="structquadtree__planner_1_1Pose" prot="public">quadtree_planner::Pose</innerclass>
+    <innerclass refid="structquadtree__planner_1_1PoseWithDist" prot="public">quadtree_planner::PoseWithDist</innerclass>
+    <innerclass refid="structquadtree__planner_1_1QuadtreeCellWithDist" prot="public">quadtree_planner::QuadtreeCellWithDist</innerclass>
+    <innerclass refid="classquadtree__planner_1_1QuadTreePlanner" prot="public">quadtree_planner::QuadTreePlanner</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="utils_8h_1ad0e75b1a622be85744cb0203a644977d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double quadtree_planner::euclid_dist</definition>
+        <argsstring>(const Pose &amp;pose1, const Pose &amp;pose2)</argsstring>
+        <name>euclid_dist</name>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref> &amp;</type>
+          <declname>pose1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref> &amp;</type>
+          <declname>pose2</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the euclidean distance between two poses. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pose1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>first pose </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pose2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>second pose </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>euclidean distance between pose1 and pose2 </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="136" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a5fdf63f0f5bf411b32fff34dc9035db5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double quadtree_planner::normalize_angle</definition>
+        <argsstring>(double angle)</argsstring>
+        <name>normalize_angle</name>
+        <param>
+          <type>double</type>
+          <declname>angle</declname>
+        </param>
+        <briefdescription>
+<para>Normalizes the input angle to [0, 2pi]. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>angle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input angle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>normalized input angle in the interval [0, 2pi]</para></simplesect>
+Normalize angle to [0, 2pi] </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="143" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8cpp_1a300632cc48e70fa7abd1fe681bf245ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; quadtree_planner::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;out, const IntermediatePaths &amp;intermediatePaths)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1IntermediatePaths" kindref="compound">IntermediatePaths</ref> &amp;</type>
+          <declname>intermediatePaths</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" line="74" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8cpp_1a86cedaa1896dadd022179f9385b42791" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; quadtree_planner::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;out, const Pose &amp;pos)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1Pose" kindref="compound">Pose</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" line="83" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/costmap.h" line="10" column="1"/>
+  </compounddef>
+</doxygen>

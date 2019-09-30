@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classQuadtree__Cell" kind="class" language="C++" prot="public">
+    <compoundname>Quadtree_Cell</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classQuadtree__Cell_1a0e52c6061a60247259621f8d1a381c6e" prot="private" static="no" mutable="no">
+        <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+        <definition>Point Quadtree_Cell::topLeft</definition>
+        <argsstring></argsstring>
+        <name>topLeft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="112" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__Cell_1ad5fcea815d7652d176c9249e63249c40" prot="private" static="no" mutable="no">
+        <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+        <definition>Point Quadtree_Cell::botRight</definition>
+        <argsstring></argsstring>
+        <name>botRight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="113" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__Cell_1a89bbf0cb6a9c32950a1cb34eb84b54e8" prot="private" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Quadtree_Cell::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="116" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__Cell_1a7367254a234f388b85e4e9cf11a28261" prot="private" static="no" mutable="no">
+        <type><ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> *</type>
+        <definition>Quadtree_Cell* Quadtree_Cell::topLeftCell</definition>
+        <argsstring></argsstring>
+        <name>topLeftCell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="119" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__Cell_1aae3dfd05fd72764a1cc4ee281a22b157" prot="private" static="no" mutable="no">
+        <type><ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> *</type>
+        <definition>Quadtree_Cell* Quadtree_Cell::topRightCell</definition>
+        <argsstring></argsstring>
+        <name>topRightCell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="120" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__Cell_1a1eaaed7ed367e1299c20e85b420c29d7" prot="private" static="no" mutable="no">
+        <type><ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> *</type>
+        <definition>Quadtree_Cell* Quadtree_Cell::botLeftCell</definition>
+        <argsstring></argsstring>
+        <name>botLeftCell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="121" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classQuadtree__Cell_1a054525dc8ae815524f25241f8e23fee4" prot="private" static="no" mutable="no">
+        <type><ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> *</type>
+        <definition>Quadtree_Cell* Quadtree_Cell::botRightCell</definition>
+        <argsstring></argsstring>
+        <name>botRightCell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="122" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classQuadtree__Cell_1a9cb982159ee0c03ecc5be3a3ffe92d3b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int Quadtree_Cell::getMaximumCostOfArea</definition>
+        <argsstring>(Point topL, Point botR, quadtree_planner::Costmap *costmap)</argsstring>
+        <name>getMaximumCostOfArea</name>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>topL</declname>
+        </param>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>botR</declname>
+        </param>
+        <param>
+          <type><ref refid="classquadtree__planner_1_1Costmap" kindref="compound">quadtree_planner::Costmap</ref> *</type>
+          <declname>costmap</declname>
+        </param>
+        <briefdescription>
+<para>returns the maximum cost of the costmap points in the rectangle defined by topL and botR </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topL</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>top left point of rectangle to be checked </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>botR</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>bottom right point of rectangle to be checked </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>costmap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to costmap that is used to determine the costs </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>maximum cost of the costmap points in the rectangle defined by topL and botR </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="131" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="56" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1a24e9b22935996e1bf0a109b90fa96f02" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Quadtree_Cell::isCostOfAreaUniform</definition>
+        <argsstring>(Point topL, Point botR, quadtree_planner::Costmap *costmap)</argsstring>
+        <name>isCostOfAreaUniform</name>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>topL</declname>
+        </param>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>botR</declname>
+        </param>
+        <param>
+          <type><ref refid="classquadtree__planner_1_1Costmap" kindref="compound">quadtree_planner::Costmap</ref> *</type>
+          <declname>costmap</declname>
+        </param>
+        <briefdescription>
+<para>returns true if the area between topL and botR is completely free or completely occupied </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>topL</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>top left point of rectangle to be checked </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>botR</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>bottom right point of rectangle to be checked </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>costmap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to costmap that is used to determine the costs </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the area between topL and botR is completely free or completely occupied; false if it is partly free and partly occupied </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="140" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="69" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1acfaa7d4a7bfefcbcddc51dbc7cab7d15" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref></type>
+        <definition>Quadtree_SearchCell Quadtree_Cell::convertToQuadtreeSearchCell</definition>
+        <argsstring>()</argsstring>
+        <name>convertToQuadtreeSearchCell</name>
+        <briefdescription>
+<para>Converts a <ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> object to a <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> object. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> object based on the <ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="147" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="270" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1a8cbd90e902de2d5b66021d7ce9cbf9bf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Quadtree_Cell::publishVisualization</definition>
+        <argsstring>(ros::Publisher marker_pub, double marker_pose_x, double marker_pose_y, double marker_scale_x, double marker_scale_y, bool free_space)</argsstring>
+        <name>publishVisualization</name>
+        <param>
+          <type>ros::Publisher</type>
+          <declname>marker_pub</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>marker_pose_x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>marker_pose_y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>marker_scale_x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>marker_scale_y</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>free_space</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="149" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="140" bodyend="263"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classQuadtree__Cell_1a9ce626c0bb49541aed928775d8e72a77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Quadtree_Cell::Quadtree_Cell</definition>
+        <argsstring>()</argsstring>
+        <name>Quadtree_Cell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="153" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="153" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1ad8e516e00e51b897ec5a26240c4b3373" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Quadtree_Cell::Quadtree_Cell</definition>
+        <argsstring>(Point _topL, Point _botR, unsigned int _cost)</argsstring>
+        <name>Quadtree_Cell</name>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>_topL</declname>
+        </param>
+        <param>
+          <type><ref refid="structPoint" kindref="compound">Point</ref></type>
+          <declname>_botR</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>_cost</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="163" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="163" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1af2b30e86c7180372b97177d43888210c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Quadtree_Cell::buildQuadtree</definition>
+        <argsstring>(quadtree_planner::Costmap *costmap, long long *area_)</argsstring>
+        <name>buildQuadtree</name>
+        <param>
+          <type><ref refid="classquadtree__planner_1_1Costmap" kindref="compound">quadtree_planner::Costmap</ref> *</type>
+          <declname>costmap</declname>
+        </param>
+        <param>
+          <type>long long *</type>
+          <declname>area_</declname>
+        </param>
+        <briefdescription>
+<para>This method builds a quadtree datastructure based on a 2D costmap as input. It subdivides cells as long as they are not uniform yet (uniform means whole cell is free or whole cell is occupied). </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>costmap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to the costmap that is used to construct the quadtree </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>area_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>debug variable that stores the area of the whole quadtree </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 if is creation succesful, -1 otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="181" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="12" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1a30ac8c78fb0693cd7c8e1631fd312426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Quadtree_Cell::testQuadtree</definition>
+        <argsstring>(ros::Publisher marker_publisher_, double resolution, bool showOnlyLowestLevel, double origin_x, double origin_y)</argsstring>
+        <name>testQuadtree</name>
+        <param>
+          <type>ros::Publisher</type>
+          <declname>marker_publisher_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>resolution</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>showOnlyLowestLevel</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>origin_x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>origin_y</declname>
+        </param>
+        <briefdescription>
+<para>This method visualizes the quadtree cells in rviz. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>marker_publisher_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ros::publisher to publish the cells as markers to rviz </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resolution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>resolution of the costmap in meters per cell </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>showOnlyLowestLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if true, show only the lowest level of the quadtree </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>origin_x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>origin in x direction of costmap in meters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>origin_y_origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>in y direction of costmap in meters </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="191" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="91" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1ae121e7759a290d90f3b4ab12f4460b47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Quadtree_Cell::createSearchCellVector</definition>
+        <argsstring>(std::vector&lt; Quadtree_SearchCell &gt; *quadVector)</argsstring>
+        <name>createSearchCellVector</name>
+        <param>
+          <type>std::vector&lt; <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> &gt; *</type>
+          <declname>quadVector</declname>
+        </param>
+        <briefdescription>
+<para>Creates a std::vector with <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> objects based on the <ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>quadVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>std::vector to store the <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> objects </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="198" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="278" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1aa3bad1fe80dbfc5b576e63635481e11d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Quadtree_Cell::findNeighborsInSearchCellVector</definition>
+        <argsstring>(std::vector&lt; Quadtree_SearchCell &gt; &amp;quadVector)</argsstring>
+        <name>findNeighborsInSearchCellVector</name>
+        <param>
+          <type>std::vector&lt; <ref refid="classQuadtree__SearchCell" kindref="compound">Quadtree_SearchCell</ref> &gt; &amp;</type>
+          <declname>quadVector</declname>
+        </param>
+        <briefdescription>
+<para>Finds the neighbors of all Quadtree_SearchCells contained in the input std::vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>quadVector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>neighbors of Quadtree_SearchCells in this vector are found and set by this method </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="204" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="289" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1a070aaa76b5c28fc1473d5943019e9fb8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Quadtree_Cell::operator==</definition>
+        <argsstring>(const Quadtree_Cell &amp;p) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="206" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classQuadtree__Cell_1aedc198bc943d4d7214abd3b2477d95f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Quadtree_Cell::printQuadtree</definition>
+        <argsstring>()</argsstring>
+        <name>printQuadtree</name>
+        <briefdescription>
+<para>Prints topL, botR and cost of the <ref refid="classQuadtree__Cell" kindref="compound">Quadtree_Cell</ref> object. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="213" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/quadtree_datastructure.cpp" bodystart="265" bodyend="268"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="109" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="108" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classQuadtree__Cell_1a1eaaed7ed367e1299c20e85b420c29d7" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>botLeftCell</name></member>
+      <member refid="classQuadtree__Cell_1ad5fcea815d7652d176c9249e63249c40" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>botRight</name></member>
+      <member refid="classQuadtree__Cell_1a054525dc8ae815524f25241f8e23fee4" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>botRightCell</name></member>
+      <member refid="classQuadtree__Cell_1af2b30e86c7180372b97177d43888210c" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>buildQuadtree</name></member>
+      <member refid="classQuadtree__Cell_1acfaa7d4a7bfefcbcddc51dbc7cab7d15" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>convertToQuadtreeSearchCell</name></member>
+      <member refid="classQuadtree__Cell_1a89bbf0cb6a9c32950a1cb34eb84b54e8" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>cost</name></member>
+      <member refid="classQuadtree__Cell_1ae121e7759a290d90f3b4ab12f4460b47" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>createSearchCellVector</name></member>
+      <member refid="classQuadtree__Cell_1aa3bad1fe80dbfc5b576e63635481e11d" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>findNeighborsInSearchCellVector</name></member>
+      <member refid="classQuadtree__Cell_1a9cb982159ee0c03ecc5be3a3ffe92d3b" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>getMaximumCostOfArea</name></member>
+      <member refid="classQuadtree__Cell_1a24e9b22935996e1bf0a109b90fa96f02" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>isCostOfAreaUniform</name></member>
+      <member refid="classQuadtree__Cell_1a070aaa76b5c28fc1473d5943019e9fb8" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>operator==</name></member>
+      <member refid="classQuadtree__Cell_1aedc198bc943d4d7214abd3b2477d95f5" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>printQuadtree</name></member>
+      <member refid="classQuadtree__Cell_1a8cbd90e902de2d5b66021d7ce9cbf9bf" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>publishVisualization</name></member>
+      <member refid="classQuadtree__Cell_1a9ce626c0bb49541aed928775d8e72a77" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>Quadtree_Cell</name></member>
+      <member refid="classQuadtree__Cell_1ad8e516e00e51b897ec5a26240c4b3373" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>Quadtree_Cell</name></member>
+      <member refid="classQuadtree__Cell_1a30ac8c78fb0693cd7c8e1631fd312426" prot="public" virt="non-virtual"><scope>Quadtree_Cell</scope><name>testQuadtree</name></member>
+      <member refid="classQuadtree__Cell_1a0e52c6061a60247259621f8d1a381c6e" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>topLeft</name></member>
+      <member refid="classQuadtree__Cell_1a7367254a234f388b85e4e9cf11a28261" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>topLeftCell</name></member>
+      <member refid="classQuadtree__Cell_1aae3dfd05fd72764a1cc4ee281a22b157" prot="private" virt="non-virtual"><scope>Quadtree_Cell</scope><name>topRightCell</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structDubinsPath" kind="struct" language="C++" prot="public">
+    <compoundname>DubinsPath</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structDubinsPath_1aabcbfbb58406794577c58b00f6109263" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsPath::qi[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>qi</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" line="39" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsPath_1a0e88cf654931b652566e497a156e0c91" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsPath::param[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>param</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" line="41" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsPath_1a7731666554b2a029e60717f26a8defb8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DubinsPath::rho</definition>
+        <argsstring></argsstring>
+        <name>rho</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" line="43" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structDubinsPath_1af1de248d28f35c6784a8f9a3c99db25b" prot="public" static="no" mutable="no">
+        <type>DubinsPathType</type>
+        <definition>DubinsPathType DubinsPath::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" line="45" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" line="37" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/dubins.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structDubinsPath_1a0e88cf654931b652566e497a156e0c91" prot="public" virt="non-virtual"><scope>DubinsPath</scope><name>param</name></member>
+      <member refid="structDubinsPath_1aabcbfbb58406794577c58b00f6109263" prot="public" virt="non-virtual"><scope>DubinsPath</scope><name>qi</name></member>
+      <member refid="structDubinsPath_1a7731666554b2a029e60717f26a8defb8" prot="public" virt="non-virtual"><scope>DubinsPath</scope><name>rho</name></member>
+      <member refid="structDubinsPath_1af1de248d28f35c6784a8f9a3c99db25b" prot="public" virt="non-virtual"><scope>DubinsPath</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

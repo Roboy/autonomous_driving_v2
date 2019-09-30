@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structquadtree__planner_1_1IntermediatePathAngles" kind="struct" language="C++" prot="public">
+    <compoundname>quadtree_planner::IntermediatePathAngles</compoundname>
+    <includes refid="utils_8h" local="no">utils.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePathAngles_1aa5247463531a95ae950bbf2a324f136a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::IntermediatePathAngles::first_theta</definition>
+        <argsstring></argsstring>
+        <name>first_theta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="44" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePathAngles_1a6325ee2585820d2122d755c9ae001d76" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::IntermediatePathAngles::second_theta</definition>
+        <argsstring></argsstring>
+        <name>second_theta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="45" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePathAngles_1aef18855c07d94b77586c202a924a8c29" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quadtree_planner::IntermediatePathAngles::pathLength</definition>
+        <argsstring></argsstring>
+        <name>pathLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="46" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquadtree__planner_1_1IntermediatePathAngles_1aacc7c846a274efb649a5e03c811f3505" prot="public" static="no" mutable="no">
+        <type>DubinsPathType</type>
+        <definition>DubinsPathType quadtree_planner::IntermediatePathAngles::dubinsPathType</definition>
+        <argsstring></argsstring>
+        <name>dubinsPathType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="47" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquadtree__planner_1_1IntermediatePathAngles_1a2e35b3faadde081ce85d22ba75b06327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::IntermediatePathAngles::IntermediatePathAngles</definition>
+        <argsstring>()</argsstring>
+        <name>IntermediatePathAngles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="49" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1IntermediatePathAngles_1a711619186b7354288876dc6b125b373d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quadtree_planner::IntermediatePathAngles::IntermediatePathAngles</definition>
+        <argsstring>(double first_theta, double second_theta, double pathLength, DubinsPathType dubinsPathType)</argsstring>
+        <name>IntermediatePathAngles</name>
+        <param>
+          <type>double</type>
+          <declname>first_theta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>second_theta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>pathLength</declname>
+        </param>
+        <param>
+          <type>DubinsPathType</type>
+          <declname>dubinsPathType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="51" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="47" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structquadtree__planner_1_1IntermediatePathAngles_1a20a2e352f73511256a9673875fdb746c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool quadtree_planner::IntermediatePathAngles::operator==</definition>
+        <argsstring>(const IntermediatePathAngles &amp;other) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="53" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/src/utils.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="structquadtree__planner_1_1IntermediatePathAngles_1aebdbac34a0623bf6750fdaf798c9122b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;out, const IntermediatePathAngles &amp;intermediatePathAngles)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1IntermediatePathAngles" kindref="compound">IntermediatePathAngles</ref> &amp;</type>
+          <declname>intermediatePathAngles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="55" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Container for storing valid angle combinations </para>    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="43" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="43" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1aacc7c846a274efb649a5e03c811f3505" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>dubinsPathType</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1aa5247463531a95ae950bbf2a324f136a" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>first_theta</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1a2e35b3faadde081ce85d22ba75b06327" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>IntermediatePathAngles</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1a711619186b7354288876dc6b125b373d" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>IntermediatePathAngles</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1aebdbac34a0623bf6750fdaf798c9122b" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>operator&lt;&lt;</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1a20a2e352f73511256a9673875fdb746c" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>operator==</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1aef18855c07d94b77586c202a924a8c29" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>pathLength</name></member>
+      <member refid="structquadtree__planner_1_1IntermediatePathAngles_1a6325ee2585820d2122d755c9ae001d76" prot="public" virt="non-virtual"><scope>quadtree_planner::IntermediatePathAngles</scope><name>second_theta</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

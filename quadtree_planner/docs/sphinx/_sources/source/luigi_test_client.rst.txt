@@ -1,0 +1,7 @@
+luigi\_test\_client module
+==========================
+
+.. automodule:: luigi_test_client
+   :members:
+   :undoc-members:
+   :show-inheritance:

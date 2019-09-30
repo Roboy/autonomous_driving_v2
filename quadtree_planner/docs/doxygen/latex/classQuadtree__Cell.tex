@@ -1,0 +1,104 @@
+\hypertarget{classQuadtree__Cell}{}\section{Quadtree\+\_\+\+Cell Class Reference}
+\label{classQuadtree__Cell}\index{Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQuadtree__Cell_ad8e516e00e51b897ec5a26240c4b3373}\label{classQuadtree__Cell_ad8e516e00e51b897ec5a26240c4b3373}} 
+{\bfseries Quadtree\+\_\+\+Cell} (\hyperlink{structPoint}{Point} \+\_\+topL, \hyperlink{structPoint}{Point} \+\_\+botR, unsigned int \+\_\+cost)
+\item 
+int \hyperlink{classQuadtree__Cell_af2b30e86c7180372b97177d43888210c}{build\+Quadtree} (\hyperlink{classquadtree__planner_1_1Costmap}{quadtree\+\_\+planner\+::\+Costmap} $\ast$costmap, long long $\ast$area\+\_\+)
+\begin{DoxyCompactList}\small\item\em This method builds a quadtree datastructure based on a 2D costmap as input. It subdivides cells as long as they are not uniform yet (uniform means whole cell is free or whole cell is occupied). \end{DoxyCompactList}\item 
+void \hyperlink{classQuadtree__Cell_a30ac8c78fb0693cd7c8e1631fd312426}{test\+Quadtree} (ros\+::\+Publisher marker\+\_\+publisher\+\_\+, double resolution, bool show\+Only\+Lowest\+Level, double origin\+\_\+x, double origin\+\_\+y)
+\begin{DoxyCompactList}\small\item\em This method visualizes the quadtree cells in rviz. \end{DoxyCompactList}\item 
+void \hyperlink{classQuadtree__Cell_ae121e7759a290d90f3b4ab12f4460b47}{create\+Search\+Cell\+Vector} (std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $>$ $\ast$quad\+Vector)
+\begin{DoxyCompactList}\small\item\em Creates a std\+::vector with \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} objects based on the \hyperlink{classQuadtree__Cell}{Quadtree\+\_\+\+Cell}. \end{DoxyCompactList}\item 
+void \hyperlink{classQuadtree__Cell_aa3bad1fe80dbfc5b576e63635481e11d}{find\+Neighbors\+In\+Search\+Cell\+Vector} (std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $>$ \&quad\+Vector)
+\begin{DoxyCompactList}\small\item\em Finds the neighbors of all Quadtree\+\_\+\+Search\+Cells contained in the input std\+::vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQuadtree__Cell_a070aaa76b5c28fc1473d5943019e9fb8}\label{classQuadtree__Cell_a070aaa76b5c28fc1473d5943019e9fb8}} 
+bool {\bfseries operator==} (const \hyperlink{classQuadtree__Cell}{Quadtree\+\_\+\+Cell} \&p) const
+\item 
+\mbox{\Hypertarget{classQuadtree__Cell_aedc198bc943d4d7214abd3b2477d95f5}\label{classQuadtree__Cell_aedc198bc943d4d7214abd3b2477d95f5}} 
+void \hyperlink{classQuadtree__Cell_aedc198bc943d4d7214abd3b2477d95f5}{print\+Quadtree} ()
+\begin{DoxyCompactList}\small\item\em Prints topL, botR and cost of the \hyperlink{classQuadtree__Cell}{Quadtree\+\_\+\+Cell} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classQuadtree__Cell_af2b30e86c7180372b97177d43888210c}\label{classQuadtree__Cell_af2b30e86c7180372b97177d43888210c}} 
+\index{Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}!build\+Quadtree@{build\+Quadtree}}
+\index{build\+Quadtree@{build\+Quadtree}!Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}}
+\subsubsection{\texorpdfstring{build\+Quadtree()}{buildQuadtree()}}
+{\footnotesize\ttfamily int Quadtree\+\_\+\+Cell\+::build\+Quadtree (\begin{DoxyParamCaption}\item[{\hyperlink{classquadtree__planner_1_1Costmap}{quadtree\+\_\+planner\+::\+Costmap} $\ast$}]{costmap,  }\item[{long long $\ast$}]{area\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+This method builds a quadtree datastructure based on a 2D costmap as input. It subdivides cells as long as they are not uniform yet (uniform means whole cell is free or whole cell is occupied). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em costmap} & pointer to the costmap that is used to construct the quadtree \\
+\hline
+{\em area\+\_\+} & debug variable that stores the area of the whole quadtree \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if is creation succesful, -\/1 otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQuadtree__Cell_ae121e7759a290d90f3b4ab12f4460b47}\label{classQuadtree__Cell_ae121e7759a290d90f3b4ab12f4460b47}} 
+\index{Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}!create\+Search\+Cell\+Vector@{create\+Search\+Cell\+Vector}}
+\index{create\+Search\+Cell\+Vector@{create\+Search\+Cell\+Vector}!Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}}
+\subsubsection{\texorpdfstring{create\+Search\+Cell\+Vector()}{createSearchCellVector()}}
+{\footnotesize\ttfamily void Quadtree\+\_\+\+Cell\+::create\+Search\+Cell\+Vector (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $>$ $\ast$}]{quad\+Vector }\end{DoxyParamCaption})}
+
+
+
+Creates a std\+::vector with \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} objects based on the \hyperlink{classQuadtree__Cell}{Quadtree\+\_\+\+Cell}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em quad\+Vector} & std\+::vector to store the \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} objects \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classQuadtree__Cell_aa3bad1fe80dbfc5b576e63635481e11d}\label{classQuadtree__Cell_aa3bad1fe80dbfc5b576e63635481e11d}} 
+\index{Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}!find\+Neighbors\+In\+Search\+Cell\+Vector@{find\+Neighbors\+In\+Search\+Cell\+Vector}}
+\index{find\+Neighbors\+In\+Search\+Cell\+Vector@{find\+Neighbors\+In\+Search\+Cell\+Vector}!Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}}
+\subsubsection{\texorpdfstring{find\+Neighbors\+In\+Search\+Cell\+Vector()}{findNeighborsInSearchCellVector()}}
+{\footnotesize\ttfamily void Quadtree\+\_\+\+Cell\+::find\+Neighbors\+In\+Search\+Cell\+Vector (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \hyperlink{classQuadtree__SearchCell}{Quadtree\+\_\+\+Search\+Cell} $>$ \&}]{quad\+Vector }\end{DoxyParamCaption})}
+
+
+
+Finds the neighbors of all Quadtree\+\_\+\+Search\+Cells contained in the input std\+::vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em quad\+Vector} & neighbors of Quadtree\+\_\+\+Search\+Cells in this vector are found and set by this method \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classQuadtree__Cell_a30ac8c78fb0693cd7c8e1631fd312426}\label{classQuadtree__Cell_a30ac8c78fb0693cd7c8e1631fd312426}} 
+\index{Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}!test\+Quadtree@{test\+Quadtree}}
+\index{test\+Quadtree@{test\+Quadtree}!Quadtree\+\_\+\+Cell@{Quadtree\+\_\+\+Cell}}
+\subsubsection{\texorpdfstring{test\+Quadtree()}{testQuadtree()}}
+{\footnotesize\ttfamily void Quadtree\+\_\+\+Cell\+::test\+Quadtree (\begin{DoxyParamCaption}\item[{ros\+::\+Publisher}]{marker\+\_\+publisher\+\_\+,  }\item[{double}]{resolution,  }\item[{bool}]{show\+Only\+Lowest\+Level,  }\item[{double}]{origin\+\_\+x,  }\item[{double}]{origin\+\_\+y }\end{DoxyParamCaption})}
+
+
+
+This method visualizes the quadtree cells in rviz. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker\+\_\+publisher\+\_\+} & ros\+::publisher to publish the cells as markers to rviz \\
+\hline
+{\em resolution} & resolution of the costmap in meters per cell \\
+\hline
+{\em show\+Only\+Lowest\+Level} & if true, show only the lowest level of the quadtree \\
+\hline
+{\em origin\+\_\+x} & origin in x direction of costmap in meters \\
+\hline
+{\em origin\+\_\+y\+\_\+origin} & in y direction of costmap in meters \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/include/quadtree\+\_\+planner/quadtree\+\_\+datastructure.\+h\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/src/quadtree\+\_\+datastructure.\+cpp\end{DoxyCompactItemize}

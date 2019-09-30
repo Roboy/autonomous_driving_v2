@@ -1,0 +1,102 @@
+\hypertarget{classquadtree__planner_1_1QuadTreePlanner}{}\section{quadtree\+\_\+planner\+:\+:Quad\+Tree\+Planner Class Reference}
+\label{classquadtree__planner_1_1QuadTreePlanner}\index{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}}
+
+
+Inheritance diagram for quadtree\+\_\+planner\+:\+:Quad\+Tree\+Planner\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classquadtree__planner_1_1QuadTreePlanner__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for quadtree\+\_\+planner\+:\+:Quad\+Tree\+Planner\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classquadtree__planner_1_1QuadTreePlanner__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classquadtree__planner_1_1QuadTreePlanner_a95b6b962b0bb8b7cb3a823d853ad447f}{initialize} (std\+::string name, costmap\+\_\+2d\+::\+Costmap2\+D\+R\+OS $\ast$costmap\+\_\+ros) override
+\item 
+bool \hyperlink{classquadtree__planner_1_1QuadTreePlanner_a65ced31e9ea72cbee760f593f47115cd}{make\+Plan} (const geometry\+\_\+msgs\+::\+Pose\+Stamped \&start, const geometry\+\_\+msgs\+::\+Pose\+Stamped \&goal, std\+::vector$<$ geometry\+\_\+msgs\+::\+Pose\+Stamped $>$ \&plan) override
+\item 
+void \hyperlink{classquadtree__planner_1_1QuadTreePlanner_a6bc83db035560028672f572a985d05b7}{initialize} (std\+::string name, \hyperlink{classquadtree__planner_1_1Costmap}{Costmap} $\ast$costmap)
+\item 
+bool \hyperlink{classquadtree__planner_1_1QuadTreePlanner_a6f194e11417938fd90bcc74bcb578dca}{make\+Plan} (const \hyperlink{structquadtree__planner_1_1Pose}{Pose} \&start, const \hyperlink{structquadtree__planner_1_1Pose}{Pose} \&goal, std\+::vector$<$ \hyperlink{structquadtree__planner_1_1Pose}{Pose} $>$ \&path)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classquadtree__planner_1_1QuadTreePlanner_a95b6b962b0bb8b7cb3a823d853ad447f}\label{classquadtree__planner_1_1QuadTreePlanner_a95b6b962b0bb8b7cb3a823d853ad447f}} 
+\index{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}!initialize@{initialize}}
+\index{initialize@{initialize}!quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner\+::initialize (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{costmap\+\_\+2d\+::\+Costmap2\+D\+R\+OS $\ast$}]{costmap\+\_\+ros }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+Initialization function for the \hyperlink{classquadtree__planner_1_1QuadTreePlanner}{Quad\+Tree\+Planner} object 
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of this planner \\
+\hline
+{\em costmap\+\_\+ros} & A pointer to the R\+OS wrapper of the costmap to use \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classquadtree__planner_1_1QuadTreePlanner_a6bc83db035560028672f572a985d05b7}\label{classquadtree__planner_1_1QuadTreePlanner_a6bc83db035560028672f572a985d05b7}} 
+\index{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}!initialize@{initialize}}
+\index{initialize@{initialize}!quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner\+::initialize (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{\hyperlink{classquadtree__planner_1_1Costmap}{quadtree\+\_\+planner\+::\+Costmap} $\ast$}]{costmap }\end{DoxyParamCaption})}
+
+Initialization function for the \hyperlink{classquadtree__planner_1_1QuadTreePlanner}{Quad\+Tree\+Planner} object 
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of this planner \\
+\hline
+{\em costmap} & a pointer to the costmap to use \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classquadtree__planner_1_1QuadTreePlanner_a65ced31e9ea72cbee760f593f47115cd}\label{classquadtree__planner_1_1QuadTreePlanner_a65ced31e9ea72cbee760f593f47115cd}} 
+\index{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}!make\+Plan@{make\+Plan}}
+\index{make\+Plan@{make\+Plan}!quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}}
+\subsubsection{\texorpdfstring{make\+Plan()}{makePlan()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner\+::make\+Plan (\begin{DoxyParamCaption}\item[{const geometry\+\_\+msgs\+::\+Pose\+Stamped \&}]{start,  }\item[{const geometry\+\_\+msgs\+::\+Pose\+Stamped \&}]{goal,  }\item[{std\+::vector$<$ geometry\+\_\+msgs\+::\+Pose\+Stamped $>$ \&}]{plan }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+Given a goal pose in the world, compute a plan 
+\begin{DoxyParams}{Parameters}
+{\em start} & The start pose \\
+\hline
+{\em goal} & The goal pose \\
+\hline
+{\em plan} & The plan... filled by the planner \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if a valid plan was found, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classquadtree__planner_1_1QuadTreePlanner_a6f194e11417938fd90bcc74bcb578dca}\label{classquadtree__planner_1_1QuadTreePlanner_a6f194e11417938fd90bcc74bcb578dca}} 
+\index{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}!make\+Plan@{make\+Plan}}
+\index{make\+Plan@{make\+Plan}!quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner@{quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner}}
+\subsubsection{\texorpdfstring{make\+Plan()}{makePlan()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool quadtree\+\_\+planner\+::\+Quad\+Tree\+Planner\+::make\+Plan (\begin{DoxyParamCaption}\item[{const \hyperlink{structquadtree__planner_1_1Pose}{Pose} \&}]{start,  }\item[{const \hyperlink{structquadtree__planner_1_1Pose}{Pose} \&}]{goal,  }\item[{std\+::vector$<$ \hyperlink{structquadtree__planner_1_1Pose}{Pose} $>$ \&}]{path }\end{DoxyParamCaption})}
+
+Given a goal pose in the world, compute a plan 
+\begin{DoxyParams}{Parameters}
+{\em start} & The start pose \\
+\hline
+{\em goal} & The goal pose \\
+\hline
+{\em plan} & The plan... filled by the planner \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if a valid plan was found, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/include/quadtree\+\_\+planner/quadtree\+\_\+planner.\+h\item 
+/home/maximilian/\+Roboy\+Repo\+Devel\+Planning/src/quadtree\+\_\+planner/src/quadtree\+\_\+planner.\+cpp\end{DoxyCompactItemize}

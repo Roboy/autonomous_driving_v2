@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_3a4da2b5402b3d8ba507fe7286dd8bc5" kind="dir">
+    <compoundname>/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include</compoundname>
+    <innerdir refid="dir_55205a1c87e0e89d03fac269f58c1b0b">/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structstd_1_1hash_3_01quadtree__planner_1_1Pose_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; quadtree_planner::Pose &gt;</compoundname>
+    <templateparamlist>
+    </templateparamlist>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01quadtree__planner_1_1Pose_01_4_1ac8874e34eca4fed9febfd628fb97b495" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t std::hash&lt; quadtree_planner::Pose &gt;::operator()</definition>
+        <argsstring>(const quadtree_planner::Pose &amp;pose) const</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>const <ref refid="structquadtree__planner_1_1Pose" kindref="compound">quadtree_planner::Pose</ref> &amp;</type>
+          <declname>pose</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="150" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="150" bodyend="153"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" line="149" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/utils.h" bodystart="149" bodyend="154"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01quadtree__planner_1_1Pose_01_4_1ac8874e34eca4fed9febfd628fb97b495" prot="public" virt="non-virtual"><scope>std::hash&lt; quadtree_planner::Pose &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

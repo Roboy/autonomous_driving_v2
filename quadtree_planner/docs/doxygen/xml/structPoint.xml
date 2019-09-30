@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structPoint" kind="struct" language="C++" prot="public">
+    <compoundname>Point</compoundname>
+    <includes refid="quadtree__datastructure_8h" local="no">quadtree_datastructure.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structPoint_1a81bb3d87085a9672879cfe4e58f7bff3" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Point::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="20" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structPoint_1aafc3278398083cef91e29bf68c7d6c87" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Point::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="21" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structPoint_1a5e6f571a8e78582930ceda907f4117cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Point::Point</definition>
+        <argsstring>(unsigned int _x, unsigned int _y)</argsstring>
+        <name>Point</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>_x</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>_y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="22" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structPoint_1ad92f2337b839a94ce97dcdb439b4325a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Point::Point</definition>
+        <argsstring>()</argsstring>
+        <name>Point</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="27" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="structPoint_1a3618cc973762afde2e8df59bff4a86ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Point::operator==</definition>
+        <argsstring>(const Point &amp;p) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structPoint" kindref="compound">Point</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="33" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="33" bodyend="35"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>structure for positions (points) that contains an x and y coordinate (unsigned int) </para>    </detaileddescription>
+    <location file="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" line="19" column="1" bodyfile="/home/maximilian/RoboyRepoDevelPlanning/src/quadtree_planner/include/quadtree_planner/quadtree_datastructure.h" bodystart="18" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structPoint_1a3618cc973762afde2e8df59bff4a86ca" prot="public" virt="non-virtual"><scope>Point</scope><name>operator==</name></member>
+      <member refid="structPoint_1a5e6f571a8e78582930ceda907f4117cd" prot="public" virt="non-virtual"><scope>Point</scope><name>Point</name></member>
+      <member refid="structPoint_1ad92f2337b839a94ce97dcdb439b4325a" prot="public" virt="non-virtual"><scope>Point</scope><name>Point</name></member>
+      <member refid="structPoint_1a81bb3d87085a9672879cfe4e58f7bff3" prot="public" virt="non-virtual"><scope>Point</scope><name>x</name></member>
+      <member refid="structPoint_1aafc3278398083cef91e29bf68c7d6c87" prot="public" virt="non-virtual"><scope>Point</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

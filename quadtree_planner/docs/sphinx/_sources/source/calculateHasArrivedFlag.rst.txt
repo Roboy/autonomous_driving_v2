@@ -1,0 +1,7 @@
+calculateHasArrivedFlag module
+==============================
+
+.. automodule:: calculateHasArrivedFlag
+   :members:
+   :undoc-members:
+   :show-inheritance:
